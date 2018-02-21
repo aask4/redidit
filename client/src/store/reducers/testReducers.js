@@ -1,5 +1,5 @@
 export default (state=null, action) => {
-    switch(state.type){
+    switch(action.type){
         case "TEST":
         return action.payload
         break

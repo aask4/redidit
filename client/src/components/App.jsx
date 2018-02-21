@@ -40,7 +40,7 @@ function mapStateToProps(state) {
 function matchDispatchToProps(dispatch) {
   return bindActionCreators({
     addname: addname
-  })
+  },dispatch)
 }
 
-export default App;
+export default connect(mapStateToProps, matchDispatchToProps)(App);
