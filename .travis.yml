@@ -4,7 +4,7 @@ notifications:
 language: node_js
 
 node_js:
-  - "7"
+  - "stable"
   # add addition versions as needed
 
 services: postgreqsl
