@@ -2,18 +2,13 @@ const router = require('express').Router();
 const controller = require('./controller');
 
 // Ordered alphabetically by route
-router.route('/comment')
-  .get(controller.retreiveComments)
-  .post(controller.createComment)
-  .put(controller.updateScore);
+router.route('/content')
+  .get(controller.retreiveContent)
+  .post(controller.createContent)
+  .put(controller.updateContent);
 
 router.route('/login')
   .get(controller.userLogin);
-
-router.route('/post')
-  .get(controller.retreivePosts)
-  .post(controller.createPost)
-  .put(controller.updateScore);
 
 router.route('/signup')
   .post(controller.userSignup);
