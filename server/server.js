@@ -9,3 +9,5 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 app.use(express.static(path.join(__dirname, '../client/dist')));
+
+module.exports = app;
