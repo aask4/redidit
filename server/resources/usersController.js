@@ -6,23 +6,21 @@ module.exports.fetchUserProfile = (req, res) => {
     .then((user) => {
       res.end(JSON.stringify(user));
     })
-    .catch((err) => res.end(err));
-}
+    .catch(err => res.end(err));
+};
 
 module.exports.fetchUserSubscription = (req, res) => {
   Users.findAll({ where: { username: req.query.username } })
     .then((user) => {
       res.end(JSON.stringify(user));
     })
-    .catch((err) => res.end(err));
-}
+    .catch(err => res.end(err));
+};
 
-module.exports.createUserSubscription = (req, res) => {
-
-}
+module.exports.createUserSubscription = (req, res) => {};
 
 // module.exports.createUser = (req, res) => {
-//   Users.create({ 
+//   Users.create({
 //     email: 'test@gmail.com',
 //     username: 'john',
 //     password: '1234'
