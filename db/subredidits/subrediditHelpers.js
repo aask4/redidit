@@ -1,19 +1,25 @@
-const Subredidit = require('./subrediditSchema');
-
-const saveSub = (subrediditName, callback) => {
-  let newSub = Subredidit.create({
-    name: subrediditName
-  });
-};
-
-const findSub = (subrediditName, callback) => {
-  Subredidit.findAll({where: {name: subrediditName}})
-    .then( result => console.log('findSub result: ', result))
-    .catch( err => console.log('findSub error: ', err));
-};
+const Subredidit = require('./subrediditModel');
 
 const deleteSub = (subrediditName, callback) => {
   Subredidit.destroy({where: {name: subrediditName}})
-    .then( result => console.log('deleteSub deleted: ', result))
-    .catch( err => console.log('deleteSub error: ', err));
-}
+    .then( result => callback(result))
+    .catch( err => callback('error'));
+};
+
+const findSub = (subrediditName, callback) => {
+
+  Subredidit.findAll({where: {name: subrediditName}})
+    .then( result => callback(result))
+    .catch( err => callback('error'));
+};
+
+const saveSub = (subrediditName, callback) => {
+  let newSub = Subredidit.create({
+    name: subrediditName,
+    visits: 0
+  })
+  .then( result => callback('success'))
+  .catch( err => callback('error'));
+};
+
+module.exports = {deleteSub, findSub, saveSub}
