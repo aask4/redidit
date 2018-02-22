@@ -1,5 +1,6 @@
 const path = require('path');
 
+
 /********************************************/
 // User Controllers for login, signup, user profile
 //   subrscription get and post
@@ -37,11 +38,4 @@ exports.updateContent = (req, res) => {
 
 /********************************************/
 // Subredidit controllers
-exports.retreiveSubredidit = (req, res) => {
-  // req.body requires subredidit _id
-}
 
-exports.createSubredidit = (req, res) => {
-  // req.body requires title
-
-}
