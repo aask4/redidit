@@ -29,35 +29,8 @@ exports.appendUserSubscription = (req, res) => {
 }
 
 /********************************************/
-// Post controllers
-exports.retreivePosts = (req, res) => {
-  // req.body requires post _id
-
-}
-
-exports.createPost = (req, res) => {
-  // req.body requires owner's username or _id, 
-  // content URL, and timestamp 
-
-}
-
-/********************************************/
-// commment controllers
-exports.retreiveComments = (req, res) => {
-  // req.body requires owner's user _id or 
-  // parent post/comment's _id
-
-}
-
-exports.createComment = (req, res) => {
-  // req.body requires owner's username or _id
-  // message, timestamp, parent post/comment's _id
-
-}
-
-/********************************************/
 // Score controller or updateing posts and comments
-exports.updateScore = (req, res) => {
+exports.updateContent = (req, res) => {
   // req.body requires target's _id and new score
 
 } 
