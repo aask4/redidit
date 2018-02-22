@@ -2,6 +2,7 @@ import React from 'react';
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { addname } from '../actions'
+import { BroswerRouter, Route, Switch } from 'react-router-dom'
 class App extends React.Component {
   constructor() {
     super()
