@@ -1,11 +1,11 @@
 const {db, Sequelize} = require('../index');
 
 const Subredidit = db.define({ 'subredidits',
-  name: Sequelize.STRING
+  name: {type: Sequelize.STRING, unique: true}
 })
 
 Subredidit.sync()
-  .then( () => console.log('Subredidit Table created!'))
+  .then( () => console.log('Subredidit Table synced!'))
   .catch( err => console.log('Error: ', err));
 
 module.exports = Subredidit;
