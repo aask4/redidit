@@ -7,7 +7,7 @@ class ContentList extends React.Component {
 
   render() {
     reutrn (
-      <div>
+      <div className="content-list">
         This is the ContentList Component. 
       </div>
     )
