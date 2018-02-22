@@ -13,14 +13,15 @@ class App extends React.Component {
   render() {
     return (
       <div>
+        hello from App
         <BrowserRouter>
           <div>
           <Switch>
             <Route path="/" component={Nav}/>  
           </Switch>
           <Switch>
-            <Route path="/" component={Main}/>
             <Route path="/posts" component={Posts}/>
+            <Route path="/main" component={Main}/>
           </Switch>
           </div>
         </BrowserRouter>

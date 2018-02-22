@@ -6,11 +6,15 @@ class Nav extends Component {
         super(props)
     }
     best() {
-      console.log('button clicked')
+      console.log('run', this.props.history)
+      this.props.history.push('/posts')
     }
     render() {
         return (
+          <div>
             <button onClick={() => this.best()}>Posts</button>
+            <button onClick={()=> this.props.history.push('/main')}>Main</button>
+          </div>
         )
     }
 }
