@@ -2,33 +2,28 @@ import React from 'react';
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { addname } from '../actions'
-import { BroswerRouter, Route, Switch } from 'react-router-dom'
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import Main from './Main'
+import Posts from './Posts.jsx'
+import Nav from './Nav.jsx'
 class App extends React.Component {
   constructor() {
     super()
-    this.state = {
-      test: ''
-    }
-  }
-  click() {
-    this.props.addname(document.getElementById('input').value)
-  }
+}
   render() {
     return (
       <div>
-        Hello from App
-        <input id='input'/>
-        <button onClick={()=>this.click()}>submit</button>
-        {
-          this.props.test ?
+        <BrowserRouter>
           <div>
-            {this.props.test}
+          <Switch>
+            <Route path="/" component={Nav}/>  
+          </Switch>
+          <Switch>
+            <Route path="/" component={Main}/>
+            <Route path="/posts" component={Posts}/>
+          </Switch>
           </div>
-          :
-          <div>
-            this should disapear after you submit something
-          </div>
-        }
+        </BrowserRouter>
       </div>
     )
   }
