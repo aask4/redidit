@@ -1,4 +1,4 @@
-import database from './index';
+const database = require('./index');
 
 const db = database.db;
 const Sequelize = database.Sequelize;
@@ -13,4 +13,4 @@ const Content = db.define('Contents', {
 
 Content.sync().then(() => console.log('Content has been sync\'d'));
 
-export default Content;
+module.exports.Content = Content;
