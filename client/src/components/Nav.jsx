@@ -12,8 +12,9 @@ class Nav extends Component {
     render() {
         return (
           <div>
-            <button onClick={() => this.best()}>Posts</button>
-            <button onClick={()=> this.props.history.push('/main')}>Main</button>
+            <button onClick={() => this.best()}>Posts Page</button>
+            <button onClick={()=> this.props.history.push('/main')}>Main Page</button>
+            <button onClick={()=> this.props.history.push('/login')}>Login Page</button>
           </div>
         )
     }
