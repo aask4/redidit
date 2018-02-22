@@ -1,7 +1,8 @@
 const {db, Sequelize} = require('../index');
 
-const Subredidit = db.define({ 'subredidits',
-  name: {type: Sequelize.STRING, unique: true}
+const Subredidit = db.define( 'subredidits', {
+  name: {type: Sequelize.STRING, unique: true},
+  visits: Sequelize.INTEGER
 })
 
 Subredidit.sync()
