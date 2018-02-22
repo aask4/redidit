@@ -1,14 +1,12 @@
-import content from '../../db/contentHelper'
+const content = require('../../db/contentHelper');
 
-const retreiveContent = (req, res) => {
+module.exports.retreiveContent = (req, res) => {
   // req.body requires post _id
 
 };
 
-const createContent = (req, res) => {
+module.exports.createContent = (req, res) => {
   // req.body requires owner's username or _id, 
   // content URL, and timestamp 
 
 };
-
-export {retreiveContent, createContent};
