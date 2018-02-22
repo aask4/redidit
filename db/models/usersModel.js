@@ -6,6 +6,8 @@ const Users = db.define('users', {
   password: Sequelize.STRING
 });
 
-Users.sync();
+Users.sync()
+.then(() => console.log('Users table created'))
+.catch((err) => console.error(err));
 
 module.exports = Users;
