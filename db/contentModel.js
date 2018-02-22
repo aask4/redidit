@@ -4,10 +4,11 @@ const db = database.db;
 const Sequelize = database.Sequelize;
 
 const Content = db.define('Contents', { 
-  owner: Sequalize.Number,
-  content: Sequalize.String,
-  score: Sequalize.Number,
-  parent: Sequalize.Number
+  owner: Sequelize.Number,
+  content: Sequelize.String,
+  score: Sequelize.Number,
+  parent: Sequelize.Number,
+  type: Sequelize.String
 });
 
 Content.sync().then(() => console.log('Content has been sync\'d'));
