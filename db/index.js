@@ -7,7 +7,7 @@ const db = new Sequelize('redidit', 'username', 'password', { //enter your usern
     max: 5,
     min: 0,
     axquire: 30000,
-    idle, 10000
+    idle: 10000
   },
 })
 
