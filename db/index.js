@@ -1,7 +1,8 @@
 const Sequelize = require('sequelize');
-const db = new Sequelize('redidit', 'redidit', 'redidit', { //enter your username and password here
+const db = new Sequelize('redidit', 'redidit', 'redidit', {
   host: 'localhost',
   dialect: 'postgres',
+  logging: false,
   
   pool: {
     max: 5,
