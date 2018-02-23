@@ -11,8 +11,10 @@ exports.retrieveSubredidit = (req, res) => {
 exports.createSubredidit = (req, res) => {
   // takes in post object
   saveSub(req.body.subrediditName, (result) => {
-    result === 'success' // returns a string - we can update this to id later
-      ? res.status(201).send('new subredidit created!')
-      : res.status(201).send('Subredidit Already exists');
-  });
-};
+    result === 'success' ?                  //returns a string - we can update this to id later
+      res.status(201).send('new subredidit created!')
+      :
+      res.status(201).send('Subredidit Already exists')
+  })
+}
+
