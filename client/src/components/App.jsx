@@ -5,8 +5,9 @@ import { addname } from '../actions'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import Main from './Main'
 import Posts from './Posts.jsx'
-import Nav from './Nav.jsx'
 import Login from './Login.jsx'
+import Search from './Search.jsx'
+import NavAndLogin from './NavAndLogin'
 class App extends React.Component {
   constructor() {
     super()
@@ -14,12 +15,10 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        hello from App
         <BrowserRouter>
           <div>
           <Switch>
-            <Route path="/" component={Nav}/>  
-            <Route path='/' component={Login}/>
+            <NavAndLogin />
           </Switch>
           <Switch>
             <Route path="/posts" component={Posts}/>
