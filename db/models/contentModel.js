@@ -2,13 +2,12 @@ const { db, Sequelize } = require('../index');
 const User = require('./usersModel');
 
 const Content = db.define('Contents', {
+  owner: Sequelize.INTEGER,
   content: Sequelize.STRING,
   score: Sequelize.INTEGER,
   type: Sequelize.STRING,
+  parent: Sequelize.INTEGER,
 });
-
-Content.hasOne(User, { as: 'owner' });
-Content.hasOne(Content, { as: 'parent' });
 
 Content.sync()
   .then(() => console.log("Content has been sync'd"))

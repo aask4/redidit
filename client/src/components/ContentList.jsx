@@ -1,19 +1,19 @@
 import React from 'react';
 import Axios from 'axios';
 import ContentListItem from './ContentListItem.jsx';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { addPosts } from '../action';
 
 class ContentList extends React.Component {
-  contructor(props) {
+  constructor(props) {
     super(props);
-    this.state = {
-      posts: []
-    }
   }
 
   componentDidMount() {
     Axios.get('/content', { params: { type: 'post' } })
       .then((result) => {
-        this.setState({ posts: result });
+        this.props.addPosts(result);
       })
       .catch(err => console.log('Error in ContentList component: ', err));
   }
@@ -22,10 +22,20 @@ class ContentList extends React.Component {
     return (
       <div className="content-list">
         This is the ContentList Component.
-        {this.state.posts.map(post => <ContentListItem post={post} />)}
+        {this.props.current_posts.map(post => <ContentListItem post={post} />)}
       </div>
-    )
+    );
   }
 }
 
-export default ContentList;
+function mapStateToProps(state) {
+  return {
+    posts: state.current_posts,
+  };
+}
+
+function matchDispatchToProps(dispatch) {
+  return bindActionCreators({ addPosts }, dispatch);
+}
+
+export default connect(mapStateToProps, matchDispatchToProps)(ContentList);
