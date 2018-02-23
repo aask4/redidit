@@ -26,12 +26,12 @@ class Login extends Component {
   }
   render() {
     return (
-      <form style={{float: 'right'}} onSubmit={()=> this.props.handleLoginButtonClick()}>
-        <input name='username' type='text' id='username' placeholder="Username"  pattern="[a-zA-Z0-9]{6,9}" onChange={(e)=> this.onchangeHandler(e)} required/>
-        <input type='password' name='password' placeholder="Password" pattern="[a-zA-Z0-9]{6,9}" onChange={(e)=> this.onchangeHandler(e)} required/>
+      <div style={{float:'right'}}>
+        <input name='username' type='text' id='username' placeholder="Username"  onChange={(e)=> this.onchangeHandler(e)} required/>
+        <input type='password' name='password' placeholder="Password" onChange={(e)=> this.onchangeHandler(e)} required/>
         <br/>
         <button style={{float: 'right'}} onClick={() => this.handleLoginButtonClick()}>login</button>
-      </form>
+      </div>
     )
   }
 }

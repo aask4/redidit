@@ -6,22 +6,31 @@ class SignUp extends Component {
     this.state = {
       email: '',
       username: '',
-      password: ''
+      password: '',
+      submitEmail:false
     }
+  }
+  handleInput(e) {
+    this.setState({
+      [e.target.name]: e.target.value
+    })
+  }
+  handleSubmit() {
   }
   render() {
     return(
       <div>
         {
-          this.state.email ? 
+          this.state.submitEmail ? 
           <div>
-          Username :<input id='un' type='text'/><br/>
-          Password :<input id='pw' type="password"/><br/>
-          <button>Submit</button>
+          Username :<input type='text' name='username' onChange={(e)=>this.handleInput(e)}/><br/>
+          Password :<input type="password" name='password' onChange={(e)=>this.handleInput(e)}/><br/>
+          <button onClick={()=> this.handleSubmit()}>Submit</button>
           </div>
           :
           <div>
-          Email: <input type='email'/>
+          Email:<br/><input  name='email' onChange={(e)=>this.handleInput(e)}/>
+          <button onClick={()=> {this.setState({submitEmail: true}), console.log('email submit button click', this.state)}}>submit</button>
           </div>
         }
       </div>

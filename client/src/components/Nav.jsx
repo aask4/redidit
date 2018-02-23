@@ -3,14 +3,15 @@ import { Link } from 'react-router-dom'
 import { Redirect } from 'react-router'
 import { connect } from 'react-redux'
 import StatusBar from './StatusBar'
-
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
 class Nav extends Component {
     constructor(props) {
         super(props)
+        console.log('Nav component', this.props)
     }
     best() {
-      console.log('run', this.props.history)
-      this.props.history.push('/signup')
+      console.log('run', this.props)
+      // this.props.history.push('/signup')
     }
     render() {
         return (
@@ -28,7 +29,7 @@ class Nav extends Component {
 
               </div>
             } */}
-            <StatusBar />
+            <Route path='/' component={StatusBar} />
           </div>
         )
     }

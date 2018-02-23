@@ -8,6 +8,7 @@ import Posts from './Posts.jsx'
 import Login from './Login.jsx'
 import Search from './Search.jsx'
 import NavAndLogin from './NavAndLogin'
+import Signup from './SignUp.jsx'
 class App extends React.Component {
   constructor() {
     super()
@@ -21,6 +22,7 @@ class App extends React.Component {
             <NavAndLogin />
           </Switch>
           <Switch>
+            <Route path='/signup' component={Signup}/>
             <Route path="/posts" component={Posts}/>
             <Route path="/main" component={Main}/>
           </Switch>

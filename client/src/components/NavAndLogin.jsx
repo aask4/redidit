@@ -4,6 +4,7 @@ import Login from './Login.jsx'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { addActiveUser } from '../actions'
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
 class NavAndLogin extends Component {
   constructor(props) {
     super(props)
@@ -12,7 +13,7 @@ class NavAndLogin extends Component {
   render() {
     return (
       <div>
-        <Nav />
+        <Route path='/' component={Nav} />
         <br/>
         {
           this.props.active_user ? 

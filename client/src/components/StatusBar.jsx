@@ -1,13 +1,16 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import SignUp from './SignUp'
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import { addActiveUser } from '../actions'
+import { bindActionCreators } from 'redux'
+
 class StatusBar extends Component {
   constructor(props) {
     super(props)
   }
   signupClick() {
-    console.log('button clicked', this.props)
-    // this.props.history.push('/signup')
+    console.log('button clicked', this.props.history.push('/signup'))
   }
   render() {
     return(
@@ -15,8 +18,8 @@ class StatusBar extends Component {
         {
           this.props.active_user ?
           <div>
-            Current User 
-            <button>logout</button>
+            {this.props.active_user}
+            <button onClick={()=>this.props.addActiveUser(null)}>logout</button>
           </div>
           :
           <div>
@@ -32,5 +35,9 @@ function mapStateToProps(state) {
     active_user: state.active_user
   }
 }
-
-export default connect(mapStateToProps)(StatusBar)
+function matchDispatchToProps(dispatch) {
+  return bindActionCreators({
+    addActiveUser: addActiveUser
+  },dispatch)
+}
+export default connect(mapStateToProps, matchDispatchToProps)(StatusBar)
