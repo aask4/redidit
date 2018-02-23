@@ -1,18 +1,16 @@
-const {
-  db,
-  Sequelize,
-} = require('../index');
+const { db, Sequelize } = require("../index");
 
-const Content = db.define('Contents', {
-  owner: Sequelize.INTEGER,
+const Content = db.define("Contents", {
   content: Sequelize.STRING,
   score: Sequelize.INTEGER,
-  parent: Sequelize.INTEGER,
-  type: Sequelize.STRING,
+  type: Sequelize.STRING
 });
 
+Content.hasOne(User, { as: "owner" });
+Content.hasOne(Content, { as: "parent" });
+
 Content.sync()
-  .then(() => console.log('Content has been sync\'d'))
-  .catch(err => console.log('Error on model: ', err));
+  .then(() => console.log("Content has been sync'd"))
+  .catch(err => console.log("Error on model: ", err));
 
 module.exports = Content;
