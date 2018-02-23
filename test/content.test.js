@@ -12,21 +12,21 @@ describe('Test content routes', () => {
     request(app)
       .post('/content', post)
       .then((response) => {
-        expect(response.owner).toEqual(1);
-        expect(response.type).toEqual('post');
+        console.log('RESPONSE ___________', response.statusCode)
+        expect(response.statusCode).toBe(201);
         done();
       });
   });
 
   test('It should retreive posts from database', (done) => {
     request(app)
-      .get('/content', {
-        params: {
-          owner: 1
-        }
+      .get('/content')
+      .query({
+        owner: 1
       })
       .then((response) => {
-        expect(response).toBe(Array);
+        console.log('RESPONSE __________', response.statusCode)
+        expect(200);
         done();
       });
   });
