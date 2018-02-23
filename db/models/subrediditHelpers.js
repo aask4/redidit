@@ -1,4 +1,4 @@
-const Subredidit = require('../models/subrediditModel');
+const Subredidit = require('./subrediditModel');
 
 const deleteSub = (subrediditName, callback) => {
   Subredidit.destroy({where: {name: subrediditName}})
