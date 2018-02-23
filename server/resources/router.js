@@ -1,8 +1,8 @@
-const router = require("express").Router();
+const router = require('express').Router();
 // const contentController = require("./contentController");
-const controller = require("./controller");
-const usersController = require("./usersController");
-const subrediditController = require("./subrediditController");
+const controller = require('./controller');
+const usersController = require('./usersController');
+const subrediditController = require('./subrediditController');
 
 // router
 //   .route("/content")
@@ -15,18 +15,19 @@ const subrediditController = require("./subrediditController");
 // router.route("/signup").post(controller.userSignup);
 
 router
-  .route("/subredidit")
+  .route('/subredidit')
   .get(subrediditController.retrieveSubredidit)
   .post(subrediditController.createSubredidit);
 
-router.route("/userprofile").get(usersController.fetchUserProfile);
+router.route('/userprofile').get(usersController.fetchUserProfile);
 
 router
-  .route("/userprofile/subscription")
+  .route('/userprofile/subscription')
   .get(usersController.fetchUserSubscription)
-  .post(usersController.createUserSubscription);
+  .post(usersController.createUserSubscription)
+  .delete(usersController.deleteUserSubscription);
 
-router.route("/signup").post(usersController.createUser);
-router.route("/login").get(usersController.login);
+router.route('/signup').post(usersController.createUser);
+router.route('/login').get(usersController.login);
 
 module.exports.router = router;
