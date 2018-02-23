@@ -15,7 +15,7 @@ class Login extends Component {
   handleLoginButtonClick() {
     console.log("button clicked", this.state);
     axios
-      .get("login", { params: this.state })
+      .get("/login", { params: this.state })
       .then(res => {
         console.log(res.data);
         if (res.data.error) {
@@ -29,6 +29,7 @@ class Login extends Component {
       .catch(err => {
         console.log("Error doing get request on login", err);
       });
+    console.log("doing a axios request");
   }
   onchangeHandler(e) {
     this.setState({
