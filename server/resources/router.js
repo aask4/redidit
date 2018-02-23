@@ -24,7 +24,8 @@ router.route('/userprofile').get(usersController.fetchUserProfile);
 router
   .route('/userprofile/subscription')
   .get(usersController.fetchUserSubscription)
-  .post(usersController.createUserSubscription);
+  .post(usersController.createUserSubscription)
+  .delete(usersController.deleteUserSubscription);
 
 router.route('/signup').post(usersController.createUser);
 router.route('/login').get(usersController.login);

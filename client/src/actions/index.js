@@ -22,3 +22,4 @@ export const addComments = comment => ({
   type: 'CURRENT_COMMENTS',
   payload: comment,
 });
+
