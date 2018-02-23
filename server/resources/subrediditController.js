@@ -1,4 +1,4 @@
-const { deleteSub, findSub, saveSub } = require('../../db/models/subrediditHelpers');
+const { deleteSub, findSub, saveSub } = require('../../db/helpers/subrediditHelpers');
 
 exports.retrieveSubredidit = (req, res) => {
   findSub(req.query.subrediditName, (result) => {
