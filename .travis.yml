@@ -11,9 +11,6 @@ services: postgreqsl
 
 # start DB here and create user/password for travis
 before_script:
-  - psql -c 'create database redidit;' -U postgres
-  - psql -c 'create user redidit with login password 'redidit;' -U postgres
-  - psql -c 'alter role redidit with superuser;' -U postgres
-
-  deploy:
-    skip_cleanup: true
+  -psql -c 'create database redidit;' -U postgres
+  -psql -c 'create user redidit with login password 'redidit;' -U postgres
+  -psql -c 'alter role redidit with superuser;' -U postgres

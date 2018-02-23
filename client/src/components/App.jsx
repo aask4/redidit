@@ -5,7 +5,10 @@ import { addname } from '../actions'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import Main from './Main'
 import Posts from './Posts.jsx'
-import Nav from './Nav.jsx'
+import Login from './Login.jsx'
+import Search from './Search.jsx'
+import NavAndLogin from './NavAndLogin'
+import Signup from './SignUp.jsx'
 class App extends React.Component {
   constructor() {
     super()
@@ -13,13 +16,13 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        hello from App
         <BrowserRouter>
           <div>
           <Switch>
-            <Route path="/" component={Nav}/>  
+            <NavAndLogin />
           </Switch>
           <Switch>
+            <Route path='/signup' component={Signup}/>
             <Route path="/posts" component={Posts}/>
             <Route path="/main" component={Main}/>
           </Switch>
