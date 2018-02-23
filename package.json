@@ -19,11 +19,8 @@
   },
   "homepage": "https://github.com/aask4/redidit#readme",
   "dependencies": {
-<<<<<<< HEAD
-=======
     "axios": "^0.18.0",
     "babel-preset-env": "^1.6.1",
->>>>>>> added StatusBar component
     "body-parser": "^1.18.2",
     "cors": "^2.8.4",
     "eslint-config-airbnb": "^16.1.0",

@@ -1,7 +1,7 @@
-const router = require('express').Router();
-const contentController = require('./contentController');
-const controller = require('./controller');
-const usersController = require('./usersController');
+const router = require("express").Router();
+// const contentController = require('./contentController');
+const controller = require("./controller");
+const usersController = require("./usersController");
 
 // Ordered alphabetically by route
 // router.route('/content')
@@ -19,10 +19,10 @@ const usersController = require('./usersController');
 //   .get(controller.retreiveSubredidit)
 //   .post(controller.createSubredidit);
 
-router.route('/userprofile')
-  .get(usersController.fetchUserProfile);
+router.route("/userprofile").get(usersController.fetchUserProfile);
 
-router.route('/userprofile/subscription')
+router
+  .route("/userprofile/subscription")
   .get(usersController.fetchUserSubscription)
   .post(usersController.createUserSubscription);
 
