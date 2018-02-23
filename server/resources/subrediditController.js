@@ -1,8 +1,12 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 const { deleteSub, findSub, saveSub } = require('../../db/models/subrediditHelpers');
 =======
 const {deleteSub, findSub, saveSub} = require('../../db/models/subrediditHelpers');
 >>>>>>> adding travis setup and fixed subredidit filepaths
+=======
+const { deleteSub, findSub, saveSub } = require('../../db/helpers/subrediditHelpers');
+>>>>>>> corrected filepath for subCtrl
 
 exports.retrieveSubredidit = (req, res) => {
   findSub(req.query.subrediditName, (result) => {
