@@ -1,6 +1,7 @@
 import Axios from 'axios';
 
 export default function (queryObj) {
+  queryObj.type = queryObj.type || 'post';
   let data;
   Axios.get('/content', queryObj)
     .then((result) => data = result)
