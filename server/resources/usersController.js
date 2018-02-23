@@ -1,7 +1,7 @@
 const Users = require("../../db/models/usersModel");
 const bcrypt = require("bcrypt");
 // const Subredidits = require('../../db/models/subrediditModel');
-// const UsersSubredidits = require('../../db/models/usersSubrediditModel');
+const UsersSubredidits = require('../../db/models/usersSubrediditModel');
 
 module.exports.fetchUserProfile = (req, res) => {
   Users.findAll({ where: { username: req.query.username } })
@@ -18,14 +18,15 @@ module.exports.fetchUserSubscription = (req, res) => {
     })
     .catch(err => res.end(err));
 
-  //Not sure if you need this
+  // Not sure if you need this
   // UsersSubredidits.findAll({where: {users_id: userID, subredidits_id: subredidits_id}})
   //   .then( result => res.status(200).send(result))
   //   .catch( err => res.status(200).send('Error'))
 };
 
 module.exports.createUserSubscription = (req, res) => {
-  //TODO: please update parameters
+  // TODO: please update parameters
+
   // let newSubscription = UsersSubredidits.create({
   //   users_id: userID,
   //   subredidits_id: subrediditID
