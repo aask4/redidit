@@ -1,12 +1,21 @@
-const content = require('../../db/contentHelper');
+const content = require('../../db/contentHelpers');
 
 module.exports.retreiveContent = (req, res) => {
-  // req.body requires post _id
-
+  // req.body requires content _id or query object
+  content.getContent(req.query, (result) => {
+    console.log('retreived content from databse');
+    res.send(result);
+  })
 };
 
 module.exports.createContent = (req, res) => {
-  // req.body requires owner's username or _id, 
-  // content URL, and timestamp 
-
+  // req.body requires owner's username or _id,
+  // content URL, and timestamp
+  console.log('REQ.BODY in Controller createContent: ', req.body);
+  content.postContent({
+    owner: req.body.owner,
+    content: req.body.content,
+    parent: req.body.parent || 0,
+    type: req.body.type
+  }, (result) => res.send(result));
 };
