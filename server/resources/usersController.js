@@ -3,7 +3,6 @@ const bcrypt = require('bcrypt');
 const UsersSubredidits = require('../../db/models/usersSubrediditModel');
 
 module.exports.fetchUserProfile = (req, res) => {
-  console.log(req.query);
   Users.findAll({ where: { username: req.query.username } })
     .then((user) => {
       res.send(user);
@@ -16,7 +15,7 @@ module.exports.fetchUserSubscription = (req, res) => {
     .then((user) => {
       res.end(user);
     })
-    .catch(err => res.end(err));
+    .catch(err => res.end(`${err}`));
 
   UsersSubredidits.findAll({
     where: { users_id: req.query.users_id, subredidits_id: req.query.subredidits_id },
@@ -26,7 +25,7 @@ module.exports.fetchUserSubscription = (req, res) => {
 };
 
 module.exports.createUserSubscription = (req, res) => {
-  const newSubscription = UsersSubredidits.create({
+  UsersSubredidits.create({
     users_id: req.body.users_id,
     subredidits_id: req.body.subredidits_id,
   })
