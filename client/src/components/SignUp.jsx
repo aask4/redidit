@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { addActiveUser } from "../actions";
+import axios from "axios";
 class SignUp extends Component {
   constructor(props) {
     super(props);
@@ -9,7 +10,8 @@ class SignUp extends Component {
       email: "",
       username: "",
       password: "",
-      submitEmail: false
+      submitEmail: false,
+      errorUsername: false
     };
   }
   handleInput(e) {
@@ -18,8 +20,23 @@ class SignUp extends Component {
     });
   }
   handleSubmit() {
-    console.log(this.props.history.push("/"));
-    this.props.addActiveUser("shayne");
+    let info = this.state;
+    axios
+      .post("/signup", info)
+      .then(res => {
+        console.log(res.data);
+        if (!res.data.username) {
+          this.setState({
+            errorUsername: true
+          });
+        } else {
+          this.props.addActiveUser(res.data);
+          this.props.history.push("/");
+        }
+      })
+      .catch(err => {
+        console.log("Error posting on login", err);
+      });
   }
   render() {
     return (
@@ -31,7 +48,11 @@ class SignUp extends Component {
               name="username"
               onChange={e => this.handleInput(e)}
             />
-            <br />
+            {this.state.errorUsername ? (
+              <div>username has been taken</div>
+            ) : (
+              <br />
+            )}
             Password :<input
               type="password"
               name="password"

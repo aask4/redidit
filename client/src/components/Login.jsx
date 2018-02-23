@@ -8,17 +8,28 @@ class Login extends Component {
     super(props);
     this.state = {
       username: "",
-      password: ""
+      password: "",
+      error: ""
     };
   }
   handleLoginButtonClick() {
     console.log("button clicked", this.state);
-    this.props.addActiveUser("shayne");
-    // axios.get('api/login'), {params: this.state}
-    //   .then(res=> {
-    //       this.props.addActiveUser(res.data[0])
-    //   })
-    //   .catch(err=>{console.log('Error doing get request on login',err)})
+    axios
+      .get("/login", { params: this.state })
+      .then(res => {
+        console.log(res.data);
+        if (res.data.error) {
+          this.setState({
+            error: res.data.error
+          });
+        } else {
+          this.props.addActiveUser(res.data);
+        }
+      })
+      .catch(err => {
+        console.log("Error doing get request on login", err);
+      });
+    console.log("doing a axios request");
   }
   onchangeHandler(e) {
     this.setState({
@@ -44,6 +55,7 @@ class Login extends Component {
           required
         />
         <br />
+        <div>{this.state.error ? <div>{this.state.error}</div> : null}</div>
         <button
           style={{ float: "right" }}
           onClick={() => this.handleLoginButtonClick()}
