@@ -10,7 +10,8 @@ describe('Test content routes', () => {
       content: 'www.example.com'
     }
     request(app)
-      .post('/content', post)
+      .post('/content')
+      .send(post)
       .then((response) => {
         console.log('RESPONSE ___________', response.statusCode)
         expect(response.statusCode).toBe(201);
