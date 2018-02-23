@@ -1,4 +1,5 @@
 import React from 'react';
+import ContentListItem from './ContentListItem';
 
 class ContentList extends React.Component {
   contructor(props) {
@@ -8,7 +9,7 @@ class ContentList extends React.Component {
   render() {
     reutrn (
       <div className="content-list">
-        This is the ContentList Component. 
+        This is the ContentList Component.
       </div>
     )
   }
