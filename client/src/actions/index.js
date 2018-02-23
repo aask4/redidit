@@ -17,3 +17,9 @@ export const addPosts = posts => ({
   type: 'CURRENT_POSTS',
   payload: posts,
 });
+
+export const addComments = comment => ({
+  type: 'CURRENT_COMMENTS',
+  payload: comment,
+});
+
