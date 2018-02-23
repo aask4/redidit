@@ -1,14 +1,18 @@
 const router = require('express').Router();
-const contentController = require('./contentController');
-// const controller = require('./controller');
+// const contentController = require("./contentController");
+const controller = require('./controller');
 const usersController = require('./usersController');
 const subrediditController = require('./subrediditController');
 
-router
-  .route('/content')
-  .get(contentController.retreiveContent)
-  .post(contentController.createContent);
-// .put(controller.updateContent);
+// router
+//   .route("/content")
+//   .get(controller.retreiveContent)
+//   .post(controller.createContent)
+//   .put(controller.updateContent);
+
+// router.route("/login").get(controller.userLogin);
+
+// router.route("/signup").post(controller.userSignup);
 
 router
   .route('/subredidit')
