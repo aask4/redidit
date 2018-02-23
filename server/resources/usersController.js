@@ -1,6 +1,5 @@
 const Users = require('../../db/models/usersModel');
 const bcrypt = require('bcrypt');
-// const Subredidits = require('../../db/models/subrediditModel');
 const UsersSubredidits = require('../../db/models/usersSubrediditModel');
 
 module.exports.fetchUserProfile = (req, res) => {
@@ -15,31 +14,32 @@ module.exports.fetchUserProfile = (req, res) => {
 module.exports.fetchUserSubscription = (req, res) => {
   Users.findAll({ where: { username: req.query.username } })
     .then((user) => {
-      res.end(JSON.stringify(user));
+      res.end(user);
     })
     .catch(err => res.end(err));
 
-  // Not sure if you need this
-  // UsersSubredidits.findAll({where: {users_id: userID, subredidits_id: subredidits_id}})
-  //   .then( result => res.status(200).send(result))
-  //   .catch( err => res.status(200).send('Error'))
+  UsersSubredidits.findAll({
+    where: { users_id: req.query.users_id, subredidits_id: req.query.subredidits_id },
+  })
+    .then(result => res.status(200).send(result))
+    .catch(err => res.status(200).send(`${err}`));
 };
 
 module.exports.createUserSubscription = (req, res) => {
-  // TODO: please update parameters
-  // let newSubscription = UsersSubredidits.create({
-  //   users_id: userID,
-  //   subredidits_id: subrediditID
-  // })
-  // .then( result => res.status(201).send('Added'))
-  // .catch( err => res.status(201).send('Error'))
+  const newSubscription = UsersSubredidits.create({
+    users_id: req.body.users_id,
+    subredidits_id: req.body.subredidits_id,
+  })
+    .then(result => res.status(201).send(result))
+    .catch(err => res.status(201).send(`${err}`));
 };
 
 module.exports.deleteUserSubscription = (req, res) => {
-  // TODO: please update parameters
-  // UsersSubredidits.destroy({where: {users_id: userID, subredidits_id: subredidits_id}})
-  // .then( result => res.status(200).send(result))
-  // .catch( err => res.status(200).send('Error'))
+  UsersSubredidits.destroy({
+    where: { users_id: req.body.users_id, subredidits_id: req.body.subredidits_id },
+  })
+    .then(result => res.status(200).send(result))
+    .catch(err => res.status(200).send(`${err}`));
 };
 
 module.exports.createUser = (req, res) => {
@@ -67,7 +67,7 @@ module.exports.createUser = (req, res) => {
       }
     })
     .catch((err) => {
-      console.log('error query user', err);
+      console.log('error query user', `${err}`);
     });
 };
 
@@ -88,6 +88,6 @@ module.exports.login = (req, res) => {
       }
     })
     .catch((err) => {
-      console.log('having error fing the user', err);
+      console.log('having error fing the user', `${err}`);
     });
 };
