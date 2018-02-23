@@ -1,12 +1,14 @@
 import React from 'react';
 import Axios from 'axios';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { addComments } from '../action';
 
 class ContentListItem extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       comment: '',
-      comments: [],
       showComments: false,
     };
     this.showCommentsHandler = this.showCommentsHandler.bind(this);

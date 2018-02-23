@@ -8,7 +8,17 @@ export const addActiveUser = user => ({
   payload: user,
 });
 
+export const selectUser = user => ({
+  type: 'SELECTED_USER',
+  payload: user,
+});
+
 export const addPosts = posts => ({
   type: 'CURRENT_POSTS',
   payload: posts,
+});
+
+export const addComments = comment => ({
+  type: 'CURRENT_COMMENTS',
+  payload: comment,
 });
