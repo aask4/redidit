@@ -25,7 +25,6 @@ module.exports.fetchUserSubscription = (req, res) => {
 };
 
 module.exports.createUserSubscription = (req, res) => {
-
   //TODO: please update parameters
   // let newSubscription = UsersSubredidits.create({
   //   users_id: userID,
@@ -36,12 +35,11 @@ module.exports.createUserSubscription = (req, res) => {
 };
 
 module.exports.deleteUserSubscription = (req, res) => {
-
   //TODO: please update parameters
   // UsersSubredidits.destroy({where: {users_id: userID, subredidits_id: subredidits_id}})
   // .then( result => res.status(200).send(result))
   // .catch( err => res.status(200).send('Error'))
-}
+};
 
 module.exports.createUser = (req, res) => {
   console.log("just recieved a signup request", req.body);
@@ -76,7 +74,6 @@ module.exports.login = (req, res) => {
   console.log("recieve a login request", req.query);
   Users.findAll({ where: { username: req.query.username } })
     .then(user => {
-      console.log("found the user", user);
       if (user.length) {
         bcrypt.compare(req.query.password, user[0].password, function(
           err,

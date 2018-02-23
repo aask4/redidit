@@ -10,9 +10,9 @@ const subrediditController = require("./subrediditController");
 //   .post(controller.createContent)
 //   .put(controller.updateContent);
 
-router.route("/login").get(controller.userLogin);
+// router.route("/login").get(controller.userLogin);
 
-router.route("/signup").post(controller.userSignup);
+// router.route("/signup").post(controller.userSignup);
 
 router
   .route("/subredidit")
