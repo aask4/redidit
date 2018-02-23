@@ -1,10 +1,10 @@
-const Users = require('../../db/models/usersModel');
+const Users = require("../../db/models/usersModel");
 // const Subredidits = require('../../db/models/subrediditModel');
-// const UsersSubredidits = require('../../db/models/usersSubrediditModel');
+const UsersSubredidits = require("../../db/models/usersSubrediditModel");
 
 module.exports.fetchUserProfile = (req, res) => {
   Users.findAll({ where: { username: req.query.username } })
-    .then((user) => {
+    .then(user => {
       res.end(JSON.stringify(user));
     })
     .catch(err => res.end(err));
@@ -12,7 +12,7 @@ module.exports.fetchUserProfile = (req, res) => {
 
 module.exports.fetchUserSubscription = (req, res) => {
   Users.findAll({ where: { username: req.query.username } })
-    .then((user) => {
+    .then(user => {
       res.end(JSON.stringify(user));
     })
     .catch(err => res.end(err));
@@ -24,7 +24,6 @@ module.exports.fetchUserSubscription = (req, res) => {
 };
 
 module.exports.createUserSubscription = (req, res) => {
-
   //TODO: please update parameters
   // let newSubscription = UsersSubredidits.create({
   //   users_id: userID,
@@ -35,12 +34,11 @@ module.exports.createUserSubscription = (req, res) => {
 };
 
 module.exports.deleteUserSubscription = (req, res) => {
-
   //TODO: please update parameters
   // UsersSubredidits.destroy({where: {users_id: userID, subredidits_id: subredidits_id}})
   // .then( result => res.status(200).send(result))
   // .catch( err => res.status(200).send('Error'))
-}
+};
 
 // module.exports.createUser = (req, res) => {
 //   Users.create({
