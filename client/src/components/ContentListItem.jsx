@@ -1,13 +1,13 @@
-import React from "react";
-import Axios from "axios";
+import React from 'react';
+import Axios from 'axios';
 
 class ContentListItem extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      comment: "",
+      comment: '',
       comments: [],
-      showComments: false
+      showComments: false,
     };
     this.showCommentsHandler = this.showCommentsHandler.bind(this);
     this.postComment = this.postComment.bind(this);
@@ -15,9 +15,9 @@ class ContentListItem extends React.Component {
   }
 
   componentDidMount() {
-    Axios.get("/content", { params: { parent: this.props.post.id } })
+    Axios.get('/content', { params: { parent: this.props.post.id } })
       .then(result => this.setState({ comments: result }))
-      .catch(err => console.log("Error in ComponentListItem: ", err));
+      .catch(err => console.log('Error in ComponentListItem: ', err));
   }
 
   showCommentsHandler() {
@@ -25,14 +25,14 @@ class ContentListItem extends React.Component {
   }
 
   postComment() {
-    Axios.post("/content", {
+    Axios.post('/content', {
       owner: state.user.id,
       content: this.state.comment,
-      type: "comment",
-      parent: this.props.post.id
+      type: 'comment',
+      parent: this.props.post.id,
     })
       .then(result => this.state.comments.push(result))
-      .catch(err => console.log("Error in ContentListItem postComment: ", err));
+      .catch(err => console.log('Error in ContentListItem postComment: ', err));
   }
 
   onChangeHandler(event) {
@@ -68,9 +68,7 @@ class ContentListItem extends React.Component {
           <div className="comments">
             <span className="spacer">spacer</span>
             Comment Comment
-            {this.state.comments.map(comm => {
-              return <ContentListItem post={comm} />;
-            })}
+            {this.state.comments.map(comm => <ContentListItem post={comm} />)}
           </div>
         ) : (
           <div />
@@ -79,3 +77,5 @@ class ContentListItem extends React.Component {
     );
   }
 }
+
+export default ContentListItem;
