@@ -26,4 +26,7 @@ router
   .get(usersController.fetchUserSubscription)
   .post(usersController.createUserSubscription);
 
+router.route("/signup").post(usersController.createUser);
+router.route("/login").get(usersController.login);
+
 module.exports.router = router;
