@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 // const Subredidit = require('../models/subrediditModel');
+=======
+const Subredidit = require('../models/subrediditModel');
+>>>>>>> 90bb515886dcc4acf95d2bd1989325da5fa839eb
 
 // const deleteSub = (subrediditName, callback) => {
 //   Subredidit.destroy({where: {name: subrediditName}})

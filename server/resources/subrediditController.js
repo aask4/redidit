@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 const Subredidit = require('../../db/models/subrediditModel');
+=======
+const { deleteSub, findSub, saveSub } = require('../../db/helpers/subrediditHelpers');
+>>>>>>> 90bb515886dcc4acf95d2bd1989325da5fa839eb
 
 exports.retrieveSubredidit = (req, res) => {
   Subredidit.findAll({ where: { name: req.query.subrediditName } })
