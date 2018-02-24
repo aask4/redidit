@@ -1,1 +1,8 @@
+.logo {
+  float: left;
+}
 
+.statusBar {
+  background-color: lightblue;
+  height: 70px;
+}
