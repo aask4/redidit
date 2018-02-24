@@ -15,7 +15,7 @@ router
   .get(subrediditController.retrieveSubredidit)
   .post(subrediditController.createSubredidit);
 
-router.route('/userprofile').get(usersController.fetchUserProfile);
+// router.route('/userprofile').get(usersController.fetchUserProfile);
 
 router
   .route('/userprofile/subscription')

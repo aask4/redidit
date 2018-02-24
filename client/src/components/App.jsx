@@ -9,6 +9,7 @@ import Login from './Login.jsx';
 import Search from './Search.jsx';
 import NavAndLogin from './NavAndLogin';
 import Signup from './SignUp.jsx';
+import UserProfile from './UserProfile/Profile.jsx';
 
 class App extends React.Component {
   constructor() {
@@ -25,6 +26,7 @@ class App extends React.Component {
             <Switch>
               <Route path="/signup" component={Signup} />
               <Route path="/posts" component={Posts} />
+              <Route path="/userprofile" component={UserProfile} />
               <Route path="/" component={Main} />
             </Switch>
           </div>
