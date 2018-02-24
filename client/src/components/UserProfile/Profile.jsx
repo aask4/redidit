@@ -4,6 +4,8 @@ import Axios from 'axios';
 import UserPostItem from './UserPostItem';
 import UserCommentItem from './UserCommentItem';
 import ContentListItem from '../ContentListItem';
+import { Link } from 'react-router-dom';
+import Moment from 'moment';
 
 class UserProfile extends Component {
   constructor(props) {
@@ -26,7 +28,8 @@ class UserProfile extends Component {
         let postScore = 0;
         let commentScore = 0;
         data.forEach((item) => {
-          item.type === 'post' ? (postScore += 1) : (commentScore += 1);
+          item.type === 'post' ? (postScore += item.score) : (commentScore += item.score);
+          item.createdAt = Moment(item.createdAt).fromNow();
         });
         this.setState({
           data,
@@ -40,7 +43,7 @@ class UserProfile extends Component {
   render() {
     return (
       <div style={{ float: 'center' }}>
-        <h1>Hello from userprofile</h1>
+        <Link to="/">Back to Front Page</Link>
         <h2>{this.props.selectedUser}</h2>
         <h4>
           <ul>
@@ -51,7 +54,9 @@ class UserProfile extends Component {
         <br />
         <h3>Overview</h3>
         {this.state.data.length &&
-          this.state.data.map((content, key) => <ContentListItem post={content} key={key} />)}
+          this.state.data.map((content, key) => (
+            <ContentListItem post={content} user={this.props.user} key={key} />
+          ))}
       </div>
     );
   }
@@ -60,6 +65,7 @@ class UserProfile extends Component {
 function mapStateToProps(state) {
   return {
     selectedUser: state.selectedUser,
+    user: state.active_user,
   };
 }
 
