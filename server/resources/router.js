@@ -7,8 +7,13 @@ const subrediditController = require('./subrediditController');
 router
   .route('/content')
   .get(contentController.retreiveContent)
-  .post(contentController.createContent);
-// .put(controller.updateContent);
+  .post(contentController.createContent)
+  .put(contentController.updateContent);
+
+router
+  .route('/content/vote')
+  .get(contentController.getVotes)
+  .post(contentController.createVotes);
 
 router
   .route('/subredidit')

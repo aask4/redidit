@@ -1,8 +1,10 @@
 import React from 'react';
 import Axios from 'axios';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { selectUser } from '../actions';
+import Voter from './Voter.jsx';
 
 class ContentListItem extends React.Component {
   constructor(props) {
@@ -17,6 +19,8 @@ class ContentListItem extends React.Component {
     this.onChangeHandler = this.onChangeHandler.bind(this);
     this.contentManager = this.contentManager.bind(this);
     this.selectUserHandler = this.selectUserHandler.bind(this);
+    this.upvote = this.upvote.bind(this);
+    this.downvote = this.downvote.bind(this);
   }
 
   componentDidMount() {
@@ -71,19 +75,35 @@ class ContentListItem extends React.Component {
       .catch(err => console.log('SELECT USER HANDLER ERROR: ', err));
   }
 
+  upvote() {
+    console.log('upvote!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!', this.props.post.content);
+    Axios.put('/content', {
+      user_id: this.props.user.id,
+      content_id: this.props.post.id,
+      score: this.props.post.score + 1,
+    })
+      .then(result => this.forceUpdate())
+      .catch(err => console.log(err));
+  }
+
+  downvote() {
+    console.log('down vote!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!', this.props.post.content);
+  }
+
   render() {
     return (
-      <div className="content-item">
+      <div>
         <div className="voting">
-          <button>upvote</button>
-          <br />
-          {this.props.post.score}
-          <br />
-          <button>downvote</button>
+          <Voter
+            upvote={this.upvote}
+            downvote={this.downvote}
+            score={this.props.post.score}
+            user={this.props.user}
+          />
         </div>
         <div className="info">
           <h4 className="owner-name" onClick={this.selectUserHandler}>
-            {this.props.post.owner}{' '}
+            <Link to="/userprofile">{this.props.post.owner} </Link>
           </h4>
           {this.props.post.type === 'post' ? <h5>/rd/{this.props.post.subredidit}</h5> : ''}
           <span className="timestamp">{this.props.post.createdAt}</span>
@@ -102,10 +122,12 @@ class ContentListItem extends React.Component {
         <div>
           {this.state.showComments ? (
             <div className="comments">
-              <div className="spacer">&nbsp</div>
-              {this.state.comments.map(comm => (
-                <ContentListItem post={comm} user={this.props.user} />
-              ))}
+              <div className="spacer" />
+              <div className="comment-item">
+                {this.state.comments.map(comm => (
+                  <ContentListItem post={comm} user={this.props.user} />
+                ))}
+              </div>
             </div>
           ) : (
             <div />
