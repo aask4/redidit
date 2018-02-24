@@ -1,3 +1,4 @@
+
 .logo {
   float: left;
 }
@@ -5,4 +6,31 @@
 .statusBar {
   background-color: lightblue;
   height: 70px;
+
+.content-item {
+  border: 1px solid black;
+  height: 60px;
+}
+
+.spacer {
+  float: left;
+}
+
+.voting {
+  float: left;
+}
+
+.info {
+}
+
+.message {
+}
+
+.comment-section {
+  float: right;
+}
+
+.timestamp {
+  float: right;
+
 }

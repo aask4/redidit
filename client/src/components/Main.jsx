@@ -11,7 +11,9 @@ class Main extends Component {
         <div>{/* <Nav /> can add hot + new as needed */}</div>
         <div>{/* user options on right including logout */}</div>
         <div>{/* <Search /> */}</div>
-        <div>{/* <ContentList />  with either popular or subscriptions if any */}</div>
+        <div>
+          <ContentList />
+        </div>
       </div>
     );
   }

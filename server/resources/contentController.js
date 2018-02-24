@@ -3,8 +3,9 @@ const Votes = require('../../db/models/votesModel');
 
 module.exports.retreiveContent = (req, res) => {
   // req.body requires content _id or query object
+  console.log('REQ.QUERY >>>>>>>>>>>> ', req.query);
   content.getContent(req.query, (result) => {
-    console.log('retreived content from databse');
+    console.log('retreived content from databse', result);
     res.send(result);
   });
 };
