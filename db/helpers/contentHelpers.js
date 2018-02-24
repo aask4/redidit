@@ -8,6 +8,7 @@ module.exports.postContent = (contentObj, callback) => {
     score: 0,
     parent: contentObj.parent,
     type: contentObj.type,
+    subredidit: contentObj.subredidit,
   })
     .then((result) => {
       console.log('Saved to database: ', result);

@@ -3,7 +3,6 @@ const Votes = require('../../db/models/votesModel');
 
 module.exports.retreiveContent = (req, res) => {
   // req.body requires content _id or query object
-  console.log('REQ.QUERY >>>>>>>>>>>> ', req.query);
   content.getContent(req.query, (result) => {
     console.log('retreived content from databse', result);
     res.send(result);
@@ -13,13 +12,13 @@ module.exports.retreiveContent = (req, res) => {
 module.exports.createContent = (req, res) => {
   // req.body requires owner's username or _id,
   // content URL, and timestamp
-  console.log('REQ.BODY in Controller createContent: ', req.body);
   content.postContent(
     {
       owner: req.body.owner,
       content: req.body.content,
       parent: req.body.parent || 0,
       type: req.body.type,
+      subredidit: req.body.subredidit,
     },
     result => res.send(result),
   );
