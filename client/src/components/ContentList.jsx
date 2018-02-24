@@ -3,7 +3,7 @@ import Axios from 'axios';
 import ContentListItem from './ContentListItem.jsx';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { addPosts } from '../action';
+import { addPosts } from '../actions';
 
 class ContentList extends React.Component {
   constructor(props) {
