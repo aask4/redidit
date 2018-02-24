@@ -1,46 +1,38 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Axios from 'axios';
 import UserPostItem from './UserPostItem';
 import UserCommentItem from './UserCommentItem';
+import ContentListItem from '../ContentListItem';
+import { Link } from 'react-router-dom';
+import Moment from 'moment';
 
 class UserProfile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      posts: '',
-      comments: '',
+      data: [],
       postScore: '',
       commentScore: '',
-      showPosts: true,
-      showComments: false,
     };
-    this.fetchUserContent.bind(this);
+    this.fetchUserContent = this.fetchUserContent.bind(this);
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this.fetchUserContent();
   }
 
   fetchUserContent() {
-    Axios.get('/content', { params: { owner: `${this.props.selectedUser}` } })
-      .then((content) => {
+    Axios.get('/content', { params: { owner: 1, type: 'post' } })
+      .then(({ data }) => {
         let postScore = 0;
         let commentScore = 0;
-        const posts = [];
-        const comments = [];
-        content.forEach((item) => {
-          if (item.type === 'post') {
-            postScore += 1;
-            posts.push(item);
-          } else {
-            commentScore += 1;
-            comments.push(item);
-          }
+        data.forEach((item) => {
+          item.type === 'post' ? (postScore += item.score) : (commentScore += item.score);
+          item.createdAt = Moment(item.createdAt).fromNow();
         });
         this.setState({
-          posts,
-          comments,
+          data,
           postScore,
           commentScore,
         });
@@ -48,37 +40,23 @@ class UserProfile extends Component {
       .catch(err => console.error('Error in UserProfile component: ', err));
   }
 
-  togglePosts() {
-    this.setState({
-      showPosts: true,
-      showComments: false,
-    });
-  }
-
-  toggleComments() {
-    this.setState({
-      showPosts: false,
-      showComments: true,
-    });
-  }
-
   render() {
     return (
       <div style={{ float: 'center' }}>
+        <Link to="/">Back to Front Page</Link>
         <h2>{this.props.selectedUser}</h2>
-        <ul>
-          <li>{this.state.postScore}</li>
-          <li>{this.state.commentScore}</li>
-        </ul>
+        <h4>
+          <ul>
+            <li>Posts Score: {this.state.postScore}</li>
+            <li>Comments Score: {this.state.commentScore}</li>
+          </ul>
+        </h4>
         <br />
-        <div class="inline">
-          <button onClick={this.togglePosts}>Posts</button>
-          <button onClick={this.toggleComments}>Comments</button>
-        </div>
-        {this.state.showPosts &&
-          this.state.posts.map((post, key) => <UserPostItem post={post} key={key} />)}
-        {this.state.showComments &&
-          this.state.comments.map((comm, key) => <UserCommentItem comm={comm} key={key} />)}
+        <h3>Overview</h3>
+        {this.state.data.length &&
+          this.state.data.map((content, key) => (
+            <ContentListItem post={content} user={this.props.user} key={key} />
+          ))}
       </div>
     );
   }
@@ -87,6 +65,7 @@ class UserProfile extends Component {
 function mapStateToProps(state) {
   return {
     selectedUser: state.selectedUser,
+    user: state.active_user,
   };
 }
 

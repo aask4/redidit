@@ -1,34 +1,85 @@
+<<<<<<< HEAD
+=======
+h4,
+h5 {
+  display: inline;
+  margin: 2px 2px 2px 2px;
+  padding: 0;
+}
+
+>>>>>>> 0a92de4ccc02938f0a28d743b5db008e2fda0dff
 .logo {
   float: left;
+  height: 70px;
 }
 
 .statusBar {
   background-color: lightblue;
   height: 70px;
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 0a92de4ccc02938f0a28d743b5db008e2fda0dff
 .content-item {
-  border: 1px solid black;
-  height: 60px;
+  display: inline-block;
+  overflow: hidden;
+  width: 100%;
+}
+
+.info {
+  width: 100%;
 }
 
 .spacer {
-  float: left;
+  padding: 0 10px 0 10px;
+  height: 60px;
+  width: 20px;
+  display: table-cell;
+}
+
+.comment-item {
+  display: table-cell;
+  overflow: hidden;
+  width: 100%;
 }
 
 .voting {
   float: left;
-}
-
-.info {
+  display: inline-block;
+  padding-right: 2px;
 }
 
 .message {
+  display: block;
+  margin-bottom: 30px;
 }
 
 .comment-section {
+  display: block;
+  margin: 1px 1px 1px 1px;
   float: right;
 }
 
 .timestamp {
   float: right;
+<<<<<<< HEAD
+=======
+  display: inline-block;
+}
+
+.comments {
+  display: inline-block;
+  width: 100%;
+}
+
+.vote {
+  height: 15px;
+  display: block;
+}
+
+.voter {
+  text-align: center;
+  padding-right: 5px;
+>>>>>>> 0a92de4ccc02938f0a28d743b5db008e2fda0dff
 }

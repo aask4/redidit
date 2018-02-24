@@ -3,7 +3,6 @@ const Votes = require('../../db/models/votesModel');
 
 module.exports.retreiveContent = (req, res) => {
   // req.body requires content _id or query object
-  console.log('REQ.QUERY >>>>>>>>>>>> ', req.query);
   content.getContent(req.query, (result) => {
     console.log('retreived content from databse', result);
     res.send(result);
@@ -13,16 +12,29 @@ module.exports.retreiveContent = (req, res) => {
 module.exports.createContent = (req, res) => {
   // req.body requires owner's username or _id,
   // content URL, and timestamp
-  console.log('REQ.BODY in Controller createContent: ', req.body);
   content.postContent(
     {
       owner: req.body.owner,
       content: req.body.content,
       parent: req.body.parent || 0,
       type: req.body.type,
+      subredidit: req.body.subredidit,
     },
     result => res.send(result),
   );
+};
+
+module.exports.updateContent = (req, res) => {
+  // req.body requires content id and +/- 1
+  module.exports.getVotes(req, res, (results) => {
+    if (results.length === 0) {
+      module.exports.createVotes(req, res);
+      content.updateContent({ score: req.body.score, id: req.body.content_id }, (result) => {
+        console.log('we are here we are here********************************************************');
+        res.send(result);
+      });
+    }
+  });
 };
 
 // Votes functions*****************************
@@ -40,10 +52,10 @@ module.exports.createVotes = (req, res) => {
 };
 
 // GET
-module.exports.getVotes = (req, res) => {
+module.exports.getVotes = (req, res, callback) => {
   // when content is loaded, should invoke this function
   Votes.findAll({ where: { user_id: req.body.user_id, content_id: req.body.content_id } })
-    .then(result => console.log('GET for Votes: ', result))
+    .then(result => callback(result))
     .catch(err => console.log('Error occured while getting votes', err));
 };
 

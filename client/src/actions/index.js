@@ -20,3 +20,8 @@ export const addPosts = (posts) => {
     payload: posts,
   };
 };
+
+export const addActiveSubredidit = subredidit => ({
+  type: 'ACTIVE_SUBREDIDIT',
+  payload: subredidit,
+});

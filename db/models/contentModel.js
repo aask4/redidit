@@ -2,11 +2,12 @@ const { db, Sequelize } = require('../index');
 const User = require('./usersModel');
 
 const Content = db.define('Contents', {
-  owner: Sequelize.INTEGER,
+  owner: Sequelize.STRING,
   content: Sequelize.STRING,
   score: Sequelize.INTEGER,
   type: Sequelize.STRING,
   parent: Sequelize.INTEGER,
+  subredidit: Sequelize.STRING,
 });
 
 Content.sync()
