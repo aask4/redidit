@@ -25,7 +25,7 @@ module.exports.getContent = (queryObj, callback) => {
 
 module.exports.updateContent = (contentObj, callback) => {
   Content.update({ score: contentObj.score }, { where: { id: contentObj.id } })
-    .then(result => console.log('Content updated.'))
+    .then(result => callback(result))
     .catch(err => console.log('Error in updateContent: ', err));
 };
 
