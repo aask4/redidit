@@ -3,17 +3,20 @@ import Axios from 'axios';
 import ContentListItem from './ContentListItem.jsx';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { addPosts } from '../action';
+import { addPosts } from '../actions';
 
 class ContentList extends React.Component {
   constructor(props) {
     super(props);
+    console.log('INSIDE CONTENTLIST CONSTRUCTR: ');
   }
 
   componentDidMount() {
+    // this.props.addPosts({ name: 'haha' });
     Axios.get('/content', { params: { type: 'post' } })
       .then((result) => {
-        this.props.addPosts(result);
+        console.log('THIS IS WHAT I GET BACK AS RESULT ', result.data);
+        this.props.addPosts(result.data);
       })
       .catch(err => console.log('Error in ContentList component: ', err));
   }
@@ -22,7 +25,14 @@ class ContentList extends React.Component {
     return (
       <div className="content-list">
         This is the ContentList Component.
-        {this.props.current_posts.map(post => <ContentListItem post={post} />)}
+        {this.props.posts ? (
+          <div>
+            <ContentListItem post={this.props.posts[0]} />
+          </div>
+        ) : (
+          <div>no posts</div>
+        )}
+        {/* this.props.posts.map(post => <ContentListItem post={post} />) */}
       </div>
     );
   }

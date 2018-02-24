@@ -13,13 +13,10 @@ export const selectUser = user => ({
   payload: user,
 });
 
-export const addPosts = posts => ({
-  type: 'CURRENT_POSTS',
-  payload: posts,
-});
-
-export const addComments = comment => ({
-  type: 'CURRENT_COMMENTS',
-  payload: comment,
-});
-
+export const addPosts = (posts) => {
+  console.log('inside of action this is the post', posts);
+  return {
+    type: 'CURRENT_POSTS',
+    payload: posts,
+  };
+};
