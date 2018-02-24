@@ -8,31 +8,28 @@ import { addPosts } from '../actions';
 class ContentList extends React.Component {
   constructor(props) {
     super(props);
-    console.log('INSIDE CONTENTLIST CONSTRUCTR: ');
   }
 
   componentDidMount() {
-    // this.props.addPosts({ name: 'haha' });
     Axios.get('/content', { params: { type: 'post' } })
       .then((result) => {
-        console.log('THIS IS WHAT I GET BACK AS RESULT ', result.data);
         this.props.addPosts(result.data);
       })
       .catch(err => console.log('Error in ContentList component: ', err));
   }
 
   render() {
+    console.log('THIS IS PROPS IN CONTENT LIST: ', this.props);
     return (
       <div className="content-list">
         This is the ContentList Component.
         {this.props.posts ? (
-          <div>
-            <ContentListItem post={this.props.posts[0]} />
-          </div>
+          this.props.posts.map(post => (
+            <ContentListItem post={post} user={this.props.user} key={post.id} />
+          ))
         ) : (
           <div>no posts</div>
         )}
-        {/* this.props.posts.map(post => <ContentListItem post={post} />) */}
       </div>
     );
   }
@@ -41,6 +38,7 @@ class ContentList extends React.Component {
 function mapStateToProps(state) {
   return {
     posts: state.current_posts,
+    user: state.active_user,
   };
 }
 
