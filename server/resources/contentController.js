@@ -24,6 +24,19 @@ module.exports.createContent = (req, res) => {
   );
 };
 
+module.exports.updateContent = (req, res) => {
+  // req.body requires content id and +/- 1
+  module.exports.getVotes(req, res, (results) => {
+    if (results.length === 0) {
+      module.exports.createVotes(req, res);
+      content.updateContent({ score: req.body.score, id: req.body.content_id }, (result) => {
+        console.log('we are here we are here********************************************************');
+        res.send(result);
+      });
+    }
+  });
+};
+
 // Votes functions*****************************
 
 module.exports.createVotes = (req, res) => {
@@ -39,10 +52,10 @@ module.exports.createVotes = (req, res) => {
 };
 
 // GET
-module.exports.getVotes = (req, res) => {
+module.exports.getVotes = (req, res, callback) => {
   // when content is loaded, should invoke this function
   Votes.findAll({ where: { user_id: req.body.user_id, content_id: req.body.content_id } })
-    .then(result => console.log('GET for Votes: ', result))
+    .then(result => callback(result))
     .catch(err => console.log('Error occured while getting votes', err));
 };
 

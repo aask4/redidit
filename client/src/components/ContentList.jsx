@@ -22,10 +22,11 @@ class ContentList extends React.Component {
     console.log('THIS IS PROPS IN CONTENT LIST: ', this.props);
     return (
       <div className="content-list">
-        This is the ContentList Component.
         {this.props.posts ? (
           this.props.posts.map(post => (
-            <ContentListItem post={post} user={this.props.user} key={post.id} />
+            <div className="content-item">
+              <ContentListItem post={post} user={this.props.user} key={post.id} />
+            </div>
           ))
         ) : (
           <div>no posts</div>
