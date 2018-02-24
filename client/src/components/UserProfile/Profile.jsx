@@ -1,9 +1,8 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import Axios from 'axios';
 import UserPostItem from './UserPostItem';
-import UserCommentItem from './UserCommItem';
+import UserCommentItem from './UserCommentItem';
 
 class UserProfile extends Component {
   constructor(props) {
@@ -46,7 +45,7 @@ class UserProfile extends Component {
           commentScore,
         });
       })
-      .catch(err => console.error('Error in ContentList component: ', err));
+      .catch(err => console.error('Error in UserProfile component: ', err));
   }
 
   togglePosts() {
@@ -72,8 +71,10 @@ class UserProfile extends Component {
           <li>{this.state.commentScore}</li>
         </ul>
         <br />
-        <button onClick={this.togglePosts}>Posts</button>
-        <button onClick={this.toggleComments}>Comments</button>
+        <div class="inline">
+          <button onClick={this.togglePosts}>Posts</button>
+          <button onClick={this.toggleComments}>Comments</button>
+        </div>
         {this.state.showPosts &&
           this.state.posts.map((post, key) => <UserPostItem post={post} key={key} />)}
         {this.state.showComments &&
@@ -86,8 +87,6 @@ class UserProfile extends Component {
 function mapStateToProps(state) {
   return {
     selectedUser: state.selectedUser,
-    currentPosts: state.current_posts,
-    currentComments: state.current_comments,
   };
 }
 

@@ -12,8 +12,6 @@ class UserPostItem extends React.Component {
     this.onChangeHandler = this.onChangeHandler.bind(this);
   }
 
-  componentDidMount() {}
-
   routeToPost() {}
 
   routeToSubredidit() {}
