@@ -7,6 +7,7 @@ h5 {
 
 .logo {
   float: left;
+  height: 70px;
 }
 
 .statusBar {
@@ -15,32 +16,61 @@ h5 {
 }
 
 .content-item {
-  border: 1px solid black;
-  display: block;
+  display: inline-block;
   overflow: hidden;
+  width: 100%;
+}
+
+.info {
+  width: 100%;
 }
 
 .spacer {
-  min-width: 20px;
-  min-height: 100%;
-  position: fixed;
-  display: block;
+  padding: 0 10px 0 10px;
+  height: 60px;
+  width: 20px;
+  display: table-cell;
+}
+
+.comment-item {
+  display: table-cell;
+  overflow: hidden;
+  width: 100%;
 }
 
 .voting {
   float: left;
+  display: inline-block;
+  padding-right: 2px;
 }
 
 .message {
+  display: block;
   margin-bottom: 30px;
 }
 
 .comment-section {
   display: block;
-  margin: 1, 1, 1, 1;
+  margin: 1px 1px 1px 1px;
   float: right;
 }
 
 .timestamp {
   float: right;
+  display: inline-block;
+}
+
+.comments {
+  display: inline-block;
+  width: 100%;
+}
+
+.vote {
+  height: 15px;
+  display: block;
+}
+
+.voter {
+  text-align: center;
+  padding-right: 5px;
 }
