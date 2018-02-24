@@ -2,13 +2,13 @@ import React from 'react';
 import Axios from 'axios';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { addComments } from '../actions';
 
 class ContentListItem extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       comment: '',
+      comments: [],
       showComments: false,
     };
     this.showCommentsHandler = this.showCommentsHandler.bind(this);
@@ -17,8 +17,12 @@ class ContentListItem extends React.Component {
   }
 
   componentDidMount() {
+    console.log('POST ID: ', this.props.post.id);
     Axios.get('/content', { params: { parent: this.props.post.id } })
-      .then(result => this.setState({ comments: result }))
+      .then((result) => {
+        console.log('RESULT>DATA: ', result.data);
+        this.setState({ comments: result.data });
+      })
       .catch(err => console.log('Error in ComponentListItem: ', err));
   }
 
@@ -28,12 +32,15 @@ class ContentListItem extends React.Component {
 
   postComment() {
     Axios.post('/content', {
-      owner: state.user.id,
+      owner: this.state.user.id,
       content: this.state.comment,
       type: 'comment',
       parent: this.props.post.id,
     })
-      .then(result => this.state.comments.push(result))
+      .then(result =>
+        this.setState({
+          comments: this.state.comments.concat([result]),
+        }))
       .catch(err => console.log('Error in ContentListItem postComment: ', err));
   }
 
@@ -51,14 +58,15 @@ class ContentListItem extends React.Component {
           <br />
           <button>downvote</button>
         </div>
-        <div>
-          <span className="owner-name">{this.props.post.owner}</span>
-          <span className="timestamp">{this.props.post.createdAt}</span>
+        <div className="info">
+          <span className="owner-name">
+            {this.props.post.owner} <span className="timestamp">{this.props.post.createdAt}</span>
+          </span>
         </div>
-        <div>
+        <div className="message">
           <a href={this.props.post.content}>{this.props.post.content}</a>
         </div>
-        <div>
+        <div className="comment-section">
           <button onClick={this.postComment}>Comment</button>
           <input type="text" onChange={this.onChangeHandler} />
           <span>
@@ -66,7 +74,7 @@ class ContentListItem extends React.Component {
             <span onClick={this.showCommentsHandler}>Comments</span>
           </span>
         </div>
-        {showComments ? (
+        {this.state.showComments ? (
           <div className="comments">
             <span className="spacer">spacer</span>
             Comment Comment

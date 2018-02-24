@@ -1,12 +1,12 @@
 const Subredidit = require('../../db/models/subrediditModel');
-const { deleteSub, findSub, saveSub } = require('../../db/helpers/subrediditHelpers');
 
 exports.retrieveSubredidit = (req, res) => {
   Subredidit.findAll({ where: { name: req.query.subrediditName } })
     .then((result) => {
       result === 'error' || result.length > 0
-        ? res.status(200).send(result)
-        : res.status(201).send('Not Found.  You should create one');
+        ? res.status(200).send(result) &&
+          console.log('Now do Content search for: ', result[0].dataValues.id)
+        : res.status(201).send('404');
     })
     .catch(err => res.status(404).send('Error'));
 };
@@ -18,7 +18,7 @@ exports.createSubredidit = (req, res) => {
     visits: 0,
   })
     .then((result) => {
-      res.status(201).send('new subredidit created!'); // returns a string - we can update this to id later
+      res.status(201).send(result);
     })
-    .catch(err => res.status(201).send('Subredidit Already exists'));
+    .catch(err => res.status(201).send('404'));
 };
