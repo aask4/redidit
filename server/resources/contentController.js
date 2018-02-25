@@ -1,10 +1,10 @@
-const content = require('../../db/helpers/contentHelpers');
-const Votes = require('../../db/models/votesModel');
+const content = require("../../db/helpers/contentHelpers");
+const Votes = require("../../db/models/votesModel");
 
 module.exports.retreiveContent = (req, res) => {
   // req.body requires content _id or query object
-  content.getContent(req.query, (result) => {
-    console.log('retreived content from databse', result);
+  content.getContent(req.query, result => {
+    console.log("retreived content from databse", result);
     res.send(result);
   });
 };
@@ -18,21 +18,26 @@ module.exports.createContent = (req, res) => {
       content: req.body.content,
       parent: req.body.parent || 0,
       type: req.body.type,
-      subredidit: req.body.subredidit,
+      subredidit: req.body.subredidit
     },
-    result => res.send(result),
+    result => res.send(result)
   );
 };
 
 module.exports.updateContent = (req, res) => {
   // req.body requires content id and +/- 1
-  module.exports.getVotes(req, res, (results) => {
+  module.exports.getVotes(req, res, results => {
     if (results.length === 0) {
       module.exports.createVotes(req, res);
-      content.updateContent({ score: req.body.score, id: req.body.content_id }, (result) => {
-        console.log('we are here we are here********************************************************');
-        res.send(result);
-      });
+      content.updateContent(
+        { score: req.body.score, id: req.body.content_id },
+        result => {
+          console.log(
+            "we are here we are here********************************************************"
+          );
+          res.send(result);
+        }
+      );
     }
   });
 };
@@ -45,18 +50,20 @@ module.exports.createVotes = (req, res) => {
   const newVote = Votes.create({
     user_id: req.body.user_id,
     content_id: req.body.content_id,
-    votes_count: 0,
+    votes_count: 0
   })
-    .then(result => console.log('created votes for content: ', result))
-    .catch(err => console.log('Create Votes error: ', err));
+    .then(result => console.log("created votes for content: ", result))
+    .catch(err => console.log("Create Votes error: ", err));
 };
 
 // GET
 module.exports.getVotes = (req, res, callback) => {
   // when content is loaded, should invoke this function
-  Votes.findAll({ where: { user_id: req.body.user_id, content_id: req.body.content_id } })
+  Votes.findAll({
+    where: { user_id: req.body.user_id, content_id: req.body.content_id }
+  })
     .then(result => callback(result))
-    .catch(err => console.log('Error occured while getting votes', err));
+    .catch(err => console.log("Error occured while getting votes", err));
 };
 
 // PUT
@@ -64,8 +71,8 @@ module.exports.updateVotes = (req, res) => {
   // when voting button clicked, should invoke this function
   Votes.update(
     { votes_count: req.body.votes_count },
-    { where: { user_id: req.body.user_id, content_id: req.body.content_id } },
+    { where: { user_id: req.body.user_id, content_id: req.body.content_id } }
   )
-    .then(result => console.log('Should send updated vote count: ', result))
-    .catch(err => console.log('error occurered when updating votes: ', err));
+    .then(result => console.log("Should send updated vote count: ", result))
+    .catch(err => console.log("error occurered when updating votes: ", err));
 };
