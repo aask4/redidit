@@ -1,7 +1,7 @@
 import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { addname } from '../actions';
+import { addname, loadAllSubredidit } from '../actions';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Main from './Main';
 import Posts from './Posts.jsx';
@@ -10,11 +10,23 @@ import Search from './Search.jsx';
 import NavAndLogin from './NavAndLogin';
 import Signup from './SignUp.jsx';
 import UserProfile from './UserProfile/Profile.jsx';
+import axios from 'axios';
 
 class App extends React.Component {
   constructor() {
     super();
   }
+
+  componentDidMount() {
+    axios
+      .get('/subredidit')
+      .then(({ data }) => {
+        console.log('App data is ', data);
+        this.props.loadAllSubredidit(data);
+      })
+      .catch(err => console.log(err));
+  }
+
   render() {
     return (
       <div>
@@ -44,6 +56,7 @@ function matchDispatchToProps(dispatch) {
   return bindActionCreators(
     {
       addname,
+      loadAllSubredidit,
     },
     dispatch,
   );

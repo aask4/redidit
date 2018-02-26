@@ -34,7 +34,7 @@ class Search extends Component {
 
   handleSearchButton() {
     axios
-      .get('/subredidit', { params: { subrediditName: this.state.search } })
+      .get('/subredidit', { params: { name: this.state.search } })
       .then(({ data }) => {
         if (data === '404') {
           console.log('404, ask user to create one');
