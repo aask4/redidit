@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 import Nav from './Nav.jsx';
 import Search from './Search.jsx';
@@ -13,9 +14,11 @@ class Main extends Component {
         <div>{/* <Nav /> can add hot + new as needed */}</div>
         <div>{/* user options on right including logout */}</div>
         <div>
-          <Link to="/post">
-            <input type="submit" value="Create Post" />
-          </Link>
+          {this.props.active_user && (
+            <Link to="/post">
+              <input type="submit" value="Create Post" />
+            </Link>
+          )}
           <br />
           <br />
         </div>
@@ -31,4 +34,10 @@ class Main extends Component {
   }
 }
 
-export default Main;
+function mapStateToProps(state) {
+  return {
+    active_user: state.active_user,
+  };
+}
+
+export default connect(mapStateToProps)(Main);
