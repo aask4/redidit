@@ -11,48 +11,63 @@ module.exports.retreiveContent = (req, res) => {
 module.exports.createContent = (req, res) => {
   // req.body requires owner's username or _id,
   // content URL, and timestamp
+  console.log(req.body);
   content.postContent(
     {
       title: req.body.title,
-      owner: req.body.owner,
+      owner: req.body.user.username,
       content: req.body.content,
       parent: req.body.parent || 0,
       type: req.body.type,
       subredidit: req.body.subredidit
     },
-    result => res.send(result)
+    result => {
+      Votes.create({
+        user_id: req.body.user.id,
+        content_id: result.id,
+        votes_count: 0
+      })
+        .then(result => console.log("created votes for content: ", result))
+        .catch(err => console.log("Create Votes error: ", err));
+      res.send(result);
+    }
   );
 };
 
 module.exports.updateContent = (req, res) => {
   // req.body requires content id and +/- 1
   console.log("** contentController >> updateContent **");
-  module.exports.getVotes(req, res, results => {
-    content.updateContent(
-      { score: req.body.score, id: req.body.content_id },
-      result => {
-        console.log(
-          "we are here we are here********************************************************"
+  content.updateContent(
+    { score: req.body.score, id: req.body.content_id },
+    result => {
+      console.log("REQ>BODY<USER_ID", req.body);
+      console.log(result);
+      Votes.update(
+        { votes_count: req.body.score },
+        { where: { content_id: req.body.content_id } }
+      )
+        .then(result => console.log("Should send updated vote count: ", result))
+        .catch(err =>
+          console.log("error occurered when updating votes: ", err)
         );
-        res.send(result);
-      }
-    );
-  });
+      res.send(result);
+    }
+  );
 };
 
 // Votes functions*****************************
 
-module.exports.createVotes = (req, res, next) => {
-  // everytime a comment/post is created, should invoke this function
-  // we should add this to create content
-  const newVote = Votes.create({
-    user_id: req.body.user_id,
-    content_id: req.body.content_id,
-    votes_count: 0
-  })
-    .then(result => console.log("created votes for content: ", result))
-    .catch(err => console.log("Create Votes error: ", err));
-};
+// module.exports.createVotes = (req, res, next) => {
+//   // everytime a comment/post is created, should invoke this function
+//   // we should add this to create content
+//   const newVote = Votes.create({
+//     user_id: req.body.user_id,
+//     content_id: req.body.content_id,
+//     votes_count: 0,
+//   })
+//     .then(result => console.log('created votes for content: ', result))
+//     .catch(err => console.log('Create Votes error: ', err));
+// };
 
 // GET
 module.exports.getVotes = (req, res, callback) => {
@@ -64,13 +79,13 @@ module.exports.getVotes = (req, res, callback) => {
     .catch(err => console.log("Error occured while getting votes", err));
 };
 
-// PUT
-module.exports.updateVotes = (req, res) => {
-  // when voting button clicked, should invoke this function
-  Votes.update(
-    { votes_count: req.body.votes_count },
-    { where: { user_id: req.body.user_id, content_id: req.body.content_id } }
-  )
-    .then(result => console.log("Should send updated vote count: ", result))
-    .catch(err => console.log("error occurered when updating votes: ", err));
-};
+// // PUT
+// module.exports.updateVotes = (req, res) => {
+//   // when voting button clicked, should invoke this function
+//   Votes.update(
+//     { votes_count: req.body.votes_count },
+//     { where: { user_id: req.body.user_id, content_id: req.body.content_id } },
+//   )
+//     .then(result => console.log('Should send updated vote count: ', result))
+//     .catch(err => console.log('error occurered when updating votes: ', err));
+// };

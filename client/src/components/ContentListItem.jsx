@@ -13,6 +13,7 @@ class ContentListItem extends React.Component {
       comment: '',
       comments: [],
       showComments: false,
+      post: this.props.post,
     };
     this.showCommentsHandler = this.showCommentsHandler.bind(this);
     this.postComment = this.postComment.bind(this);
@@ -39,9 +40,9 @@ class ContentListItem extends React.Component {
 
   postComment(event) {
     event.preventDefault();
-    console.log(JSON.stringify(this.props));
+    if (this.state.comment.length === 0) return;
     Axios.post('/content', {
-      owner: this.props.user.username,
+      user: this.props.user,
       content: this.state.comment,
       type: 'comment',
       parent: this.props.post.id,
@@ -52,6 +53,7 @@ class ContentListItem extends React.Component {
         });
       })
       .catch(err => console.log('Error in ContentListItem postComment: ', err));
+    this.setState({ comment: '' });
   }
 
   onChangeHandler(event) {
@@ -75,19 +77,31 @@ class ContentListItem extends React.Component {
   }
 
   upvote() {
-    console.log('upvote!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!', this.props.post.content);
-    const upScore = this.props.updateScore;
     Axios.put('/content', {
       user_id: this.props.user.id,
       content_id: this.props.post.id,
-      score: this.props.post.score + 1,
+      score: this.state.post.score + 1,
     })
-      .then(result => upScore(result.data[0], this.props.index))
+      .then((result) => {
+        const updatedPost = Object.assign(this.state.post);
+        updatedPost.score += 1;
+        this.setState({ post: updatedPost });
+      })
       .catch(err => console.log(err));
   }
 
   downvote() {
-    console.log('down vote!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!', this.props.post.content);
+    Axios.put('/content', {
+      user_id: this.props.user.id,
+      content_id: this.props.post.id,
+      score: this.state.post.score - 1,
+    })
+      .then((result) => {
+        const updatedPost = Object.assign(this.state.post);
+        updatedPost.score -= 1;
+        this.setState({ post: updatedPost });
+      })
+      .catch(err => console.log(err));
   }
 
   render() {
@@ -101,7 +115,7 @@ class ContentListItem extends React.Component {
             user={this.props.user}
           />
         </div>
-        <h3 className="post-title">{this.props.post.title}</h3>
+        {this.props.post.title ? <h3 className="post-title">{this.props.post.title}</h3> : null}
         <div className="info">
           <h4 className="owner-name" onClick={this.selectUserHandler}>
             <Link to="/userprofile">{this.props.post.owner} </Link>
@@ -113,10 +127,12 @@ class ContentListItem extends React.Component {
           {this.contentManager()}
           <div className="comment-section">
             <button onClick={this.postComment}>Comment</button>
-            <input type="text" onChange={this.onChangeHandler} />
+            <input type="text" onChange={this.onChangeHandler} value={this.state.comment} />
             <span>
               {this.state.comments.length}
-              <span onClick={this.showCommentsHandler}>Comments</span>
+              <span onClick={this.state.comments.length > 0 ? this.showCommentsHandler : () => {}}>
+                Comments
+              </span>
             </span>
           </div>
         </div>
@@ -124,9 +140,11 @@ class ContentListItem extends React.Component {
           {this.state.showComments ? (
             <div className="comments">
               <div className="spacer" />
-              <div className="comment-item">
+              <div className="comment-list">
                 {this.state.comments.map(comm => (
-                  <ContentListItem post={comm} user={this.props.user} key={comm.id} />
+                  <div className="comment-item">
+                    <ContentListItem post={comm} user={this.props.user} key={comm.id} />
+                  </div>
                 ))}
               </div>
             </div>

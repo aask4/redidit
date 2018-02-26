@@ -3,6 +3,16 @@ import React from 'react';
 class Voter extends React.Component {
   constructor(props) {
     super(props);
+    this.scoreColor = this.scoreColor.bind(this);
+  }
+
+  scoreColor() {
+    if (this.props.score > 0) {
+      return 'good';
+    } else if (this.props.score < 0) {
+      return 'bad';
+    }
+    return '';
   }
 
   render() {
@@ -14,7 +24,7 @@ class Voter extends React.Component {
           onClick={this.props.upvote}
           className="vote"
         />
-        {this.props.score}
+        <p className={this.scoreColor()}>{this.props.score}</p>
         <img
           src="https://i.imgur.com/CX8zaPG.png"
           alt="downvote"

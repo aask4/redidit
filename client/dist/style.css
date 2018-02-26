@@ -38,6 +38,7 @@ h5 {
 }
 .content-item {
   display: inline-block;
+  border: 1px solid royalblue;
   overflow: hidden;
   width: 100%;
 }
@@ -53,10 +54,28 @@ h5 {
   display: table-cell;
 }
 
-.comment-item {
+.comment-list {
   display: table-cell;
   overflow: hidden;
   width: 100%;
+}
+
+.comment-item {
+  min-height: 50px;
+}
+
+.voter p {
+  margin: 0;
+  padding: 0;
+  font-weight: bold;
+}
+
+.good {
+  color: green;
+}
+
+.bad {
+  color: red;
 }
 
 .voting {

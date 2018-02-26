@@ -11,10 +11,15 @@ router
   .post(contentController.createContent)
   .put(contentController.updateContent);
 
+<<<<<<< HEAD
 router
   .route("/content/vote")
   .get(contentController.getVotes)
   .post(contentController.createVotes);
+=======
+router.route('/content/vote').get(contentController.getVotes);
+// .post(contentController.createVotes);
+>>>>>>> 6791fddeeb4074c4d95132bd46743890499dfcc4
 
 router
   .route("/subredidit")
