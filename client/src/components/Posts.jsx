@@ -50,18 +50,27 @@ class PostEntry extends Component {
   render() {
     return (
       <div>
+        <br />
         <form onChange={this.onChangeHandler} onSubmit={this.onSubmitHandler}>
-          Title:<br />
-          <textarea name="content" />
+          <div className="postForm">
+            Title:<br />
+            <textarea name="title" rows="2" cols="60" />
+          </div>
           <br />
-          URL:<br />
-          <textarea name="url" />
           <br />
-          Subredidit:<br />
-          <select name="subredidit">
-            <option>Select</option>
-            {this.state.subredidits}
-          </select>
+          <div className="postForm">
+            URL:<br />
+            <input type="text" name="url" size="62" />
+          </div>
+          <br />
+          <br />
+          <div className="postForm">
+            Subredidit:<br />
+            <select name="subredidit">
+              <option>Select</option>
+              {this.state.subredidits}
+            </select>
+          </div>
           <br />
           <br />
           <input type="submit" value="Submit" />
