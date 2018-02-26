@@ -142,8 +142,8 @@ class ContentListItem extends React.Component {
               <div className="spacer" />
               <div className="comment-list">
                 {this.state.comments.map(comm => (
-                  <div className="comment-item">
-                    <ContentListItem post={comm} user={this.props.user} key={comm.id} />
+                  <div className="comment-item" key={comm.id}>
+                    <ContentListItem post={comm} user={this.props.user} />
                   </div>
                 ))}
               </div>

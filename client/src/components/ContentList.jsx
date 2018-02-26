@@ -23,9 +23,9 @@ class ContentList extends React.Component {
     return (
       <div className="content-list">
         {this.props.posts ? (
-          this.props.posts.map((post, i) => (
+          this.props.posts.map(post => (
             <div className="content-item">
-              <ContentListItem post={post} user={this.props.user} />
+              <ContentListItem post={post} user={this.props.user} key={post.id} />
             </div>
           ))
         ) : (
