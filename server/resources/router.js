@@ -3,6 +3,7 @@ const contentController = require('./contentController');
 // const controller = require('./controller');
 const usersController = require('./usersController');
 const subrediditController = require('./subrediditController');
+const subscriptionController = require('./subscriptionController');
 
 router
   .route('/content')
@@ -23,10 +24,10 @@ router
 // router.route('/userprofile').get(usersController.fetchUserProfile);
 
 router
-  .route('/userprofile/subscription')
-  .get(usersController.fetchUserSubscription)
-  .post(usersController.createUserSubscription)
-  .delete(usersController.deleteUserSubscription);
+  .route('/subscription')
+  .get(subscriptionController.fetchUserSubscription) // TODO: work with Shayne to merge with login
+  .post(subscriptionController.createUserSubscription)
+  .delete(subscriptionController.deleteUserSubscription);
 
 router.route('/signup').post(usersController.createUser);
 router.route('/login').get(usersController.login);

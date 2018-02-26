@@ -10,29 +10,18 @@ class SubscribeButton extends Component {
     };
   }
 
-  // componentDidMount() {
-  //   axios.get('/userprofile/subscription', {
-  //     // fetch current subreditit ID from store
-  //     // send with active user ID from store
-  //   })
-  //   .then(({data}) => {
-  //     if (//subscriptions exists) {
-  //       this.setState({toggleButton: true})
-  //     }
-  //   })
-  //   .catch( err => console.log('subscribeButton check error: ', err));
-  // }
-
-  handleSubscription() {
-    const command = e.target.ref;
+  handleSubscription(e) {
+    const command = e.target.name;
+    console.log('Command is: ', command);
     const action = {
       delete: () => {
         axios
-          .delete('/userprofile/subscription', {
-            // fetch current subreditit ID from store
-            // send with active user ID from store
+          .delete('/subscription', {
+            user_id: this.props.active_user.id,
+            subredidit_id: this.props.active_subredidit.id,
           })
           .then(({ data }) => {
+            console.log('SubscribeButton delete data: ', data);
             this.setState({ toggleButton: !this.state.toggleButton });
           })
           .catch((err) => {
@@ -41,11 +30,12 @@ class SubscribeButton extends Component {
       },
       post: () => {
         axios
-          .post('/userprofile/subscription', {
-            // fetch current subreditit ID from store
-            // send with current user ID
+          .post('/subscription', {
+            user_id: this.props.active_user.id,
+            subredidit_id: this.props.active_subredidit.id,
           })
           .then(({ data }) => {
+            console.log('SubscribeButton post data: ', data);
             this.setState({ toggleButton: !this.state.toggleButton });
           })
           .catch((err) => {
@@ -54,26 +44,33 @@ class SubscribeButton extends Component {
       },
     };
 
-    // if (user is signed in) {
-    //   action[command]();
-    // } else {
-    //   user is not signed in, prompt to signup
-    // }
+    if (this.props.active_user && this.props.active_subredidit) {
+      action[command]();
+    } else {
+      // user is not signed in, prompt to signup
+      console.log('user is not signed in or there is no active subreditit');
+    }
   }
 
   render() {
     return (
-      <div className="subscribe">
-        {this.state.toggleButton ? (
-          <button ref="delete" type="button" onClick={() => this.handleSubscription()}>
-            Unsubscribe
-          </button>
+      <div>
+        {this.props.active_subredidit && this.props.active_user ? (
+          <div className="subscribe">
+            <p>{this.props.active_subredidit.name}</p>
+            {this.state.toggleButton ? (
+              <button name="delete" type="button" onClick={e => this.handleSubscription(e)}>
+                Unsubscribe
+              </button>
+            ) : (
+              <button name="post" type="button" onClick={e => this.handleSubscription(e)}>
+                Subscribe
+              </button>
+            )}
+          </div>
         ) : (
-          <button ref="post" type="button" onClick={() => this.handleSubscription()}>
-            Subscribe
-          </button>
+          <div />
         )}
-        insert subredidit name
       </div>
     );
   }

@@ -4,7 +4,7 @@ exports.retrieveSubredidit = (req, res) => {
   Subredidit.findAll({ where: { name: req.query.subrediditName } })
     .then((result) => {
       result === 'error' || result.length > 0
-        ? res.status(200).send(result) &&
+        ? res.status(200).send(result[0]) &&
           console.log('Now do Content search for: ', result[0].dataValues.id)
         : res.status(201).send('404');
     })
@@ -18,7 +18,7 @@ exports.createSubredidit = (req, res) => {
     visits: 0,
   })
     .then((result) => {
-      res.status(201).send(result);
+      res.status(201).send(result.dataValues);
     })
     .catch(err => res.status(201).send('404'));
 };
