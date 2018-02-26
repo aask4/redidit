@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Axios from 'axios';
-import UserPostItem from './UserPostItem';
-import UserCommentItem from './UserCommentItem';
-import ContentListItem from '../ContentListItem';
 import { Link } from 'react-router-dom';
 import Moment from 'moment';
+import ContentListItem from '../ContentListItem';
 
 class UserProfile extends Component {
   constructor(props) {
@@ -23,7 +21,7 @@ class UserProfile extends Component {
   }
 
   fetchUserContent() {
-    Axios.get('/content', { params: { owner: 1, type: 'post' } })
+    Axios.get('/content', { params: { owner: this.props.selectedUser, type: 'post' } })
       .then(({ data }) => {
         let postScore = 0;
         let commentScore = 0;

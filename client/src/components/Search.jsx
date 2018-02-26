@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import axios from 'axios'; // added this
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { addActiveSubredidit } from '../actions/index';
+import axios from 'axios';
 
 class Search extends Component {
-  // added this
   constructor(props) {
     super(props);
     this.state = {
@@ -23,8 +25,9 @@ class Search extends Component {
         if (data === '404') {
           console.log('404, do search instead');
         } else {
-          console.log('Need function to display results: ', data);
+          this.props.addActiveSubredidit(data);
         }
+        document.getElementById('search').value = '';
       })
       .catch(err => console.log('Search error: ', err));
   }
@@ -36,24 +39,17 @@ class Search extends Component {
         if (data === '404') {
           console.log('404, ask user to create one');
         } else {
-          console.log('Need function to display results: ', data);
+          this.props.addActiveSubredidit(data);
         }
+        document.getElementById('search').value = '';
       })
       .catch(err => console.log('Search error: ', err));
   }
-  // added this
 
   render() {
     return (
-      <div
-        style={{
-          float: 'right',
-          border: '2px solid black',
-          padding: '0',
-          width: '100px',
-        }}
-      >
-        <input type="search" onChange={e => this.onChangeHandler(e)} />
+      <div className="search">
+        <input id="search" type="search" onChange={e => this.onChangeHandler(e)} />
         <br />
         <button type="button" name="search" onClick={() => this.handleSearchButton()}>
           search
@@ -66,4 +62,19 @@ class Search extends Component {
   }
 }
 
-export default Search;
+function mapStateToProps(state) {
+  return {
+    active_subredidit: state.active_subredidit,
+  };
+}
+
+function matchDispatchToProps(dispatch) {
+  return bindActionCreators(
+    {
+      addActiveSubredidit,
+    },
+    dispatch,
+  );
+}
+
+export default connect(mapStateToProps, matchDispatchToProps)(Search);

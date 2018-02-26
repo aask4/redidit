@@ -47,7 +47,6 @@ class ContentListItem extends React.Component {
       parent: this.props.post.id,
     })
       .then((result) => {
-        console.log('POST COMMENT STATE.COMMENTS && RESULT ', this.state.comments, result);
         this.setState({
           comments: this.state.comments.concat([result.data]),
         });
@@ -77,12 +76,13 @@ class ContentListItem extends React.Component {
 
   upvote() {
     console.log('upvote!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!', this.props.post.content);
+    const upScore = this.props.updateScore;
     Axios.put('/content', {
       user_id: this.props.user.id,
       content_id: this.props.post.id,
       score: this.props.post.score + 1,
     })
-      .then(result => this.forceUpdate())
+      .then(result => upScore(result.data[0], this.props.index))
       .catch(err => console.log(err));
   }
 
@@ -101,6 +101,7 @@ class ContentListItem extends React.Component {
             user={this.props.user}
           />
         </div>
+        <h3 className="post-title">{this.props.post.title}</h3>
         <div className="info">
           <h4 className="owner-name" onClick={this.selectUserHandler}>
             <Link to="/userprofile">{this.props.post.owner} </Link>
@@ -125,7 +126,7 @@ class ContentListItem extends React.Component {
               <div className="spacer" />
               <div className="comment-item">
                 {this.state.comments.map(comm => (
-                  <ContentListItem post={comm} user={this.props.user} />
+                  <ContentListItem post={comm} user={this.props.user} key={comm.id} />
                 ))}
               </div>
             </div>

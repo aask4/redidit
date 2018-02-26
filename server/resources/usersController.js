@@ -1,6 +1,5 @@
 const Users = require('../../db/models/usersModel');
 const bcrypt = require('bcrypt');
-const UsersSubredidits = require('../../db/models/usersSubrediditModel');
 
 module.exports.fetchUserProfile = (req, res) => {
   Users.findAll({ where: { username: req.query.username } })
@@ -8,37 +7,6 @@ module.exports.fetchUserProfile = (req, res) => {
       res.send(user);
     })
     .catch(err => res.end(`${err}`));
-};
-
-module.exports.fetchUserSubscription = (req, res) => {
-  Users.findAll({ where: { username: req.query.username } })
-    .then((user) => {
-      res.end(user);
-    })
-    .catch(err => res.end(`${err}`));
-
-  UsersSubredidits.findAll({
-    where: { users_id: req.query.users_id, subredidits_id: req.query.subredidits_id },
-  })
-    .then(result => res.status(200).send(result))
-    .catch(err => res.status(200).send(`${err}`));
-};
-
-module.exports.createUserSubscription = (req, res) => {
-  UsersSubredidits.create({
-    users_id: req.body.users_id,
-    subredidits_id: req.body.subredidits_id,
-  })
-    .then(result => res.status(201).send(result))
-    .catch(err => res.status(201).send(`${err}`));
-};
-
-module.exports.deleteUserSubscription = (req, res) => {
-  UsersSubredidits.destroy({
-    where: { users_id: req.body.users_id, subredidits_id: req.body.subredidits_id },
-  })
-    .then(result => res.status(200).send(result))
-    .catch(err => res.status(200).send(`${err}`));
 };
 
 module.exports.createUser = (req, res) => {
