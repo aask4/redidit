@@ -17,7 +17,6 @@ module.exports.fetchUserSubscription = (req, res) => {
 };
 
 module.exports.createUserSubscription = (req, res) => {
-  console.log('subscription created');
   Subredidit_Users.create({
     user_id: req.body.user_id,
     subredidit_id: req.body.subredidit_id,
