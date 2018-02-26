@@ -3,6 +3,7 @@ const Content = require('../models/contentModel');
 module.exports.postContent = (contentObj, callback) => {
   console.log(contentObj);
   Content.create({
+    title: contentObj.title,
     owner: contentObj.owner,
     content: contentObj.content,
     score: 0,
@@ -25,7 +26,10 @@ module.exports.getContent = (queryObj, callback) => {
 
 module.exports.updateContent = (contentObj, callback) => {
   Content.update({ score: contentObj.score }, { where: { id: contentObj.id } })
-    .then(result => callback(result))
+    .then((result) => {
+      console.log('CAN ** we ** see ** THIS');
+      callback(result);
+    })
     .catch(err => console.log('Error in updateContent: ', err));
 };
 

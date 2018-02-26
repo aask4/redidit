@@ -8,6 +8,7 @@ import { addPosts } from '../actions';
 class ContentList extends React.Component {
   constructor(props) {
     super(props);
+    this.updateScore = this.updateScore.bind(this);
   }
 
   componentDidMount() {
@@ -18,14 +19,26 @@ class ContentList extends React.Component {
       .catch(err => console.log('Error in ContentList component: ', err));
   }
 
+  updateScore(index, score) {
+    const postArray = this.props.posts.slice().map(post => Object.assign(post));
+    postArray[index].score = score;
+    this.props.addPosts(postArray);
+  }
+
   render() {
     console.log('THIS IS PROPS IN CONTENT LIST: ', this.props);
     return (
       <div className="content-list">
         {this.props.posts ? (
-          this.props.posts.map(post => (
+          this.props.posts.map((post, i) => (
             <div className="content-item">
-              <ContentListItem post={post} user={this.props.user} key={post.id} />
+              <ContentListItem
+                post={post}
+                user={this.props.user}
+                key={i}
+                index={i}
+                updateScore={this.updateScore}
+              />
             </div>
           ))
         ) : (
