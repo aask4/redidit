@@ -1,19 +1,3 @@
-<<<<<<< HEAD
-import React from 'react';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import { addname, loadAllSubredidit } from '../actions';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import Main from './Main';
-import Posts from './Posts.jsx';
-import Login from './Login.jsx';
-import Search from './Search.jsx';
-import NavAndLogin from './NavAndLogin';
-import Signup from './SignUp.jsx';
-import UserProfile from './UserProfile/Profile.jsx';
-import axios from 'axios';
-
-=======
 import React from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
@@ -27,29 +11,14 @@ import NavAndLogin from "./NavAndLogin";
 import Signup from "./SignUp.jsx";
 import UserProfile from "./UserProfile/Profile.jsx";
 import firebase from "../firebase";
->>>>>>> added firebase auth
 class App extends React.Component {
   constructor() {
     super();
   }
-<<<<<<< HEAD
-
-  componentDidMount() {
-    axios
-      .get('/subredidit')
-      .then(({ data }) => {
-        console.log('App data is ', data);
-        this.props.loadAllSubredidit(data);
-      })
-      .catch(err => console.log(err));
-  }
-
-=======
   firebaseSignup() {
     console.log("button clicked");
     firebase.signup("qiangsong890@yahoo.com", "8891468");
   }
->>>>>>> added firebase auth
   render() {
     return (
       <div>
@@ -82,12 +51,7 @@ function mapStateToProps(state) {
 function matchDispatchToProps(dispatch) {
   return bindActionCreators(
     {
-<<<<<<< HEAD
-      addname,
-      loadAllSubredidit,
-=======
       addname
->>>>>>> added firebase auth
     },
     dispatch
   );
