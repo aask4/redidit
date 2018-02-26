@@ -10,10 +10,8 @@ router
   .post(contentController.createContent)
   .put(contentController.updateContent);
 
-router
-  .route('/content/vote')
-  .get(contentController.getVotes)
-  .post(contentController.createVotes);
+router.route('/content/vote').get(contentController.getVotes);
+// .post(contentController.createVotes);
 
 router
   .route('/subredidit')

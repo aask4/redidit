@@ -12,7 +12,7 @@ module.exports.postContent = (contentObj, callback) => {
     subredidit: contentObj.subredidit,
   })
     .then((result) => {
-      console.log('Saved to database: ', result);
+      console.log('Saved to database: ', result.dataValues);
       callback(result);
     })
     .catch(err => console.log('Error in postContent: ', err));
