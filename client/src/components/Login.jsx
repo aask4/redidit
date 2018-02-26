@@ -3,17 +3,48 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import axios from "axios";
 import { addActiveUser } from "../actions";
+import firebase from "firebase";
+import action from "../firebase";
 class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: "",
+      email: "",
       password: "",
       error: ""
     };
   }
+  componentWillMount() {
+    let self = this;
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        // User is signed in.
+        axios
+          .get("/authentication", {
+            params: {
+              email: JSON.parse(
+                window.localStorage[
+                  "firebase:authUser:AIzaSyDuOt-BcdopX_8PbPCGz-lsYhhhayBrmLI:[DEFAULT]"
+                ]
+              ).email
+            }
+          })
+          .then(res => {
+            console.log(" this is the data getting back from server", res.data);
+            self.props.addActiveUser(res.data);
+          })
+          .catch(err => {
+            console.log("err doing componentwillmount", err);
+          });
+      } else {
+        // No user is signed in.
+        console.log("no user login");
+      }
+    });
+  }
   handleLoginButtonClick() {
     console.log("button clicked", this.state);
+    let self = this.state;
     axios
       .get("/login", { params: this.state })
       .then(res => {
@@ -23,6 +54,7 @@ class Login extends Component {
             error: res.data.error
           });
         } else {
+          action.login(self.email, self.password);
           this.props.addActiveUser(res.data);
         }
       })
@@ -40,7 +72,7 @@ class Login extends Component {
     return (
       <div style={{ float: "right" }}>
         <input
-          name="username"
+          name="email"
           type="text"
           id="username"
           placeholder="Username"
