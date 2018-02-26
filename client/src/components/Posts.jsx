@@ -13,21 +13,18 @@ class PostEntry extends Component {
       parent: 0,
       type: 'post',
       subredidit: '',
-      subredidits: [],
       redirect: false,
     };
     this.onChangeHandler = this.onChangeHandler.bind(this);
     this.submitPost = this.submitPost.bind(this);
     this.cancelPost = this.cancelPost.bind(this);
-    this.fetchSubredidits = this.fetchSubredidits.bind(this);
-    this.fetchSubredidits();
   }
 
   onChangeHandler(e) {
     e.preventDefault();
     this.setState({
       [e.target.name]: e.target.value,
-      owner: this.props.user.id,
+      user: this.props.user,
     });
   }
 
@@ -42,20 +39,6 @@ class PostEntry extends Component {
     e.preventDefault();
     this.setState({ redirect: true });
     console.log(this.state);
-  }
-
-  fetchSubredidits() {
-    Axios.get('/userprofile/subscription')
-      .then(({ data }) => {
-        const subredidits = [];
-        data.forEach((subredidit) => {
-          subredidits.push(<option key={subredidit.id} value={subredidit.name}>
-              {subredidit.name}
-            </option>);
-        });
-        this.setState({ subredidits });
-      })
-      .catch(err => console.error('Error in UserProfile component: ', err));
   }
 
   render() {
@@ -78,8 +61,11 @@ class PostEntry extends Component {
           <div className="postForm">
             Subredidit:<br />
             <select name="subredidit">
-              <option>Select</option>
-              {this.state.subredidits}
+              {this.props.subredidits.map(sub => (
+                <option key={sub.id} value={sub.name}>
+                  {sub.name}
+                </option>
+              ))}
             </select>
           </div>
           <br />
@@ -98,6 +84,7 @@ class PostEntry extends Component {
 function mapStateToProps(state) {
   return {
     user: state.active_user,
+    subredidits: state.all_subredidit,
   };
 }
 

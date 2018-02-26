@@ -25,3 +25,8 @@ export const addActiveSubredidit = subredidit => ({
   type: 'ACTIVE_SUBREDIDIT',
   payload: subredidit,
 });
+
+export const loadAllSubredidit = subredidit => ({
+  type: 'ALL_SUBREDIDIT',
+  payload: subredidit,
+});
