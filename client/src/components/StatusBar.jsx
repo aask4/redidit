@@ -30,11 +30,11 @@ class StatusBar extends Component {
             </div>
           ) : (
             <div>
-              wants to join in ?{' '}
-              <span onClick={() => this.signupClick()}>
+              want to join?{' '}
+              <a href="" onClick={() => this.signupClick()}>
                 <strong>sign up</strong>
-              </span>{' '}
-              in a seconds
+              </a>{' '}
+              in seconds
             </div>
           )}
         </div>

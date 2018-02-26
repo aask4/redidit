@@ -21,7 +21,7 @@ class UserProfile extends Component {
   }
 
   fetchUserContent() {
-    Axios.get('/content', { params: { owner: 1, type: 'post' } })
+    Axios.get('/content', { params: { owner: this.props.selectedUser, type: 'post' } })
       .then(({ data }) => {
         let postScore = 0;
         let commentScore = 0;
