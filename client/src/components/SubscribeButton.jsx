@@ -10,18 +10,23 @@ class SubscribeButton extends Component {
     };
   }
 
-  // componentDidMount() {
-  //   axios.get('/userprofile/subscription', {
-  //     // fetch current subreditit ID from store
-  //     // send with active user ID from store
-  //   })
-  //   .then(({data}) => {
-  //     if (//subscriptions exists) {
-  //       this.setState({toggleButton: true})
-  //     }
-  //   })
-  //   .catch( err => console.log('subscribeButton check error: ', err));
-  // }
+  componentDidMount() {
+    if (this.props.active_user) {
+      let params = {
+        users_id: this.props.active_user.id
+      }
+
+      axios.get('/userprofile/subscription', params)
+        .then(({data}) => {
+          if (//subscriptions exists) {
+            this.setState({toggleButton: true})
+          }
+        })
+        .catch( err => console.log('subscribeButton check error: ', err));
+
+
+    }
+  }
 
   handleSubscription() {
     const command = e.target.ref;
