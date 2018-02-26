@@ -4,7 +4,6 @@ const Votes = require('../../db/models/votesModel');
 module.exports.retreiveContent = (req, res) => {
   // req.body requires content _id or query object
   content.getContent(req.query, (result) => {
-    console.log('retreived content from databse', result);
     res.send(result);
   });
 };
@@ -14,6 +13,7 @@ module.exports.createContent = (req, res) => {
   // content URL, and timestamp
   content.postContent(
     {
+      title: req.body.title,
       owner: req.body.owner,
       content: req.body.content,
       parent: req.body.parent || 0,
@@ -26,20 +26,18 @@ module.exports.createContent = (req, res) => {
 
 module.exports.updateContent = (req, res) => {
   // req.body requires content id and +/- 1
+  console.log('** contentController >> updateContent **');
   module.exports.getVotes(req, res, (results) => {
-    if (results.length === 0) {
-      module.exports.createVotes(req, res);
-      content.updateContent({ score: req.body.score, id: req.body.content_id }, (result) => {
-        console.log('we are here we are here********************************************************');
-        res.send(result);
-      });
-    }
+    content.updateContent({ score: req.body.score, id: req.body.content_id }, (result) => {
+      console.log('we are here we are here********************************************************');
+      res.send(result);
+    });
   });
 };
 
 // Votes functions*****************************
 
-module.exports.createVotes = (req, res) => {
+module.exports.createVotes = (req, res, next) => {
   // everytime a comment/post is created, should invoke this function
   // we should add this to create content
   const newVote = Votes.create({

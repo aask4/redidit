@@ -1,8 +1,30 @@
+h3,
 h4,
 h5 {
   display: inline;
   margin: 2px 2px 2px 2px;
   padding: 0;
+}
+
+.content-list {
+  float: left;
+  width: 80%;
+}
+.sidebar {
+  float: right;
+  width: 17%;
+}
+
+.search {
+  border: 2px solid black;
+  padding: 5px 5px 5px 5px;
+  display: block;
+}
+
+.subscribe {
+  border: 2px solid black;
+  display: block;
+  padding: 5px, 5px, 5px, 5px;
 }
 
 .logo {
@@ -46,7 +68,6 @@ h5 {
 
 .message {
   display: block;
-  margin-bottom: 30px;
 }
 
 .comment-section {

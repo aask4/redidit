@@ -2,6 +2,7 @@ const { db, Sequelize } = require('../index');
 const User = require('./usersModel');
 
 const Content = db.define('Contents', {
+  title: Sequelize.STRING,
   owner: Sequelize.STRING,
   content: Sequelize.STRING,
   score: Sequelize.INTEGER,
