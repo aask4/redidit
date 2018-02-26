@@ -63,7 +63,7 @@ class SubscribeButton extends Component {
 
   render() {
     return (
-      <div>
+      <div className="subscribe">
         {this.state.toggleButton ? (
           <button ref="delete" type="button" onClick={() => this.handleSubscription()}>
             Unsubscribe
@@ -73,6 +73,7 @@ class SubscribeButton extends Component {
             Subscribe
           </button>
         )}
+        insert subredidit name
       </div>
     );
   }

@@ -45,14 +45,7 @@ class Search extends Component {
 
   render() {
     return (
-      <div
-        style={{
-          float: 'right',
-          border: '2px solid black',
-          padding: '0',
-          width: '100px',
-        }}
-      >
+      <div className="search">
         <input type="search" onChange={e => this.onChangeHandler(e)} />
         <br />
         <button type="button" name="search" onClick={() => this.handleSearchButton()}>

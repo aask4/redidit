@@ -9,10 +9,10 @@ class Main extends Component {
     return (
       <div>
         Main: insert subredit name here
-        <SubscribeButton />
         <div>{/* <Nav /> can add hot + new as needed */}</div>
         <div>{/* user options on right including logout */}</div>
-        <div>
+        <div className="sidebar">
+          <SubscribeButton />
           <Search />
         </div>
         <div>
