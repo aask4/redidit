@@ -1,25 +1,35 @@
 import React from 'react';
-import axios from 'axios';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { addActiveSubredidit } from '../actions/index';
 
 class Subscriptions extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      userSubscriptions: [],
-    };
   }
 
-  componentDidMount() {
-    axios
-      .get('/userprofile/subscription', { params: { user_id: 1 } }) // what param should we send here?
-      .then(({ data }) => {
-        console.log('Subscription data: ', data);
-      })
-      .catch(err => console.log('fetchSubsription Error: ', err));
+  selectSubredidit(e) {
+    console.log(e.target.value);
+    // this.props.addActiveSubredidit =
   }
 
   render() {
-    return <div>Display user subscriptions here</div>;
+    {
+      this.props.active_user ? (
+        <div>
+          MySubscriptions:
+          <select name="userSubscriptions">
+            {this.props.subredidits.map(sub => (
+              <option onClick={e => this.selectSubredidit(e)} value={sub.name}>
+                {sub.name}
+              </option>
+            ))}
+          </select>
+        </div>
+      ) : (
+        <p />
+      );
+    }
   }
 }
 
@@ -28,12 +38,14 @@ function mapStateToProps(state) {
     active_user: state.active_user,
   };
 }
+
 function matchDispatchToProps(dispatch) {
   return bindActionCreators(
     {
-      addActiveUser,
+      addActiveSubredidit,
     },
     dispatch,
   );
 }
-export default connect(mapStateToProps, matchDispatchToProps)(StatusBar);
+
+export default connect(mapStateToProps, matchDispatchToProps)(Subscriptions);

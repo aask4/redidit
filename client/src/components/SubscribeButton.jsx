@@ -12,13 +12,14 @@ class SubscribeButton extends Component {
 
   handleSubscription(e) {
     const command = e.target.name;
-    console.log('Command is: ', command);
     const action = {
       delete: () => {
         axios
           .delete('/subscription', {
-            user_id: this.props.active_user.id,
-            subredidit_id: this.props.active_subredidit.id,
+            params: {
+              user_id: this.props.active_user.id,
+              subredidit_id: this.props.active_subredidit.id,
+            },
           })
           .then(({ data }) => {
             console.log('SubscribeButton delete data: ', data);
