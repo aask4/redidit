@@ -1,21 +1,24 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link, Redirect } from 'react-router-dom';
 import Axios from 'axios';
 
 class PostEntry extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      title: '',
       owner: '',
       content: '',
-      url: '',
       parent: 0,
       type: 'post',
       subredidit: '',
       subredidits: [],
+      redirect: false,
     };
     this.onChangeHandler = this.onChangeHandler.bind(this);
-    this.onSubmitHandler = this.onSubmitHandler.bind(this);
+    this.submitPost = this.submitPost.bind(this);
+    this.cancelPost = this.cancelPost.bind(this);
     this.fetchSubredidits = this.fetchSubredidits.bind(this);
     this.fetchSubredidits();
   }
@@ -28,8 +31,16 @@ class PostEntry extends Component {
     });
   }
 
-  onSubmitHandler(e) {
+  submitPost(e) {
     e.preventDefault();
+    Axios.post('http://localhost:3000/content', this.state)
+      .then(() => this.setState({ redirect: true }))
+      .catch(err => console.error(`${err}`));
+  }
+
+  cancelPost(e) {
+    e.preventDefault();
+    this.setState({ redirect: true });
     console.log(this.state);
   }
 
@@ -51,7 +62,7 @@ class PostEntry extends Component {
     return (
       <div>
         <br />
-        <form onChange={this.onChangeHandler} onSubmit={this.onSubmitHandler}>
+        <form onChange={this.onChangeHandler}>
           <div className="postForm">
             Title:<br />
             <textarea name="title" rows="2" cols="60" />
@@ -60,7 +71,7 @@ class PostEntry extends Component {
           <br />
           <div className="postForm">
             URL:<br />
-            <input type="text" name="url" size="62" />
+            <input type="text" name="content" size="62" />
           </div>
           <br />
           <br />
@@ -73,8 +84,12 @@ class PostEntry extends Component {
           </div>
           <br />
           <br />
-          <input type="submit" value="Submit" />
         </form>
+        <span>
+          <input type="submit" value="Submit" onClick={this.submitPost} />{' '}
+          <input type="submit" value="Cancel" onClick={this.cancelPost} />
+          {this.state.redirect && <Redirect to="/" />}
+        </span>
       </div>
     );
   }
