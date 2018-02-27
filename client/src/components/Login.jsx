@@ -75,7 +75,7 @@ class Login extends Component {
           name="email"
           type="text"
           id="username"
-          placeholder="Username"
+          placeholder="Email"
           onChange={e => this.onchangeHandler(e)}
           required
         />
