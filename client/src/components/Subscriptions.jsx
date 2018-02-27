@@ -23,21 +23,32 @@ class Subscriptions extends React.Component {
   render() {
     return (
       <div>
-        {this.props.active_user ? (
-          this.props.active_user.subredidit ? (
-            <div>
-              <select
-                name="userSubscriptions"
-                onChange={e => this.selectSubredidit(e)}
-              >
-                <option value="main">MySubscriptions</option>
-                {this.props.active_user.subredidit.map(sub => (
-                  <option key={sub.id} value={sub.name}>
+        <select name="subredidit" onChange={e => this.selectSubredidit(e)}>
+          <option value="some">Some1Redidits</option>
+          {this.props.subredidits &&
+            this.props.subredidits.map((sub, i) => {
+              if (i <= 10) {
+                return (
+                  <option key={i} value={sub.name}>
                     {sub.name}
                   </option>
-                ))}
-              </select>
-            </div>
+                );
+              }
+            })}
+        </select>
+        {this.props.active_user ? (
+          this.props.active_user.subredidit ? (
+            <select
+              name="userSubscriptions"
+              onChange={e => this.selectSubredidit(e)}
+            >
+              <option value="main">MySubscriptions</option>
+              {this.props.active_user.subredidit.map(sub => (
+                <option key={sub.id} value={sub.name}>
+                  {sub.name}
+                </option>
+              ))}
+            </select>
           ) : (
             <div />
           )

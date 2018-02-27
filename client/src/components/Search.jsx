@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { addActiveSubredidit } from "../actions/index";
+import { addActiveSubredidit, addPosts } from "../actions/index";
 import axios from "axios";
 
 class Search extends Component {
@@ -12,6 +12,23 @@ class Search extends Component {
       toggleSearch404: false,
       search: ""
     };
+  }
+
+  componentWillReceiveProps() {
+    setTimeout(() => {
+      if (this.props.active_subredidit) {
+        axios
+          .get("/content", {
+            params: {
+              subredidit: this.props.active_subredidit.name
+            }
+          })
+          .then(({ data }) => {
+            this.props.addPosts(data);
+          })
+          .catch(err => console.log("Search comp Props err: ", err));
+      }
+    }, 0);
   }
 
   onChangeHandler(e) {
@@ -96,7 +113,8 @@ function mapStateToProps(state) {
 function matchDispatchToProps(dispatch) {
   return bindActionCreators(
     {
-      addActiveSubredidit
+      addActiveSubredidit,
+      addPosts
     },
     dispatch
   );
