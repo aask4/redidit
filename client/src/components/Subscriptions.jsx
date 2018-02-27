@@ -1,11 +1,21 @@
 import React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { addActiveSubredidit } from "../actions/index";
+import { addActiveSubredidit, addPosts } from "../actions/index";
+import axios from "axios";
 
 class Subscriptions extends React.Component {
   constructor(props) {
     super(props);
+  }
+
+  showInitialPosts() {
+    axios
+      .get("/content", { params: { type: "post" } })
+      .then(result => {
+        this.props.addPosts(result.data);
+      })
+      .catch(err => console.log("Error in ContentList component: ", err));
   }
 
   selectSubredidit(event) {
@@ -23,6 +33,9 @@ class Subscriptions extends React.Component {
   render() {
     return (
       <div>
+        <button type="button" onClick={() => this.showInitialPosts()}>
+          Go Back To Main
+        </button>
         <select name="subredidit" onChange={e => this.selectSubredidit(e)}>
           <option value="some">Some1Redidits</option>
           {this.props.subredidits &&
@@ -70,7 +83,8 @@ function mapStateToProps(state) {
 function matchDispatchToProps(dispatch) {
   return bindActionCreators(
     {
-      addActiveSubredidit
+      addActiveSubredidit,
+      addPosts
     },
     dispatch
   );
