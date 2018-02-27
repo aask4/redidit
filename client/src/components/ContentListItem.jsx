@@ -1,19 +1,20 @@
-import React from 'react';
-import Axios from 'axios';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { bindActionCreators } from 'redux';
-import { selectUser } from '../actions';
-import Voter from './Voter.jsx';
+import React from "react";
+import Axios from "axios";
+import Moment from "moment";
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
+import { bindActionCreators } from "redux";
+import { selectUser, addPosts, selectSubredidit } from "../actions";
+import Voter from "./Voter.jsx";
 
 class ContentListItem extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      comment: '',
+      comment: "",
       comments: [],
       showComments: false,
-      post: this.props.post,
+      post: this.props.post
     };
     this.showCommentsHandler = this.showCommentsHandler.bind(this);
     this.postComment = this.postComment.bind(this);
@@ -22,16 +23,18 @@ class ContentListItem extends React.Component {
     this.selectUserHandler = this.selectUserHandler.bind(this);
     this.upvote = this.upvote.bind(this);
     this.downvote = this.downvote.bind(this);
+    this.voteHandler = this.voteHandler.bind(this);
+    this.subrediditHandler = this.subrediditHandler.bind(this);
   }
 
   componentDidMount() {
-    console.log('POST ID: ', this.props.post.id);
-    Axios.get('/content', { params: { parent: this.props.post.id } })
-      .then((result) => {
-        console.log('RESULT>DATA: ', result.data);
+    console.log("POST ID: ", this.props.post.id);
+    Axios.get("/content", { params: { parent: this.props.post.id } })
+      .then(result => {
+        console.log("RESULT>DATA: ", result.data);
         this.setState({ comments: result.data });
       })
-      .catch(err => console.log('Error in ComponentListItem: ', err));
+      .catch(err => console.log("Error in ComponentListItem: ", err));
   }
 
   showCommentsHandler() {
@@ -41,19 +44,22 @@ class ContentListItem extends React.Component {
   postComment(event) {
     event.preventDefault();
     if (this.state.comment.length === 0) return;
-    Axios.post('/content', {
+    Axios.post("/content", {
       user: this.props.user,
       content: this.state.comment,
-      type: 'comment',
-      parent: this.props.post.id,
+      type: "comment",
+      parent: this.props.post.id
     })
-      .then((result) => {
+      .then(result => {
         this.setState({
-          comments: this.state.comments.concat([result.data]),
+          comments: this.state.comments.concat([result.data])
         });
       })
-      .catch(err => console.log('Error in ContentListItem postComment: ', err));
-    this.setState({ comment: '' });
+      .catch(err => {
+        console.log("Error in ContentListItem postComment: ", err);
+        alert("Please Log In To Comment");
+      });
+    this.setState({ comment: "" });
   }
 
   onChangeHandler(event) {
@@ -61,7 +67,7 @@ class ContentListItem extends React.Component {
   }
 
   contentManager() {
-    return this.props.post.type === 'post' ? (
+    return this.props.post.type === "post" ? (
       <a href={this.props.post.content}>{this.props.post.content}</a>
     ) : (
       <span>{this.props.post.content}</span>
@@ -71,37 +77,50 @@ class ContentListItem extends React.Component {
   selectUserHandler(event) {
     event.preventDefault();
     this.props.selectUser(this.props.post.owner);
-    Axios.get('/userprofile')
-      .then(result => console.log('success'))
-      .catch(err => console.log('SELECT USER HANDLER ERROR: ', err));
+    Axios.get("/userprofile")
+      .then(result => console.log("success"))
+      .catch(err => console.log("SELECT USER HANDLER ERROR: ", err));
+  }
+
+  subrediditHandler(event) {
+    console.log("Inside subrediditHandler ", this.props.post.subredidit);
+    Axios.get("/content", {
+      params: { subredidit: this.props.post.subredidit }
+    })
+      .then(result => {
+        console.log("SUBMITREDIDITHANDLER THEN: ", result.data);
+        //this.props.selectSubredidit(this.props.post.subredidit);
+        this.props.addPosts(result.data);
+      })
+      .catch(err => console.log("Error in subrediditHandler: ", err));
+  }
+
+  voteHandler(change) {
+    if (this.props.user) {
+      Axios.put("/content", {
+        user_id: this.props.user.id,
+        content_id: this.props.post.id,
+        newScore: this.state.post.score + change,
+        oldScore: this.state.post.score
+      })
+        .then(result => {
+          console.log("UPVOTE result.data: >> ", result.data[0]);
+          const updatedPost = Object.assign(this.state.post);
+          updatedPost.score = result.data[0];
+          this.setState({ post: updatedPost });
+        })
+        .catch(err => console.log(err));
+    } else {
+      alert("Please Log In To Vote");
+    }
   }
 
   upvote() {
-    Axios.put('/content', {
-      user_id: this.props.user.id,
-      content_id: this.props.post.id,
-      score: this.state.post.score + 1,
-    })
-      .then((result) => {
-        const updatedPost = Object.assign(this.state.post);
-        updatedPost.score += 1;
-        this.setState({ post: updatedPost });
-      })
-      .catch(err => console.log(err));
+    this.voteHandler(1);
   }
 
   downvote() {
-    Axios.put('/content', {
-      user_id: this.props.user.id,
-      content_id: this.props.post.id,
-      score: this.state.post.score - 1,
-    })
-      .then((result) => {
-        const updatedPost = Object.assign(this.state.post);
-        updatedPost.score -= 1;
-        this.setState({ post: updatedPost });
-      })
-      .catch(err => console.log(err));
+    this.voteHandler(-1);
   }
 
   render() {
@@ -115,24 +134,41 @@ class ContentListItem extends React.Component {
             user={this.props.user}
           />
         </div>
-        {this.props.post.title ? <h3 className="post-title">{this.props.post.title}</h3> : null}
+        {this.props.post.title ? (
+          <h3 className="post-title">{this.props.post.title}</h3>
+        ) : null}
         <div className="info">
           <h4 className="owner-name" onClick={this.selectUserHandler}>
-            <Link to="/userprofile">{this.props.post.owner} </Link>
+            <Link to="/userprofile">{this.props.post.owner}</Link>
           </h4>
-          {this.props.post.type === 'post' ? <h5>/rd/{this.props.post.subredidit}</h5> : ''}
-          <span className="timestamp">{this.props.post.createdAt}</span>
+          {this.props.post.type === "post" ? (
+            <h5 className="sublink" onClick={this.subrediditHandler}>
+              /rd/{this.props.post.subredidit}
+            </h5>
+          ) : (
+            ""
+          )}
+          <span className="timestamp">
+            {Moment(this.props.post.createdAt).fromNow()}
+          </span>
         </div>
         <div className="message">
           {this.contentManager()}
           <div className="comment-section">
             <button onClick={this.postComment}>Comment</button>
-            <input type="text" onChange={this.onChangeHandler} value={this.state.comment} />
-            <span>
-              {this.state.comments.length}
-              <span onClick={this.state.comments.length > 0 ? this.showCommentsHandler : () => {}}>
-                Comments
-              </span>
+            <input
+              type="text"
+              onChange={this.onChangeHandler}
+              value={this.state.comment}
+            />
+            <span
+              onClick={
+                this.state.comments.length > 0
+                  ? this.showCommentsHandler
+                  : () => {}
+              }
+            >
+              {this.state.comments.length} Comments
             </span>
           </div>
         </div>
@@ -142,8 +178,8 @@ class ContentListItem extends React.Component {
               <div className="spacer" />
               <div className="comment-list">
                 {this.state.comments.map(comm => (
-                  <div className="comment-item">
-                    <ContentListItem post={comm} user={this.props.user} key={comm.id} />
+                  <div className="comment-item" key={comm.id}>
+                    <ContentListItem post={comm} user={this.props.user} />
                   </div>
                 ))}
               </div>
@@ -160,11 +196,15 @@ class ContentListItem extends React.Component {
 function mapStateToProps(state) {
   return {
     user: state.active_user,
+    addPosts: state.addPosts
   };
 }
 
 function matchDispatchToProps(dispatch) {
-  return bindActionCreators({ selectUser }, dispatch);
+  return bindActionCreators(
+    { selectUser, addPosts, selectSubredidit },
+    dispatch
+  );
 }
 
 export default connect(mapStateToProps, matchDispatchToProps)(ContentListItem);
