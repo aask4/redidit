@@ -4,7 +4,7 @@ import Moment from "moment";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { bindActionCreators } from "redux";
-import { selectUser, addPosts, selectSubredidit } from "../actions";
+import { selectUser, addPosts, addActiveSubredidit } from "../actions";
 import Voter from "./Voter.jsx";
 
 class ContentListItem extends React.Component {
@@ -24,7 +24,6 @@ class ContentListItem extends React.Component {
     this.upvote = this.upvote.bind(this);
     this.downvote = this.downvote.bind(this);
     this.voteHandler = this.voteHandler.bind(this);
-    this.subrediditHandler = this.subrediditHandler.bind(this);
   }
 
   componentDidMount() {
@@ -82,17 +81,16 @@ class ContentListItem extends React.Component {
       .catch(err => console.log("SELECT USER HANDLER ERROR: ", err));
   }
 
-  subrediditHandler(event) {
-    console.log("Inside subrediditHandler ", this.props.post.subredidit);
-    Axios.get("/content", {
-      params: { subredidit: this.props.post.subredidit }
-    })
-      .then(result => {
-        console.log("SUBMITREDIDITHANDLER THEN: ", result.data);
-        //this.props.selectSubredidit(this.props.post.subredidit);
-        this.props.addPosts(result.data);
-      })
-      .catch(err => console.log("Error in subrediditHandler: ", err));
+  subrediditHandler() {
+    let subName = this.props.post.subredidit;
+    let subredidit;
+
+    this.props.subredidits.forEach(sub => {
+      if (sub.name === subName) {
+        subredidit = sub;
+      }
+    });
+    this.props.addActiveSubredidit(subredidit);
   }
 
   voteHandler(change) {
@@ -142,7 +140,7 @@ class ContentListItem extends React.Component {
             <Link to="/userprofile">{this.props.post.owner}</Link>
           </h4>
           {this.props.post.type === "post" ? (
-            <h5 className="sublink" onClick={this.subrediditHandler}>
+            <h5 className="sublink" onClick={e => this.subrediditHandler(e)}>
               /rd/{this.props.post.subredidit}
             </h5>
           ) : (
@@ -196,13 +194,14 @@ class ContentListItem extends React.Component {
 function mapStateToProps(state) {
   return {
     user: state.active_user,
-    addPosts: state.addPosts
+    addPosts: state.addPosts,
+    subredidits: state.all_subredidit
   };
 }
 
 function matchDispatchToProps(dispatch) {
   return bindActionCreators(
-    { selectUser, addPosts, selectSubredidit },
+    { selectUser, addPosts, addActiveSubredidit },
     dispatch
   );
 }
