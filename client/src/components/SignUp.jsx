@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { addActiveUser } from "../actions";
 import axios from "axios";
+import firebase from "../firebase";
 class SignUp extends Component {
   constructor(props) {
     super(props);
@@ -14,6 +15,7 @@ class SignUp extends Component {
       errorUsername: false
     };
   }
+
   handleInput(e) {
     this.setState({
       [e.target.name]: e.target.value
@@ -30,6 +32,7 @@ class SignUp extends Component {
             errorUsername: true
           });
         } else {
+          firebase.signup(info.email, info.password);
           this.props.addActiveUser(res.data);
           this.props.history.push("/");
         }

@@ -1,9 +1,9 @@
-const content = require('../../db/helpers/contentHelpers');
-const Votes = require('../../db/models/votesModel');
+const content = require("../../db/helpers/contentHelpers");
+const Votes = require("../../db/models/votesModel");
 
 module.exports.retreiveContent = (req, res) => {
   // req.body requires content _id or query object
-  content.getContent(req.query, (result) => {
+  content.getContent(req.query, result => {
     res.send(result);
   });
 };
@@ -19,20 +19,32 @@ module.exports.createContent = (req, res) => {
       content: req.body.content,
       parent: req.body.parent || 0,
       type: req.body.type,
-      subredidit: req.body.subredidit,
+      subredidit: req.body.subredidit
     },
+<<<<<<< HEAD
     (result) => {
       module.exports.createVotes({
         user_id: req.body.user_id,
         content_id: result.id,
       });
+=======
+    result => {
+      Votes.create({
+        user_id: req.body.user.id,
+        content_id: result.id,
+        votes_count: 0
+      })
+        .then(result => console.log("created votes for content: ", result))
+        .catch(err => console.log("Create Votes error: ", err));
+>>>>>>> 17771fa20994b02ac33d5324bfc637313c298478
       res.send(result);
-    },
+    }
   );
 };
 
 module.exports.updateContent = (req, res) => {
   // req.body requires content id and +/- 1
+
   console.log('** contentController >> updateContent **');
   Votes.findOne({
     where: {
@@ -55,6 +67,7 @@ module.exports.updateContent = (req, res) => {
       }
     })
     .catch(err => console.log('Error in updateContent findOne: ', err));
+
 };
 
 // Votes functions*****************************
@@ -74,9 +87,11 @@ module.exports.createVotes = (data) => {
 // GET
 module.exports.getVotes = (req, res, callback) => {
   // when content is loaded, should invoke this function
-  Votes.findAll({ where: { user_id: req.body.user_id, content_id: req.body.content_id } })
+  Votes.findAll({
+    where: { user_id: req.body.user_id, content_id: req.body.content_id }
+  })
     .then(result => callback(result))
-    .catch(err => console.log('Error occured while getting votes', err));
+    .catch(err => console.log("Error occured while getting votes", err));
 };
 
 // // PUT
