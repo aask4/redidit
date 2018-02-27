@@ -157,6 +157,7 @@ class ContentListItem extends React.Component {
               type="text"
               onChange={this.onChangeHandler}
               value={this.state.comment}
+              maxlength="255"
             />
             <span
               onClick={
