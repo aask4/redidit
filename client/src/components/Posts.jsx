@@ -22,6 +22,7 @@ class PostEntry extends Component {
 
   onChangeHandler(e) {
     e.preventDefault();
+    console.log('Post onChangeHandler: ', e.target.value);
     this.setState({
       [e.target.name]: e.target.value,
       user: this.props.user,
@@ -61,6 +62,9 @@ class PostEntry extends Component {
           <div className="postForm">
             Subredidit:<br />
             <select name="subredidit">
+              <option key="0" value="">
+                Select One
+              </option>
               {this.props.subredidits.map(sub => (
                 <option key={sub.id} value={sub.name}>
                   {sub.name}
