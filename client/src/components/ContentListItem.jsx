@@ -23,6 +23,7 @@ class ContentListItem extends React.Component {
     this.selectUserHandler = this.selectUserHandler.bind(this);
     this.upvote = this.upvote.bind(this);
     this.downvote = this.downvote.bind(this);
+    this.voteHandler = this.voteHandler.bind(this);
   }
 
   componentDidMount() {
@@ -53,7 +54,10 @@ class ContentListItem extends React.Component {
           comments: this.state.comments.concat([result.data]),
         });
       })
-      .catch(err => console.log('Error in ContentListItem postComment: ', err));
+      .catch((err) => {
+        console.log('Error in ContentListItem postComment: ', err);
+        alert('Please Log In To Comment');
+      });
     this.setState({ comment: '' });
   }
 
@@ -77,34 +81,32 @@ class ContentListItem extends React.Component {
       .catch(err => console.log('SELECT USER HANDLER ERROR: ', err));
   }
 
-  upvote() {
-    Axios.put('/content', {
-      user_id: this.props.user.id,
-      content_id: this.props.post.id,
-      newScore: this.state.post.score + 1,
-      oldScore: this.state.post.score,
-    })
-      .then((result) => {
-        console.log('UPVOTE result.data: >> ', result.data[0]);
-        const updatedPost = Object.assign(this.state.post);
-        updatedPost.score = result.data[0];
-        this.setState({ post: updatedPost });
+  voteHandler(change) {
+    if (this.props.user) {
+      Axios.put('/content', {
+        user_id: this.props.user.id,
+        content_id: this.props.post.id,
+        newScore: this.state.post.score + change,
+        oldScore: this.state.post.score,
       })
-      .catch(err => console.log(err));
+        .then((result) => {
+          console.log('UPVOTE result.data: >> ', result.data[0]);
+          const updatedPost = Object.assign(this.state.post);
+          updatedPost.score = result.data[0];
+          this.setState({ post: updatedPost });
+        })
+        .catch(err => console.log(err));
+    } else {
+      alert('Please Log In To Vote');
+    }
+  }
+
+  upvote() {
+    this.voteHandler(1);
   }
 
   downvote() {
-    Axios.put('/content', {
-      user_id: this.props.user.id,
-      content_id: this.props.post.id,
-      score: this.state.post.score - 1,
-    })
-      .then((result) => {
-        const updatedPost = Object.assign(this.state.post);
-        updatedPost.score -= 1;
-        this.setState({ post: updatedPost });
-      })
-      .catch(err => console.log(err));
+    this.voteHandler(-1);
   }
 
   render() {
