@@ -102,9 +102,8 @@ class ContentListItem extends React.Component {
         oldScore: this.state.post.score
       })
         .then(result => {
-          console.log("UPVOTE result.data: >> ", result.data[0]);
           const updatedPost = Object.assign(this.state.post);
-          updatedPost.score = result.data[0];
+          updatedPost.score = result.data.score;
           this.setState({ post: updatedPost });
         })
         .catch(err => console.log(err));
@@ -128,7 +127,7 @@ class ContentListItem extends React.Component {
           <Voter
             upvote={this.upvote}
             downvote={this.downvote}
-            score={this.props.post.score}
+            score={this.state.post.score}
             user={this.props.user}
           />
         </div>

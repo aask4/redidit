@@ -34,7 +34,6 @@ module.exports.createContent = (req, res) => {
 module.exports.updateContent = (req, res) => {
   // req.body requires content id and +/- 1
 
-  console.log("** contentController >> updateContent **");
   Votes.findOne({
     where: {
       user_id: req.body.user_id,
@@ -54,7 +53,7 @@ module.exports.updateContent = (req, res) => {
           }
         );
       } else {
-        result.dataValues = [req.body.oldScore];
+        result.dataValues = {score: req.body.oldScore};
         res.send(result);
       }
     })
