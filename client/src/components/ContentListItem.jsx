@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { selectUser } from '../actions';
+import {selectSubredidit} from '../actions';
 import Voter from './Voter.jsx';
 
 class ContentListItem extends React.Component {
@@ -24,6 +25,7 @@ class ContentListItem extends React.Component {
     this.upvote = this.upvote.bind(this);
     this.downvote = this.downvote.bind(this);
     this.voteHandler = this.voteHandler.bind(this);
+    this.subrediditHandler = this.subrediditHandler.bind(this);
   }
 
   componentDidMount() {
@@ -81,6 +83,10 @@ class ContentListItem extends React.Component {
       .catch(err => console.log('SELECT USER HANDLER ERROR: ', err));
   }
 
+  subrediditHandler() {
+
+  }
+
   voteHandler(change) {
     if (this.props.user) {
       Axios.put('/content', {
@@ -120,7 +126,7 @@ class ContentListItem extends React.Component {
             user={this.props.user}
           />
         </div>
-        {this.props.post.title ? <h3 className="post-title">{this.props.post.title}</h3> : null}
+        {this.props.post.title ? <h3 className="post-title" onClick={this.subrediditHandler}>{this.props.post.title}</h3> : null}
         <div className="info">
           <h4 className="owner-name" onClick={this.selectUserHandler}>
             <Link to="/userprofile">{this.props.post.owner} </Link>
@@ -133,11 +139,8 @@ class ContentListItem extends React.Component {
           <div className="comment-section">
             <button onClick={this.postComment}>Comment</button>
             <input type="text" onChange={this.onChangeHandler} value={this.state.comment} />
-            <span>
-              {this.state.comments.length}
-              <span onClick={this.state.comments.length > 0 ? this.showCommentsHandler : () => {}}>
-                Comments
-              </span>
+            <span onClick={this.state.comments.length > 0 ? this.showCommentsHandler : () => {}}>
+              {this.state.comments.length} Comments
             </span>
           </div>
         </div>

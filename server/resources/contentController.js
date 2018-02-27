@@ -51,7 +51,7 @@ module.exports.updateContent = (req, res) => {
         });
       } else {
         result.dataValues = [req.body.oldScore];
-        res.send(result);
+        res.send(result2);
       }
     })
     .catch(err => console.log('Error in updateContent findOne: ', err));
