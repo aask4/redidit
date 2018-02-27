@@ -44,6 +44,10 @@ h5 {
   width: 100%;
 }
 
+.content-item input {
+  margin-right: 5px;
+}
+
 .info {
   width: 100%;
 }
@@ -96,13 +100,14 @@ h5 {
 
 .comment-section {
   display: block;
-  margin: 1px 1px 1px 1px;
+  margin: 1px 3px 1px 1px;
   float: right;
 }
 
 .timestamp {
   float: right;
-  display: inline-block;
+  color: grey;
+  margin-right: 3px;
 }
 
 .comments {
