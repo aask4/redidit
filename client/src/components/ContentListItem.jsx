@@ -1,5 +1,6 @@
 import React from 'react';
 import Axios from 'axios';
+import Moment from 'moment';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
@@ -80,11 +81,13 @@ class ContentListItem extends React.Component {
     Axios.put('/content', {
       user_id: this.props.user.id,
       content_id: this.props.post.id,
-      score: this.state.post.score + 1,
+      newScore: this.state.post.score + 1,
+      oldScore: this.state.post.score,
     })
       .then((result) => {
+        console.log('UPVOTE result.data: >> ', result.data[0]);
         const updatedPost = Object.assign(this.state.post);
-        updatedPost.score += 1;
+        updatedPost.score = result.data[0];
         this.setState({ post: updatedPost });
       })
       .catch(err => console.log(err));
@@ -121,7 +124,7 @@ class ContentListItem extends React.Component {
             <Link to="/userprofile">{this.props.post.owner} </Link>
           </h4>
           {this.props.post.type === 'post' ? <h5>/rd/{this.props.post.subredidit}</h5> : ''}
-          <span className="timestamp">{this.props.post.createdAt}</span>
+          <span className="timestamp">{Moment(this.props.post.createdAt).fromNow()}</span>
         </div>
         <div className="message">
           {this.contentManager()}
