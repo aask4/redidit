@@ -21,22 +21,11 @@ module.exports.createContent = (req, res) => {
       type: req.body.type,
       subredidit: req.body.subredidit
     },
-<<<<<<< HEAD
-    (result) => {
+    result => {
       module.exports.createVotes({
         user_id: req.body.user_id,
-        content_id: result.id,
+        content_id: result.id
       });
-=======
-    result => {
-      Votes.create({
-        user_id: req.body.user.id,
-        content_id: result.id,
-        votes_count: 0
-      })
-        .then(result => console.log("created votes for content: ", result))
-        .catch(err => console.log("Create Votes error: ", err));
->>>>>>> 17771fa20994b02ac33d5324bfc637313c298478
       res.send(result);
     }
   );
@@ -45,43 +34,47 @@ module.exports.createContent = (req, res) => {
 module.exports.updateContent = (req, res) => {
   // req.body requires content id and +/- 1
 
-  console.log('** contentController >> updateContent **');
+  console.log("** contentController >> updateContent **");
   Votes.findOne({
     where: {
       user_id: req.body.user_id,
-      content_id: req.body.content_id,
-    },
+      content_id: req.body.content_id
+    }
   })
-    .then((result) => {
+    .then(result => {
       if (!result) {
-        content.updateContent({ score: req.body.newScore, id: req.body.content_id }, (results) => {
-          module.exports.createVotes({
-            user_id: req.body.user_id,
-            content_id: req.body.content_id,
-          });
-          res.send(results);
-        });
+        content.updateContent(
+          { score: req.body.newScore, id: req.body.content_id },
+          results => {
+            module.exports.createVotes({
+              user_id: req.body.user_id,
+              content_id: req.body.content_id
+            });
+            res.send(results);
+          }
+        );
       } else {
         result.dataValues = [req.body.oldScore];
         res.send(result2);
       }
     })
-    .catch(err => console.log('Error in updateContent findOne: ', err));
-
+    .catch(err => console.log("Error in updateContent findOne: ", err));
 };
 
 // Votes functions*****************************
 
-module.exports.createVotes = (data) => {
+module.exports.createVotes = data => {
   // everytime a comment/post is created, should invoke this function
   // we should add this to create content
   const newVote = Votes.create({
     user_id: data.user_id,
     content_id: data.content_id,
-    votes_count: 0,
+    votes_count: 0
   })
-    .then(result => console.log('created votes for content: ', result.dataValues))
-    .catch(err => console.log('Create Votes error: ', err));
+    .then(result =>
+      console.log("created votes for content: ", result.dataValues)
+    )
+    .catch(err => console.log("Create Votes error: ", err));
 };
 
 // GET
