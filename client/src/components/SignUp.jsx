@@ -32,6 +32,7 @@ class SignUp extends Component {
             errorUsername: true
           });
         } else {
+          window.localStorage.clear();
           firebase.signup(info.email, info.password);
           this.props.addActiveUser(res.data);
           this.props.history.push("/");
