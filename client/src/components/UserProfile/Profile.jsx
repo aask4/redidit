@@ -27,7 +27,6 @@ class UserProfile extends Component {
         let commentScore = 0;
         data.forEach((item) => {
           item.type === 'post' ? (postScore += item.score) : (commentScore += item.score);
-          item.createdAt = Moment(item.createdAt).fromNow();
         });
         this.setState({
           data,
