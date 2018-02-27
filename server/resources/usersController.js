@@ -30,47 +30,50 @@ module.exports.createUser = (req, res) => {
       console.log("error query user", `${err}`);
     });
 };
-include: [
-  {
-    model: Subredidit,
-    as: "subredidit"
-  }
-],
-  (module.exports.login = (req, res) => {
-    console.log("recieve a login request", req.query);
-    Users.findOne({
-      where: { email: req.query.email },
-      include: [
-        {
-          model: Subredidit,
-          as: "subredidit"
-        }
-      ]
+
+module.exports.login = (req, res) => {
+  console.log("recieve a login request", req.query);
+  Users.findOne({
+    where: { email: req.query.email },
+    include: [
+      {
+        model: Subredidit,
+        as: "subredidit"
+      }
+    ]
+  })
+    .then(user => {
+      if (user) {
+        bcrypt.compare(req.query.password, user.password, (err, match) => {
+          if (match) {
+            res.send(user);
+          } else {
+            res.send({ error: "password does not match" });
+          }
+        });
+      } else {
+        res.send({ error: "username not found" });
+      }
     })
-      .then(user => {
-        if (user) {
-          bcrypt.compare(req.query.password, user.password, (err, match) => {
-            if (match) {
-              res.send(user);
-            } else {
-              res.send({ error: "password does not match" });
-            }
-          });
-        } else {
-          res.send({ error: "username not found" });
-        }
-      })
-      .catch(err => {
-        console.log("having error fing the user", `${err}`);
-      });
-  });
+    .catch(err => {
+      console.log("having error fing the user", `${err}`);
+    });
+};
 
 module.exports.authentication = (req, res) => {
   console.log(
     "just recieved a authentication request this is the req.query",
     req.query
   );
-  Users.findOne({ where: { email: req.query.email } })
+  Users.findOne({
+    where: { email: req.query.email },
+    include: [
+      {
+        model: Subredidit,
+        as: "subredidit"
+      }
+    ]
+  })
     .then(user => {
       console.log("find a user", user);
       res.json(user);
