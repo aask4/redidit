@@ -32,11 +32,13 @@ class StatusBar extends Component {
     return (
       <div>
         <div>
-          <img
-            style={{ float: "left", position: "relative" }}
-            className="logo"
-            src="https://i.imgur.com/OX3vXmU.png"
-          />
+          <a href="/">
+            <img
+              style={{ float: "left", position: "relative" }}
+              className="logo"
+              src="https://i.imgur.com/OX3vXmU.png"
+            />
+          </a>
         </div>
         <div style={{ float: "right" }}>
           {this.props.active_user ? (

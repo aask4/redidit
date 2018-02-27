@@ -1,9 +1,9 @@
-import React from 'react';
-import Axios from 'axios';
-import ContentListItem from './ContentListItem.jsx';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { addPosts } from '../actions';
+import React from "react";
+import Axios from "axios";
+import ContentListItem from "./ContentListItem.jsx";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { addPosts } from "../actions";
 
 class ContentList extends React.Component {
   constructor(props) {
@@ -11,20 +11,20 @@ class ContentList extends React.Component {
   }
 
   componentDidMount() {
-    Axios.get('/content', { params: { type: 'post' } })
-      .then((result) => {
+    Axios.get("/content", { params: { type: "post" } })
+      .then(result => {
         this.props.addPosts(result.data);
       })
-      .catch(err => console.log('Error in ContentList component: ', err));
+      .catch(err => console.log("Error in ContentList component: ", err));
   }
 
   render() {
-    console.log('THIS IS PROPS IN CONTENT LIST: ', this.props);
+    console.log("THIS IS PROPS IN CONTENT LIST: ", this.props);
     return (
       <div className="content-list">
         {this.props.posts ? (
-          this.props.posts.map((post, i) => (
-            <div className="content-item">
+          this.props.posts.map(post => (
+            <div className="content-item" key={post.id}>
               <ContentListItem post={post} user={this.props.user} />
             </div>
           ))
@@ -39,7 +39,7 @@ class ContentList extends React.Component {
 function mapStateToProps(state) {
   return {
     posts: state.current_posts,
-    user: state.active_user,
+    user: state.active_user
   };
 }
 
