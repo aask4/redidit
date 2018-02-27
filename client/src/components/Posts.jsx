@@ -13,7 +13,10 @@ class PostEntry extends Component {
       parent: 0,
       type: 'post',
       subredidit: '',
-      redirect: false,
+      subredidits: [],
+      toggleRedirect: false,
+      toggleMissingFields: false,
+      toggleInvalidUser: false,
     };
     this.onChangeHandler = this.onChangeHandler.bind(this);
     this.submitPost = this.submitPost.bind(this);
@@ -31,14 +34,23 @@ class PostEntry extends Component {
 
   submitPost(e) {
     e.preventDefault();
-    Axios.post('http://localhost:3000/content', this.state)
-      .then(() => this.setState({ redirect: true }))
-      .catch(err => console.error(`${err}`));
+    if (this.state.title && this.state.content && this.state.subredidit) {
+      Axios.post('http://localhost:3000/content', this.state)
+        .then(() => this.setState({ toggleRedirect: true }))
+        .catch(err => console.error(`${err}`));
+    } else if (!this.props.user) {
+      this.setState({ toggleInvalidUser: true });
+    } else {
+      this.setState({
+        toggleInvalidUser: false,
+        toggleMissingFields: true,
+      });
+    }
   }
 
   cancelPost(e) {
     e.preventDefault();
-    this.setState({ redirect: true });
+    this.setState({ toggleRedirect: true });
     console.log(this.state);
   }
 
@@ -48,19 +60,19 @@ class PostEntry extends Component {
         <br />
         <form onChange={this.onChangeHandler}>
           <div className="postForm">
-            Title:<br />
+            *Title:<br />
             <textarea name="title" rows="2" cols="60" />
           </div>
           <br />
           <br />
           <div className="postForm">
-            URL:<br />
+            *URL:<br />
             <input type="text" name="content" size="62" />
           </div>
           <br />
           <br />
           <div className="postForm">
-            Subredidit:<br />
+            *Subredidit:<br />
             <select name="subredidit">
               <option key="0" value="">
                 Select One
@@ -75,10 +87,12 @@ class PostEntry extends Component {
           <br />
           <br />
         </form>
+        {this.state.toggleMissingFields && <div>*Required fields must be complete!</div>}
+        {this.state.toggleInvalidUser && <div>Must be signed in to submit post!</div>}
         <span>
           <input type="submit" value="Submit" onClick={this.submitPost} />{' '}
           <input type="submit" value="Cancel" onClick={this.cancelPost} />
-          {this.state.redirect && <Redirect to="/" />}
+          {this.state.toggleRedirect && <Redirect to="/" />}
         </span>
       </div>
     );
