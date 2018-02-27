@@ -139,10 +139,10 @@ class ContentListItem extends React.Component {
         ) : null}
         <div className="info">
           <h4 className="owner-name" onClick={this.selectUserHandler}>
-            <Link to="/userprofile">{this.props.post.owner} </Link>
+            <Link to="/userprofile">{this.props.post.owner}</Link>
           </h4>
           {this.props.post.type === "post" ? (
-            <h5 onClick={this.subrediditHandler}>
+            <h5 className="sublink" onClick={this.subrediditHandler}>
               /rd/{this.props.post.subredidit}
             </h5>
           ) : (
