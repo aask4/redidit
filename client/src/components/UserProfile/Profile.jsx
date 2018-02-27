@@ -27,6 +27,7 @@ class UserProfile extends Component {
       .then(({ data }) => {
         let postScore = 0;
         let commentScore = 0;
+
         data.forEach(item => {
           item.type === "post"
             ? (postScore += item.score)
