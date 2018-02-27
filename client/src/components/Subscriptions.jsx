@@ -8,28 +8,31 @@ class Subscriptions extends React.Component {
     super(props);
   }
 
-  selectSubredidit(e) {
-    console.log(e.target.value);
-    // this.props.addActiveSubredidit =
+  selectSubredidit(sub) {
+    console.log(sub);
+    // this.props.addActiveSubredidit(sub)
   }
 
   render() {
-    {
-      this.props.active_user ? (
-        <div>
-          MySubscriptions:
-          <select name="userSubscriptions">
-            {this.props.subredidits.map(sub => (
-              <option onClick={e => this.selectSubredidit(e)} value={sub.name}>
-                {sub.name}
-              </option>
-            ))}
-          </select>
-        </div>
-      ) : (
-        <p />
-      );
-    }
+    return (
+      <div>
+        {this.props.active_user ? (
+          <div>
+            MySubscriptions:
+            {/* <button type="button" onClick={() => this.selectSubredidit()} /> */}
+            {/* <select name="userSubscriptions">
+              {this.props.active_user.subredidits.map(sub => (
+                <option onClick={() => this.selectSubredidit(sub)} value={sub.name}>
+                  {sub.name}
+                </option>
+              ))}
+            </select> */}
+          </div>
+        ) : (
+          <div />
+        )}
+      </div>
+    );
   }
 }
 
