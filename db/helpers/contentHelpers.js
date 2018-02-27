@@ -19,7 +19,11 @@ module.exports.postContent = (contentObj, callback) => {
 };
 
 module.exports.getContent = (queryObj, callback) => {
-  Content.findAll({ where: queryObj })
+  Content.findAll({
+    where: queryObj,
+    order: [['createdAt', 'DESC']],
+    limit: 25,
+  })
     .then(result => callback(result))
     .catch(err => console.log('Error in getContent: ', err));
 };
