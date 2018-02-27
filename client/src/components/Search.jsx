@@ -1,60 +1,80 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { addActiveSubredidit } from '../actions/index';
-import axios from 'axios';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { addActiveSubredidit } from "../actions/index";
+import axios from "axios";
 
 class Search extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      search: '',
+      toggleCreate404: false,
+      toggleSearch404: false,
+      search: ""
     };
   }
 
   onChangeHandler(e) {
     this.setState({
-      [e.target.type]: e.target.value,
+      [e.target.type]: e.target.value
     });
   }
 
   handleCreateButton() {
     axios
-      .post('/subredidit', { subrediditName: this.state.search })
+      .post("/subredidit", { subrediditName: this.state.search })
       .then(({ data }) => {
-        if (data === '404') {
-          console.log('404, do search instead');
+        if (data === 404) {
+          this.setState({ toggleCreate404: true });
         } else {
           this.props.addActiveSubredidit(data);
+          this.setState({ toggleCreate404: false, toggleSearch404: false });
         }
-        document.getElementById('search').value = '';
+        document.getElementById("search").value = "";
       })
-      .catch(err => console.log('Search error: ', err));
+      .catch(err => console.log("Search error: ", err));
   }
 
   handleSearchButton() {
     axios
-      .get('/subredidit', { params: { name: this.state.search } })
+      .get("/subredidit", { params: { name: this.state.search } })
       .then(({ data }) => {
-        if (data === '404') {
-          console.log('404, ask user to create one');
+        if (data === 404) {
+          this.setState({ toggleSearch404: true });
         } else {
           this.props.addActiveSubredidit(data);
+          this.setState({ toggleSearch404: false, toggleCreate404: false });
         }
-        document.getElementById('search').value = '';
+        document.getElementById("search").value = "";
       })
-      .catch(err => console.log('Search error: ', err));
+      .catch(err => console.log("Search error: ", err));
   }
 
   render() {
     return (
       <div className="search">
-        <input id="search" type="search" onChange={e => this.onChangeHandler(e)} />
+        {this.state.toggleCreate404 && <div>Subredidit Exists. Try Search</div>}
+        {this.state.toggleSearch404 && (
+          <div>Subredidit Not Found. Try Create</div>
+        )}
+        <input
+          id="search"
+          type="search"
+          onChange={e => this.onChangeHandler(e)}
+        />
         <br />
-        <button type="button" name="search" onClick={() => this.handleSearchButton()}>
+        <button
+          type="button"
+          name="search"
+          onClick={() => this.handleSearchButton()}
+        >
           search
         </button>
-        <button type="button" name="create" onClick={() => this.handleCreateButton()}>
+        <button
+          type="button"
+          name="create"
+          onClick={() => this.handleCreateButton()}
+        >
           create
         </button>
       </div>
@@ -64,16 +84,16 @@ class Search extends Component {
 
 function mapStateToProps(state) {
   return {
-    active_subredidit: state.active_subredidit,
+    active_subredidit: state.active_subredidit
   };
 }
 
 function matchDispatchToProps(dispatch) {
   return bindActionCreators(
     {
-      addActiveSubredidit,
+      addActiveSubredidit
     },
-    dispatch,
+    dispatch
   );
 }
 
