@@ -83,11 +83,13 @@ class ContentListItem extends React.Component {
   }
 
   subrediditHandler(event) {
+    console.log("Inside subrediditHandler ", this.props.post.subredidit);
     Axios.get("/content", {
       params: { subredidit: this.props.post.subredidit }
     })
       .then(result => {
-        this.props.selectSubredidit(this.props.post.subredidit);
+        console.log("SUBMITREDIDITHANDLER THEN: ", result.data);
+        //this.props.selectSubredidit(this.props.post.subredidit);
         this.props.addPosts(result.data);
       })
       .catch(err => console.log("Error in subrediditHandler: ", err));
@@ -133,16 +135,16 @@ class ContentListItem extends React.Component {
           />
         </div>
         {this.props.post.title ? (
-          <h3 className="post-title" onClick={this.subrediditHandler}>
-            {this.props.post.title}
-          </h3>
+          <h3 className="post-title">{this.props.post.title}</h3>
         ) : null}
         <div className="info">
           <h4 className="owner-name" onClick={this.selectUserHandler}>
             <Link to="/userprofile">{this.props.post.owner} </Link>
           </h4>
           {this.props.post.type === "post" ? (
-            <h5>/rd/{this.props.post.subredidit}</h5>
+            <h5 onClick={this.subrediditHandler}>
+              /rd/{this.props.post.subredidit}
+            </h5>
           ) : (
             ""
           )}
