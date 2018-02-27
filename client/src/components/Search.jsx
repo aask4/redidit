@@ -21,18 +21,22 @@ class Search extends Component {
   }
 
   handleCreateButton() {
-    axios
-      .post("/subredidit", { subrediditName: this.state.search })
-      .then(({ data }) => {
-        if (data === 404) {
-          this.setState({ toggleCreate404: true });
-        } else {
-          this.props.addActiveSubredidit(data);
-          this.setState({ toggleCreate404: false, toggleSearch404: false });
-        }
-        document.getElementById("search").value = "";
-      })
-      .catch(err => console.log("Search error: ", err));
+    if (this.props.active_user) {
+      axios
+        .post("/subredidit", { subrediditName: this.state.search })
+        .then(({ data }) => {
+          if (data === 404) {
+            this.setState({ toggleCreate404: true });
+          } else {
+            this.props.addActiveSubredidit(data);
+            this.setState({ toggleCreate404: false, toggleSearch404: false });
+          }
+          document.getElementById("search").value = "";
+        })
+        .catch(err => console.log("Search error: ", err));
+    } else {
+      console.log("prompt user to login or signup");
+    }
   }
 
   handleSearchButton() {
@@ -84,7 +88,8 @@ class Search extends Component {
 
 function mapStateToProps(state) {
   return {
-    active_subredidit: state.active_subredidit
+    active_subredidit: state.active_subredidit,
+    active_user: state.active_user
   };
 }
 
