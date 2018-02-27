@@ -19,8 +19,6 @@ router
   .get(subrediditController.retrieveSubredidit)
   .post(subrediditController.createSubredidit);
 
-// router.route('/userprofile').get(usersController.fetchUserProfile);
-
 router
   .route("/subscription")
   .get(subscriptionController.fetchUserSubscription) // TODO: work with Shayne to merge with login

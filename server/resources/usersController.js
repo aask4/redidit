@@ -2,14 +2,6 @@ const Users = require("../../db/models/usersModel");
 const bcrypt = require("bcrypt");
 const Subredidit = require("../../db/models/subrediditModel");
 
-module.exports.fetchUserProfile = (req, res) => {
-  Users.findAll({ where: { username: req.query.username } })
-    .then(user => {
-      res.send(user);
-    })
-    .catch(err => res.end(`${err}`));
-};
-
 module.exports.createUser = (req, res) => {
   console.log("just recieved a signup request", req.body);
   Users.findAll({ where: { username: req.body.username } })
