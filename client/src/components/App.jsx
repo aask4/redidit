@@ -15,17 +15,9 @@ class App extends React.Component {
   constructor() {
     super();
   }
-  firebaseSignup() {
-    console.log("button clicked");
-    firebase.signup("qiangsong890@yahoo.com", "8891468");
-  }
   render() {
     return (
       <div>
-        <div>
-          firebase:
-          <button onClick={() => this.firebaseSignup()}>signup</button>
-        </div>
         <BrowserRouter>
           <div>
             <Switch>
