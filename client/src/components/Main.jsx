@@ -25,6 +25,9 @@ class Main extends Component {
           <br />
           <br />
         </div>
+        <h3>{(this.props.active_subredidit && this.props.active_subredidit.name) || 'All'}</h3>
+        <br />
+        <br />
         <div className="sidebar">
           <SubscribeButton />
           <Search />
@@ -40,6 +43,7 @@ class Main extends Component {
 function mapStateToProps(state) {
   return {
     active_user: state.active_user,
+    active_subredidit: state.active_subredidit,
   };
 }
 
