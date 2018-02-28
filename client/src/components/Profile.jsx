@@ -1,18 +1,9 @@
-<<<<<<< HEAD:client/src/components/Profile.jsx
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import Axios from 'axios';
-import { Link } from 'react-router-dom';
-import Moment from 'moment';
-import ContentListItem from '../ContentListItem';
-=======
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import Axios from "axios";
 import { Link } from "react-router-dom";
 import Moment from "moment";
 import ContentListItem from "./ContentListItem";
->>>>>>> 35885e19f13540ec1e2dc43a37065905685f72d9:client/src/components/Profile.jsx
 
 class UserProfile extends Component {
   constructor(props) {
