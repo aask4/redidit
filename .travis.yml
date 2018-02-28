@@ -21,7 +21,7 @@ before_script:
 >>>>>>> changing line 12 to see if Travis will run
 
 script:
-  # - npm run dev-react
+  - npm run dev-react
   - npm run dev-server
-  - sleep 10
+  - sleep 2
   - npm run test
