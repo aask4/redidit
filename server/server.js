@@ -15,7 +15,7 @@ app.use(express.static(path.join(__dirname, '../client/dist')));
 app.use(router.router);
 
 app.get('*', (req, res) => {
-  res.redirect('/');
+  res.sendFile(path.resolve(__dirname, '../client/dist', 'index.html'));
 });
 
 module.exports = app;
