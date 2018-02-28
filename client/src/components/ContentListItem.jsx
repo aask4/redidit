@@ -15,6 +15,7 @@ class ListItem extends React.Component {
       comments: [],
       showComments: false,
       post: this.props.post,
+      showCommentInput: this.props.post.type === 'post',
     };
     this.showCommentsHandler = this.showCommentsHandler.bind(this);
     this.postComment = this.postComment.bind(this);
@@ -24,6 +25,8 @@ class ListItem extends React.Component {
     this.upvote = this.upvote.bind(this);
     this.downvote = this.downvote.bind(this);
     this.voteHandler = this.voteHandler.bind(this);
+    this.toggleCommentInput = this.toggleCommentInput.bind(this);
+    this.commentInputManager = this.commentInputManager.bind(this);
   }
 
   componentDidMount() {
@@ -58,6 +61,9 @@ class ListItem extends React.Component {
         console.log('Error in ContentListItem postComment: ', err);
         alert('Please Log In To Comment');
       });
+    if (this.props.post.type === 'comment') {
+      this.setState({ showCommentInput: !this.state.showCommentInput });
+    }
     this.setState({ comment: '' });
   }
 
@@ -87,6 +93,27 @@ class ListItem extends React.Component {
       }
     });
     this.props.addActiveSubredidit(subredidit);
+  }
+
+  toggleCommentInput() {
+    this.setState({ showCommentInput: !this.state.showCommentInput });
+  }
+
+  commentInputManager() {
+    return (this.props.post.type === 'post' || this.state.showCommentInput) ?
+      (
+        <div className="comment-input">
+          <button onClick={this.postComment}>Comment</button>
+          <input
+            type="text"
+            onChange={this.onChangeHandler}
+            value={this.state.comment}
+             maxLength="255"
+          />
+        </div>
+      ) : (
+        <span className="reply" onClick={this.toggleCommentInput}>reply</span>
+      );
   }
 
   voteHandler(change) {
@@ -144,13 +171,7 @@ class ListItem extends React.Component {
         <div className="message">
           {this.contentManager()}
           <div className="comment-section">
-            <button onClick={this.postComment}>Comment</button>
-            <input
-              type="text"
-              onChange={this.onChangeHandler}
-              value={this.state.comment}
-              maxLength="255"
-            />
+           {this.commentInputManager()}
             <span onClick={this.state.comments.length > 0 ? this.showCommentsHandler : () => {}}>
               {this.state.comments.length} Comments
             </span>
