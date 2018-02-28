@@ -6,6 +6,17 @@ h5 {
   padding: 0;
 }
 
+h1 {
+  display: inline;
+  color: orangered;
+  font-family: fantasy;
+  font-variant: small-caps;
+  font-stretch: extra-expanded;
+  font-weight: bolder;
+  font-size: 60px;
+  margin-left: 10px;
+}
+
 .sublink {
   color: blue;
   margin-left: 20px;
@@ -44,7 +55,13 @@ h5 {
 .statusBar {
   background-color: lightblue;
   height: 70px;
+  display: block;
 }
+
+.login {
+  display: inline-flex;
+}
+
 .content-item {
   display: inline-block;
   border: 1px solid royalblue;

@@ -19,7 +19,7 @@ class NavAndLogin extends Component {
         {this.props.active_user ? (
           <div />
         ) : (
-          <div>
+          <div className="login">
             <Login />
           </div>
         )}

@@ -2,7 +2,7 @@ import React from 'react';
 import Axios from 'axios';
 import Moment from 'moment';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { selectUser, addPosts, addActiveSubredidit } from '../actions';
 import Voter from './Voter.jsx';
@@ -27,10 +27,8 @@ class ListItem extends React.Component {
   }
 
   componentDidMount() {
-    console.log('POST ID: ', this.props.post.id);
     Axios.get('/content', { params: { where: { parent: this.props.post.id } } })
       .then((result) => {
-        console.log('RESULT>DATA: ', result.data);
         this.setState({ comments: result.data });
       })
       .catch(err => console.log('Error in ComponentListItem: ', err));
@@ -132,7 +130,7 @@ class ListItem extends React.Component {
         {this.props.post.title ? <h3 className="post-title">{this.props.post.title}</h3> : null}
         <div className="info">
           <h4 className="owner-name" onClick={this.selectUserHandler}>
-            <Link to="/userprofile">{this.props.post.owner}</Link>
+            <Link to={`/userprofile/${this.props.selectedUser}`}>{this.props.post.owner}</Link>
           </h4>
           {this.props.post.type === 'post' ? (
             <h5 className="sublink" onClick={e => this.subrediditHandler(e)}>
