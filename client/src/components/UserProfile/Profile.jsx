@@ -66,7 +66,7 @@ class UserProfile extends Component {
         <br />
         <h3>Overview</h3>
         {this.state.data.length &&
-          this.state.data.map((content, key) => (
+          this.state.data.map(content => (
           <div className="content-item" key={content.id}>
             <ContentListItem post={content} user={this.props.user}/>
           </div>
