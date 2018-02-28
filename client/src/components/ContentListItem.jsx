@@ -7,7 +7,7 @@ import { bindActionCreators } from 'redux';
 import { selectUser, addPosts, addActiveSubredidit } from '../actions';
 import Voter from './Voter.jsx';
 
-class ContentListItem extends React.Component {
+class ListItem extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -76,11 +76,7 @@ class ContentListItem extends React.Component {
   }
 
   selectUserHandler(event) {
-    event.preventDefault();
     this.props.selectUser(this.props.post.owner);
-    Axios.get('/userprofile')
-      .then(result => console.log('success'))
-      .catch(err => console.log('SELECT USER HANDLER ERROR: ', err));
   }
 
   subrediditHandler() {
@@ -140,7 +136,7 @@ class ContentListItem extends React.Component {
           </h4>
           {this.props.post.type === 'post' ? (
             <h5 className="sublink" onClick={e => this.subrediditHandler(e)}>
-              /rd/{this.props.post.subredidit}
+              /rd/<Link to="/subredidit">{this.props.post.subredidit}</Link>
             </h5>
           ) : (
             ''
@@ -155,7 +151,7 @@ class ContentListItem extends React.Component {
               type="text"
               onChange={this.onChangeHandler}
               value={this.state.comment}
-              maxlength="255"
+              maxLength="255"
             />
             <span onClick={this.state.comments.length > 0 ? this.showCommentsHandler : () => {}}>
               {this.state.comments.length} Comments
@@ -186,8 +182,8 @@ class ContentListItem extends React.Component {
 function mapStateToProps(state) {
   return {
     user: state.active_user,
-    addPosts: state.addPosts,
     subredidits: state.all_subredidit,
+    selectedUser: state.selectedUser,
   };
 }
 
@@ -195,4 +191,5 @@ function matchDispatchToProps(dispatch) {
   return bindActionCreators({ selectUser, addPosts, addActiveSubredidit }, dispatch);
 }
 
-export default connect(mapStateToProps, matchDispatchToProps)(ContentListItem);
+const ContentListItem = connect(mapStateToProps, matchDispatchToProps)(ListItem);
+export default ContentListItem;

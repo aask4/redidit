@@ -34,6 +34,7 @@ class PostEntry extends Component {
 
   submitPost(e) {
     e.preventDefault();
+    console.log(this.state)
     if (this.state.title && this.state.content && this.state.subredidit) {
       Axios.post('http://localhost:3000/content', this.state)
         .then(() => this.setState({ toggleRedirect: true }))
@@ -61,13 +62,13 @@ class PostEntry extends Component {
         <form onChange={this.onChangeHandler}>
           <div className="postForm">
             *Title:<br />
-            <textarea name="title" rows="2" cols="60" maxlength="255"/>
+            <textarea name="title" rows="2" cols="60" maxLength="255"/>
           </div>
           <br />
           <br />
           <div className="postForm">
             *URL:<br />
-            <input type="text" name="content" size="62" maxlength="255"/>
+            <input type="text" name="content" size="62" maxLength="255"/>
           </div>
           <br />
           <br />

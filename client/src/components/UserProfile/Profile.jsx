@@ -22,8 +22,8 @@ class UserProfile extends Component {
 
   fetchUserContent() {
     Axios.get('/content', {
-      params: { where: { owner: this.props.selectedUser, type: 'post' } },
-    })
+      params: { where: { owner: this.props.selectedUser, type: 'post' } }
+    },
       .then(({ data }) => {
         let postScore = 0;
         let commentScore = 0;
@@ -54,8 +54,10 @@ class UserProfile extends Component {
         <br />
         <h3>Overview</h3>
         {this.state.data.length &&
-          this.state.data.map((content, key) => (
-            <ContentListItem post={content} user={this.props.user} key={key} />
+          this.state.data.map(content => (
+          <div className="content-item" key={content.id}>
+            <ContentListItem post={content} user={this.props.user}/>
+          </div>
           ))}
       </div>
     );
