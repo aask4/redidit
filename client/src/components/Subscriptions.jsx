@@ -1,11 +1,26 @@
 import React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { addActiveSubredidit } from "../actions/index";
+import { addActiveSubredidit, addPosts } from "../actions/index";
+import axios from "axios";
 
 class Subscriptions extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      someOptions: "Some1Redidits",
+      myOptions: "MySubscriptions"
+    };
+  }
+
+  showInitialPosts() {
+    axios
+      .get("/content", { params: { type: "post" } })
+      .then(result => {
+        this.props.addPosts(result.data);
+        this.props.addActiveSubredidit(null);
+      })
+      .catch(err => console.log("Error in ContentList component: ", err));
   }
 
   selectSubredidit(event) {
@@ -18,12 +33,25 @@ class Subscriptions extends React.Component {
       }
     });
     this.props.addActiveSubredidit(subredidit);
+    this.setState({
+      someOptions: "Some1Redidits",
+      myOptions: "MySubscriptions"
+    });
   }
 
   render() {
+    let { someOptions, myOptions } = this.state;
+
     return (
       <div>
-        <select name="subredidit" onChange={e => this.selectSubredidit(e)}>
+        <button type="button" onClick={() => this.showInitialPosts()}>
+          See All Posts
+        </button>
+        <select
+          name="subredidit"
+          onChange={e => this.selectSubredidit(e)}
+          value={someOptions}
+        >
           <option value="some">Some1Redidits</option>
           {this.props.subredidits &&
             this.props.subredidits.map((sub, i) => {
@@ -41,6 +69,7 @@ class Subscriptions extends React.Component {
             <select
               name="userSubscriptions"
               onChange={e => this.selectSubredidit(e)}
+              value={myOptions}
             >
               <option value="main">MySubscriptions</option>
               {this.props.active_user.subredidit.map(sub => (
@@ -70,7 +99,8 @@ function mapStateToProps(state) {
 function matchDispatchToProps(dispatch) {
   return bindActionCreators(
     {
-      addActiveSubredidit
+      addActiveSubredidit,
+      addPosts
     },
     dispatch
   );

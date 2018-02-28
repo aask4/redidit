@@ -1,7 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { addActiveSubredidit, addPosts } from "../actions/index";
+import {
+  addActiveSubredidit,
+  addPosts,
+  loadAllSubredidit
+} from "../actions/index";
 import axios from "axios";
 
 class Search extends Component {
@@ -12,6 +16,8 @@ class Search extends Component {
       toggleSearch404: false,
       search: ""
     };
+
+    this.refreshSubredidit = this.refreshSubredidit.bind(this);
   }
 
   componentWillReceiveProps() {
@@ -25,6 +31,7 @@ class Search extends Component {
           })
           .then(({ data }) => {
             this.props.addPosts(data);
+            this.refreshSubredidit();
           })
           .catch(err => console.log("Search comp Props err: ", err));
       }
@@ -71,6 +78,16 @@ class Search extends Component {
       .catch(err => console.log("Search error: ", err));
   }
 
+  refreshSubredidit() {
+    axios
+      .get("/subredidit")
+      .then(({ data }) => {
+        console.log("App data is ", data);
+        this.props.loadAllSubredidit(data);
+      })
+      .catch(err => console.log(err));
+  }
+
   render() {
     return (
       <div className="search">
@@ -114,7 +131,8 @@ function matchDispatchToProps(dispatch) {
   return bindActionCreators(
     {
       addActiveSubredidit,
-      addPosts
+      addPosts,
+      loadAllSubredidit
     },
     dispatch
   );
