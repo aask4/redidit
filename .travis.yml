@@ -15,7 +15,7 @@ before_script:
   - psql -c "ALTER USER redidit WITH SUPERUSER;" -U postgres
 
 script:
-  - npm run dev-react
+  - webpack
   - npm run dev-server
   - sleep 2
   - npm run test
