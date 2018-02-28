@@ -15,11 +15,7 @@ class Subscriptions extends React.Component {
 
   showInitialPosts() {
     axios
-<<<<<<< HEAD
       .get("/content", { params: { where: { type: "post" } } })
-=======
-      .get("/content", { params: { where: {type: "post" } }}  )
->>>>>>> fixed maxlength
       .then(result => {
         this.props.addPosts(result.data);
         this.props.addActiveSubredidit(null);

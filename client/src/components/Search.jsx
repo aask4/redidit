@@ -29,15 +29,9 @@ class Search extends Component {
           .get('/content', {
             params: {
               where: {
-<<<<<<< HEAD
                 subredidit: this.props.active_subredidit.name,
               },
             },
-=======
-                subredidit: this.props.active_subredidit.name
-              }
-            }
->>>>>>> fixed maxlength
           })
           .then(({ data }) => {
             this.props.addPosts(data);

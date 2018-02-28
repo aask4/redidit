@@ -31,6 +31,9 @@ class UserProfile extends Component {
           owner: this.props.selectedUser, type: "post"
         }
       }
+<<<<<<< HEAD
+>>>>>>> fixed maxlength
+=======
 >>>>>>> fixed maxlength
     })
       .then(({ data }) => {
