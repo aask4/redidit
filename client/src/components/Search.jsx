@@ -31,6 +31,7 @@ class Search extends Component {
               where: {
                 subredidit: this.props.active_subredidit.name,
               },
+              limit: 25,
             },
           })
           .then(({ data }) => {
