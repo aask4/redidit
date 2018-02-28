@@ -155,7 +155,7 @@ class ContentListItem extends React.Component {
               type="text"
               onChange={this.onChangeHandler}
               value={this.state.comment}
-              maxlength="255"
+              maxLength="255"
             />
             <span onClick={this.state.comments.length > 0 ? this.showCommentsHandler : () => {}}>
               {this.state.comments.length} Comments
