@@ -17,7 +17,7 @@ exports.retrieveSubredidit = (req, res) => {
         result === 'error' || result.length > 0
           ? res.status(200).send(result) &&
             console.log('Now do Content search for: ', result[0].dataValues.id)
-          : res.status(201).send('404');
+          : res.status(201).send(result);
       })
       .catch(err => res.status(404).send('Error'));
   }

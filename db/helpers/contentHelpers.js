@@ -19,7 +19,12 @@ module.exports.postContent = (contentObj, callback) => {
 };
 
 module.exports.getContent = (queryObj, callback) => {
-  Content.findAll({ where: queryObj })
+  const limit = queryObj.limit || 100;
+  Content.findAll({
+    where: JSON.parse(queryObj.where),
+    order: [['createdAt', 'DESC']],
+    limit,
+  })
     .then(result => callback(result))
     .catch(err => console.log('Error in getContent: ', err));
 };
@@ -27,7 +32,7 @@ module.exports.getContent = (queryObj, callback) => {
 module.exports.updateContent = (contentObj, callback) => {
   Content.update({ score: contentObj.score }, { where: { id: contentObj.id }, returning: true })
     .then((result) => {
-      callback({score: result[1][0].dataValues.score});
+      callback({ score: result[1][0].dataValues.score });
     })
     .catch(err => console.log('Error in updateContent: ', err));
 };
