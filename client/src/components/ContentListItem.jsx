@@ -78,9 +78,6 @@ class ContentListItem extends React.Component {
   selectUserHandler(event) {
     event.preventDefault();
     this.props.selectUser(this.props.post.owner);
-    Axios.get('/userprofile')
-      .then(result => console.log('success'))
-      .catch(err => console.log('SELECT USER HANDLER ERROR: ', err));
   }
 
   subrediditHandler() {
@@ -140,7 +137,7 @@ class ContentListItem extends React.Component {
           </h4>
           {this.props.post.type === 'post' ? (
             <h5 className="sublink" onClick={e => this.subrediditHandler(e)}>
-              /rd/{this.props.post.subredidit}
+              /rd/<Link to="/subredidit">{this.props.post.subredidit}</Link>
             </h5>
           ) : (
             ''
@@ -188,6 +185,7 @@ function mapStateToProps(state) {
     user: state.active_user,
     addPosts: state.addPosts,
     subredidits: state.all_subredidit,
+    selectUser: state.selected_user,
   };
 }
 

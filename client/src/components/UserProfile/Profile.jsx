@@ -21,8 +21,17 @@ class UserProfile extends Component {
   }
 
   fetchUserContent() {
+<<<<<<< HEAD
     Axios.get('/content', {
       params: { where: { owner: this.props.selectedUser, type: 'post' } },
+=======
+    Axios.get("/content", {
+      params: {
+        where: {
+          owner: this.props.selectedUser, type: "post"
+        }
+      }
+>>>>>>> fixed maxlength
     })
       .then(({ data }) => {
         let postScore = 0;
@@ -55,7 +64,9 @@ class UserProfile extends Component {
         <h3>Overview</h3>
         {this.state.data.length &&
           this.state.data.map((content, key) => (
-            <ContentListItem post={content} user={this.props.user} key={key} />
+          <div className="content-item" key={content.id}>
+            <ContentListItem post={content} user={this.props.user}/>
+          </div>
           ))}
       </div>
     );
