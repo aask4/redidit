@@ -15,7 +15,7 @@ class Subscriptions extends React.Component {
 
   showInitialPosts() {
     axios
-      .get("/content", { params: { type: "post" } })
+      .get("/content", { params: { where: {type: "post" } }}  )
       .then(result => {
         this.props.addPosts(result.data);
         this.props.addActiveSubredidit(null);
