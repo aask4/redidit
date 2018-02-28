@@ -39,7 +39,7 @@ class StatusBar extends Component {
               src="https://i.imgur.com/OX3vXmU.png"
             />
           </a>
-        </div>
+          <h1>REDIDIT</h1>
         <div style={{ float: "right" }}>
           {this.props.active_user ? (
             <div>
@@ -55,6 +55,7 @@ class StatusBar extends Component {
               in seconds
             </div>
           )}
+        </div>
         </div>
       </div>
     );
