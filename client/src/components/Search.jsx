@@ -4,7 +4,8 @@ import { bindActionCreators } from "redux";
 import {
   addActiveSubredidit,
   addPosts,
-  loadAllSubredidit
+  loadAllSubredidit,
+  loadUserSubredidit
 } from "../actions/index";
 import axios from "axios";
 
@@ -22,11 +23,14 @@ class Search extends Component {
 
   componentWillReceiveProps() {
     setTimeout(() => {
+      this.props.loadUserSubredidit(this.props.active_user.subredidit);
       if (this.props.active_subredidit) {
         axios
           .get("/content", {
             params: {
-              subredidit: this.props.active_subredidit.name
+              where: {
+                subredidit: this.props.active_subredidit.name
+              }
             }
           })
           .then(({ data }) => {
@@ -132,7 +136,8 @@ function matchDispatchToProps(dispatch) {
     {
       addActiveSubredidit,
       addPosts,
-      loadAllSubredidit
+      loadAllSubredidit,
+      loadUserSubredidit
     },
     dispatch
   );
