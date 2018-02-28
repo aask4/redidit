@@ -15,7 +15,7 @@ class Subscriptions extends React.Component {
 
   showInitialPosts() {
     axios
-      .get("/content", { params: { type: "post" } })
+      .get("/content", { params: { where: { type: "post" } } })
       .then(result => {
         this.props.addPosts(result.data);
         this.props.addActiveSubredidit(null);
@@ -65,14 +65,14 @@ class Subscriptions extends React.Component {
             })}
         </select>
         {this.props.active_user ? (
-          this.props.active_user.subredidit ? (
+          this.props.active_user_subredidit ? (
             <select
               name="userSubscriptions"
               onChange={e => this.selectSubredidit(e)}
               value={myOptions}
             >
               <option value="main">MySubscriptions</option>
-              {this.props.active_user.subredidit.map(sub => (
+              {this.props.active_user_subredidit.map(sub => (
                 <option key={sub.id} value={sub.name}>
                   {sub.name}
                 </option>
@@ -92,6 +92,7 @@ class Subscriptions extends React.Component {
 function mapStateToProps(state) {
   return {
     active_user: state.active_user,
+    active_user_subredidit: state.active_user_subredidit,
     subredidits: state.all_subredidit
   };
 }

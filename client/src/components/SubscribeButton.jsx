@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { loadUserSubredidit } from "../actions/index";
 import axios from "axios";
 
 class SubscribeButton extends Component {
@@ -16,10 +18,10 @@ class SubscribeButton extends Component {
       if (
         this.props.active_subredidit &&
         this.props.active_user &&
-        this.props.active_user.subredidit
+        this.props.active_user_subredidit
       ) {
         let result = false;
-        this.props.active_user.subredidit.forEach(sub => {
+        this.props.active_user_subredidit.forEach(sub => {
           if (sub.name === this.props.active_subredidit.name) {
             result = true;
           }
@@ -41,8 +43,15 @@ class SubscribeButton extends Component {
             }
           })
           .then(({ data }) => {
-            console.log("SubscribeButton delete data: ", data);
             this.setState({ toggleButton: !this.state.toggleButton });
+
+            let updateSubscription = this.props.active_user_subredidit;
+            updateSubscription.forEach((sub, index) => {
+              if (sub.id === this.props.active_subredidit.id) {
+                updateSubscription.splice(index, 1);
+              }
+            });
+            this.props.loadUserSubredidit(updateSubscription);
           })
           .catch(err => {
             console.log(err);
@@ -57,6 +66,11 @@ class SubscribeButton extends Component {
           .then(({ data }) => {
             console.log("SubscribeButton post data: ", data);
             this.setState({ toggleButton: !this.state.toggleButton });
+            let updateSubscription = [
+              ...this.props.active_user_subredidit,
+              this.props.active_subredidit
+            ];
+            this.props.loadUserSubredidit(updateSubscription);
           })
           .catch(err => {
             console.log(err);
@@ -107,9 +121,17 @@ class SubscribeButton extends Component {
 function mapStateToProps(state) {
   return {
     active_user: state.active_user,
+    active_user_subredidit: state.active_user_subredidit,
     active_subredidit: state.active_subredidit
   };
 }
-// do i need a dispatch?
 
-export default connect(mapStateToProps)(SubscribeButton);
+function matchDispatchToProps(dispatch) {
+  return bindActionCreators(
+    {
+      loadUserSubredidit
+    },
+    dispatch
+  );
+}
+export default connect(mapStateToProps, matchDispatchToProps)(SubscribeButton);
