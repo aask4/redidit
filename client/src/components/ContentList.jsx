@@ -17,7 +17,9 @@ class ContentList extends React.Component {
 
   fetchPosts() {
     const limit = this.props.posts ? this.props.posts.length + 25 : 25;
-    Axios.get('/content', { params: { where: { type: 'post' }, limit } })
+    const subredidit =
+      (this.props.active_subredidit && this.props.active_subredidit.name) || undefined;
+    Axios.get('/content', { params: { where: { type: 'post', subredidit }, limit } })
       .then((result) => {
         this.props.addPosts(result.data);
       })
@@ -47,6 +49,7 @@ function mapStateToProps(state) {
   return {
     posts: state.current_posts,
     user: state.active_user,
+    active_subredidit: state.active_subredidit,
   };
 }
 
