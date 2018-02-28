@@ -27,9 +27,7 @@ class UserProfile extends Component {
 =======
     Axios.get("/content", {
       params: {
-        where: {
           owner: this.props.selectedUser, type: "post"
-        }
       }
 <<<<<<< HEAD
 >>>>>>> fixed maxlength
