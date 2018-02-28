@@ -21,19 +21,9 @@ class UserProfile extends Component {
   }
 
   fetchUserContent() {
-<<<<<<< HEAD
     Axios.get('/content', {
-      params: { where: { owner: this.props.selectedUser, type: 'post' } },
-=======
-    Axios.get("/content", {
-      params: {
-          owner: this.props.selectedUser, type: "post"
-      }
-<<<<<<< HEAD
->>>>>>> fixed maxlength
-=======
->>>>>>> fixed maxlength
-    })
+      params: { where: { owner: this.props.selectedUser, type: 'post' } }
+    },
       .then(({ data }) => {
         let postScore = 0;
         let commentScore = 0;
