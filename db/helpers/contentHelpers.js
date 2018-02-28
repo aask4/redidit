@@ -19,7 +19,8 @@ module.exports.postContent = (contentObj, callback) => {
 };
 
 module.exports.getContent = (queryObj, callback) => {
-  const limit = queryObj.limit || 100;
+  console.log(JSON.parse(queryObj.where));
+  const limit = queryObj.limit || 25;
   Content.findAll({
     where: JSON.parse(queryObj.where),
     order: [['createdAt', 'DESC']],
