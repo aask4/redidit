@@ -7,7 +7,7 @@ import { bindActionCreators } from 'redux';
 import { selectUser, addPosts, addActiveSubredidit } from '../actions';
 import Voter from './Voter.jsx';
 
-class ContentListItem extends React.Component {
+class ListItem extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -76,7 +76,6 @@ class ContentListItem extends React.Component {
   }
 
   selectUserHandler(event) {
-    event.preventDefault();
     this.props.selectUser(this.props.post.owner);
   }
 
@@ -183,9 +182,8 @@ class ContentListItem extends React.Component {
 function mapStateToProps(state) {
   return {
     user: state.active_user,
-    addPosts: state.addPosts,
     subredidits: state.all_subredidit,
-    selectUser: state.selected_user,
+    selectedUser: state.selectedUser,
   };
 }
 
@@ -193,4 +191,5 @@ function matchDispatchToProps(dispatch) {
   return bindActionCreators({ selectUser, addPosts, addActiveSubredidit }, dispatch);
 }
 
-export default connect(mapStateToProps, matchDispatchToProps)(ContentListItem);
+const ContentListItem = connect(mapStateToProps, matchDispatchToProps)(ListItem);
+export default ContentListItem;
