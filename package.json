@@ -8,8 +8,8 @@
   },
   "main": "index.js",
   "scripts": {
+    "postinstall": "webpack -p",
     "start": "node server/index.js",
-    "heroku-postbuild": "webpack -w",
     "test": "jest",
     "dev-react": "webpack -w",
     "dev-server": "nodemon server"
