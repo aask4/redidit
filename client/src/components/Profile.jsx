@@ -1,9 +1,9 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import Axios from "axios";
-import { Link } from "react-router-dom";
-import Moment from "moment";
-import ContentListItem from "./ContentListItem";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import Axios from 'axios';
+import { Link } from 'react-router-dom';
+import Moment from 'moment';
+import ContentListItem from './ContentListItem';
 
 class UserProfile extends Component {
   constructor(props) {
@@ -20,10 +20,9 @@ class UserProfile extends Component {
     this.fetchUserContent();
   }
 
-  fetchUserContent() {
-    console.log(this.props.selectedUser);
+  fetchUserContent(owner = this.props.selectedUser) {
     Axios.get('/content', {
-      params: { where: { owner: this.props.selectedUser } },
+      params: { where: { owner } },
     })
       .then(({ data }) => {
         let postScore = 0;
@@ -60,7 +59,11 @@ class UserProfile extends Component {
         {this.state.posts.length &&
           this.state.posts.map(post => (
             <div className="content-item" key={post.id}>
-              <ContentListItem post={post} user={this.props.user} />
+              <ContentListItem
+                post={post}
+                user={this.props.user}
+                fetchUserContent={this.fetchUserContent}
+              />
             </div>
           ))}
       </div>
