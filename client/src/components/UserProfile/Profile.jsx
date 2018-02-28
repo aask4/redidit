@@ -23,9 +23,7 @@ class UserProfile extends Component {
   fetchUserContent() {
     Axios.get("/content", {
       params: {
-        where: {
           owner: this.props.selectedUser, type: "post"
-        }
       }
     })
       .then(({ data }) => {
