@@ -31,7 +31,6 @@ class SignUp extends Component {
       axios
         .post('/signup', info)
         .then((res) => {
-          console.log(res.data);
           if (!res.data.username) {
             this.setState({
               errorUsername: true,
@@ -64,12 +63,7 @@ class SignUp extends Component {
           <div>
             Email:<br />
             <input name="email" onChange={e => this.handleInput(e)} />
-            <button
-              onClick={() => {
-                this.setState({ submitEmail: true }),
-                  console.log('email submit button click', this.state);
-              }}
-            >
+            <button onClick={() => this.setState({ submitEmail: true })}>
               submit
             </button>
           </div>

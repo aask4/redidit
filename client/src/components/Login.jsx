@@ -30,25 +30,18 @@ class Login extends Component {
             }
           })
           .then(res => {
-            console.log(" this is the data getting back from server", res.data);
             self.props.addActiveUser(res.data);
           })
           .catch(err => {
-            console.log("err doing componentwillmount", err);
           });
-      } else {
-        // No user is signed in.
-        console.log("no user login");
       }
     });
   }
   handleLoginButtonClick() {
-    console.log("button clicked", this.state);
     let self = this.state;
     axios
       .get("/login", { params: this.state })
       .then(res => {
-        console.log(res.data);
         if (res.data.error) {
           this.setState({
             error: res.data.error
@@ -56,14 +49,12 @@ class Login extends Component {
         } else {
           action.login(self.email, self.password);
           this.props.addActiveUser(res.data);
-          console.log("***** at login", res.data);
           this.props.loadUserSubredidit(res.data.subredidit);
         }
       })
       .catch(err => {
         console.log("Error doing get request on login", err);
       });
-    console.log("doing a axios request");
   }
   onchangeHandler(e) {
     this.setState({

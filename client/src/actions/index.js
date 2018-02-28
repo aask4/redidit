@@ -14,7 +14,6 @@ export const selectUser = user => ({
 });
 
 export const addPosts = posts => {
-  console.log("inside of action this is the post", posts);
   return {
     type: "CURRENT_POSTS",
     payload: posts

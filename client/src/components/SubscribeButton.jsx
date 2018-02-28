@@ -14,7 +14,6 @@ class SubscribeButton extends Component {
 
   componentWillReceiveProps() {
     setTimeout(() => {
-      console.log("SubscribeButton PropsComponent: ", this.props);
       if (
         this.props.active_subredidit &&
         this.props.active_user &&
@@ -64,7 +63,6 @@ class SubscribeButton extends Component {
             subredidit_id: this.props.active_subredidit.id
           })
           .then(({ data }) => {
-            console.log("SubscribeButton post data: ", data);
             this.setState({ toggleButton: !this.state.toggleButton });
             let updateSubscription = [
               ...this.props.active_user_subredidit,
@@ -80,9 +78,6 @@ class SubscribeButton extends Component {
 
     if (this.props.active_user && this.props.active_subredidit) {
       action[command]();
-    } else {
-      // user is not signed in, prompt to signup
-      console.log("user is not signed in or there is no active subreditit");
     }
   }
 

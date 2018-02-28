@@ -26,17 +26,13 @@ module.exports.createUserSubscription = (req, res) => {
 };
 
 module.exports.deleteUserSubscription = (req, res) => {
-  console.log('delete: ', req.body);
-  console.log('delete: ', req.query);
   Subredidit_Users.destroy({
     where: { user_id: req.query.user_id, subredidit_id: req.query.subredidit_id },
   })
     .then((result) => {
-      console.log('success result: ', result);
       res.status(200).send('success');
     })
     .catch((err) => {
-      console.log('error result: ', err);
       res.status(200).send(`${err}`);
     });
 };

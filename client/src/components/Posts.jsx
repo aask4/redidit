@@ -25,7 +25,6 @@ class PostEntry extends Component {
 
   onChangeHandler(e) {
     e.preventDefault();
-    console.log('Post onChangeHandler: ', e.target.value);
     this.setState({
       [e.target.name]: e.target.value,
       user: this.props.user,
@@ -34,7 +33,6 @@ class PostEntry extends Component {
 
   submitPost(e) {
     e.preventDefault();
-    console.log(this.state)
     if (this.state.title && this.state.content && this.state.subredidit) {
       Axios.post('http://localhost:3000/content', this.state)
         .then(() => this.setState({ toggleRedirect: true }))
@@ -52,7 +50,6 @@ class PostEntry extends Component {
   cancelPost(e) {
     e.preventDefault();
     this.setState({ toggleRedirect: true });
-    console.log(this.state);
   }
 
   render() {

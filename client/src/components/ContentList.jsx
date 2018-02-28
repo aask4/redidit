@@ -27,7 +27,6 @@ class ContentList extends React.Component {
   }
 
   render() {
-    console.log('THIS IS PROPS IN CONTENT LIST: ', this.props);
     return (
       <div className="content-list">
         {this.props.posts ? (

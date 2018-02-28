@@ -14,17 +14,15 @@ class StatusBar extends Component {
   }
 
   signupClick() {
-    console.log('button clicked', this.props.history.push('/signup'));
+    this.props.history.push("/signup");
   }
 
   logout() {
-    const self = this;
-    console.log('log out button been clicked');
+    let self = this;
     firebase
       .auth()
       .signOut()
-      .then(() => {
-        console.log('user signOut');
+      .then(function() {
         // Sign-out successful.
         self.props.addActiveUser(null);
       })

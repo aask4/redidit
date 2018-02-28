@@ -20,10 +20,6 @@ class UserProfile extends Component {
     this.fetchUserContent();
   }
 
-  componentDidMount() {
-    this.fetchUserContent();
-  }
-
   fetchUserContent() {
     console.log(this.props.selectedUser);
     Axios.get('/content', {
