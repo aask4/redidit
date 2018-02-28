@@ -59,13 +59,13 @@ class PostEntry extends Component {
         <form onChange={this.onChangeHandler}>
           <div className="postForm">
             *Title:<br />
-            <textarea name="title" rows="2" cols="60" maxLength="255"/>
+            <textarea name="title" rows="2" cols="60" maxLength="255" />
           </div>
           <br />
           <br />
           <div className="postForm">
             *URL:<br />
-            <input type="text" name="content" size="62" maxLength="255"/>
+            <input type="text" name="content" size="62" maxLength="255" />
           </div>
           <br />
           <br />
@@ -75,11 +75,12 @@ class PostEntry extends Component {
               <option key="0" value="">
                 Select One
               </option>
-              {this.props.subredidits.map(sub => (
-                <option key={sub.id} value={sub.name}>
-                  {sub.name}
-                </option>
-              ))}
+              {this.props.subredidits &&
+                this.props.subredidits.map(sub => (
+                  <option key={sub.id} value={sub.name}>
+                    {sub.name}
+                  </option>
+                ))}
             </select>
           </div>
           <br />
