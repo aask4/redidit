@@ -1,17 +1,17 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import Axios from 'axios';
-import { Link } from 'react-router-dom';
-import Moment from 'moment';
-import ContentListItem from '../ContentListItem';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import Axios from "axios";
+import { Link } from "react-router-dom";
+import Moment from "moment";
+import ContentListItem from "../ContentListItem";
 
 class UserProfile extends Component {
   constructor(props) {
     super(props);
     this.state = {
       data: [],
-      postScore: '',
-      commentScore: '',
+      postScore: "",
+      commentScore: ""
     };
     this.fetchUserContent = this.fetchUserContent.bind(this);
   }
@@ -25,29 +25,30 @@ class UserProfile extends Component {
   }
 
   fetchUserContent() {
-    console.log(this.props.selectedUser);
-    Axios.get('/content', {
-      params: { where: { owner: this.props.selectedUser, type: 'post' } }
+    Axios.get("/content", {
+      params: { where: { owner: this.props.selectedUser, type: "post" } }
     })
       .then(({ data }) => {
         let postScore = 0;
         let commentScore = 0;
 
-        data.forEach((item) => {
-          item.type === 'post' ? (postScore += item.score) : (commentScore += item.score);
+        data.forEach(item => {
+          item.type === "post"
+            ? (postScore += item.score)
+            : (commentScore += item.score);
         });
         this.setState({
           data,
           postScore,
-          commentScore,
+          commentScore
         });
       })
-      .catch(err => console.error('Error in UserProfile component: ', err));
+      .catch(err => console.error("Error in UserProfile component: ", err));
   }
 
   render() {
     return (
-      <div style={{ float: 'center' }}>
+      <div style={{ float: "center" }}>
         <Link to="/">Back to Front Page</Link>
         <h2>{this.props.selectedUser}</h2>
         <h4>
@@ -60,9 +61,9 @@ class UserProfile extends Component {
         <h3>Overview</h3>
         {this.state.data.length &&
           this.state.data.map(content => (
-          <div className="content-item" key={content.id}>
-            <ContentListItem post={content} user={this.props.user}/>
-          </div>
+            <div className="content-item" key={content.id}>
+              <ContentListItem post={content} user={this.props.user} />
+            </div>
           ))}
       </div>
     );
@@ -72,7 +73,7 @@ class UserProfile extends Component {
 function mapStateToProps(state) {
   return {
     selectedUser: state.selectedUser,
-    user: state.active_user,
+    user: state.active_user
   };
 }
 
