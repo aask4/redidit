@@ -7,6 +7,10 @@ import axios from "axios";
 class Subscriptions extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      someOptions: "Some1Redidits",
+      myOptions: "MySubscriptions"
+    };
   }
 
   showInitialPosts() {
@@ -14,6 +18,7 @@ class Subscriptions extends React.Component {
       .get("/content", { params: { type: "post" } })
       .then(result => {
         this.props.addPosts(result.data);
+        this.props.addActiveSubredidit(null);
       })
       .catch(err => console.log("Error in ContentList component: ", err));
   }
@@ -28,15 +33,25 @@ class Subscriptions extends React.Component {
       }
     });
     this.props.addActiveSubredidit(subredidit);
+    this.setState({
+      someOptions: "Some1Redidits",
+      myOptions: "MySubscriptions"
+    });
   }
 
   render() {
+    let { someOptions, myOptions } = this.state;
+
     return (
       <div>
         <button type="button" onClick={() => this.showInitialPosts()}>
-          Go Back To Main
+          See All Posts
         </button>
-        <select name="subredidit" onChange={e => this.selectSubredidit(e)}>
+        <select
+          name="subredidit"
+          onChange={e => this.selectSubredidit(e)}
+          value={someOptions}
+        >
           <option value="some">Some1Redidits</option>
           {this.props.subredidits &&
             this.props.subredidits.map((sub, i) => {
@@ -54,6 +69,7 @@ class Subscriptions extends React.Component {
             <select
               name="userSubscriptions"
               onChange={e => this.selectSubredidit(e)}
+              value={myOptions}
             >
               <option value="main">MySubscriptions</option>
               {this.props.active_user.subredidit.map(sub => (
