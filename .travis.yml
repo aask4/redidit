@@ -10,9 +10,15 @@ services: postgreqsl
 
 # start DB here and create user/password for travis
 before_script:
+<<<<<<< HEAD
   - psql -c "CREATE DATABASE redidit;" -U postgres
   - psql -c "CREATE USER redidit WITH PASSWORD 'redidit';" -U postgres
   - psql -c "ALTER USER redidit WITH SUPERUSER;" -U postgres
+=======
+  -psql -c 'CREATE DATABASE redidit;' -U postgres
+  -psql -c 'CREATE USER redidit WITH PASSWORD 'redidit;' -U postgres
+  -psql -c 'ALTER USER redidit WITH SUPERUSER;' -U postgres
+>>>>>>> changing line 12 to see if Travis will run
 
 script:
   # - npm run dev-react
