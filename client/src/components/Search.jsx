@@ -26,7 +26,9 @@ class Search extends Component {
         axios
           .get("/content", {
             params: {
-              subredidit: this.props.active_subredidit.name
+              where: {
+                subredidit: this.props.active_subredidit.name
+              }
             }
           })
           .then(({ data }) => {
