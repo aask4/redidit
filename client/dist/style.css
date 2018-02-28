@@ -30,6 +30,7 @@ h1 {
   float: left;
   width: 80%;
 }
+
 .sidebar {
   float: right;
   width: 17%;
@@ -96,6 +97,14 @@ h1 {
 
 .comment-item {
   min-height: 50px;
+}
+
+.comment-input {
+  display: inline;
+}
+
+.reply {
+  margin-right: 10px;
 }
 
 .voter p {
