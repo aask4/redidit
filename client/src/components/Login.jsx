@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import axios from "axios";
-import { addActiveUser } from "../actions";
+import { addActiveUser, loadUserSubredidit } from "../actions";
 import firebase from "firebase";
 import action from "../firebase";
 class Login extends Component {
@@ -56,6 +56,8 @@ class Login extends Component {
         } else {
           action.login(self.email, self.password);
           this.props.addActiveUser(res.data);
+          console.log("***** at login", res.data);
+          this.props.loadUserSubredidit(res.data.subredidit);
         }
       })
       .catch(err => {
@@ -106,7 +108,8 @@ function mapStateToProps(state) {
 function matchDispatchToProps(dispatch) {
   return bindActionCreators(
     {
-      addActiveUser: addActiveUser
+      addActiveUser: addActiveUser,
+      loadUserSubredidit: loadUserSubredidit
     },
     dispatch
   );
