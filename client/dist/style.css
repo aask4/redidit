@@ -9,7 +9,7 @@ h5 {
 h1 {
   display: inline;
   color: orangered;
-  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
   font-variant: small-caps;
   font-stretch: extra-expanded;
   font-weight: bolder;
@@ -162,4 +162,7 @@ h1 {
 .voter {
   text-align: center;
   padding-right: 5px;
+}
+.login {
+  float: right;
 }
