@@ -49,13 +49,8 @@ class StatusBar extends Component {
               src="https://i.imgur.com/OX3vXmU.png"
             />
           </a>
-<<<<<<< HEAD
-        </div>
-        <div style={{ float: 'right' }}>
-=======
           <h1>REDIDIT</h1>
         <div style={{ float: "right" }}>
->>>>>>> final changes
           {this.props.active_user ? (
             <div>
               <Link to="/userprofile" onClick={this.selectUserHandler}>
