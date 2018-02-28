@@ -11,7 +11,6 @@ module.exports.retreiveContent = (req, res) => {
 module.exports.createContent = (req, res) => {
   // req.body requires owner's username or _id,
   // content URL, and timestamp
-  console.log(req.body);
   content.postContent(
     {
       title: req.body.title,
@@ -70,9 +69,7 @@ module.exports.createVotes = data => {
     content_id: data.content_id,
     votes_count: 0
   })
-    .then(result =>
-      console.log("created votes for content: ", result.dataValues)
-    )
+    .then(result => {})
     .catch(err => console.log("Create Votes error: ", err));
 };
 
@@ -85,14 +82,3 @@ module.exports.getVotes = (req, res, callback) => {
     .then(result => callback(result))
     .catch(err => console.log("Error occured while getting votes", err));
 };
-
-// // PUT
-// module.exports.updateVotes = (req, res) => {
-//   // when voting button clicked, should invoke this function
-//   Votes.update(
-//     { votes_count: req.body.votes_count },
-//     { where: { user_id: req.body.user_id, content_id: req.body.content_id } },
-//   )
-//     .then(result => console.log('Should send updated vote count: ', result))
-//     .catch(err => console.log('error occurered when updating votes: ', err));
-// };

@@ -63,7 +63,7 @@ class Search extends Component {
         })
         .catch(err => console.log('Search error: ', err));
     } else {
-      console.log('prompt user to login or signup');
+      alert('Please Log In');
     }
   }
 
@@ -86,7 +86,6 @@ class Search extends Component {
     axios
       .get('/subredidit')
       .then(({ data }) => {
-        console.log('App data is ', data);
         this.props.loadAllSubredidit(data);
       })
       .catch(err => console.log(err));

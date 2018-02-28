@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import Axios from "axios";
 import { Link } from "react-router-dom";
 import Moment from "moment";
-import ContentListItem from "../ContentListItem";
+import ContentListItem from "./ContentListItem";
 
 class UserProfile extends Component {
   constructor(props) {
@@ -17,10 +17,6 @@ class UserProfile extends Component {
   }
 
   componentWillMount() {
-    this.fetchUserContent();
-  }
-
-  componentDidMount() {
     this.fetchUserContent();
   }
 

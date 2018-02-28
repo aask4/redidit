@@ -12,9 +12,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 app.use(express.static(path.join(__dirname, "../client/dist")));
-// app.get("/login", (req, res) => {
-//   console.log("login request recieved");
-// });
 app.use(router.router);
 
 app.get("*", (req, res) => {

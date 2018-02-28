@@ -9,7 +9,6 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 class NavAndLogin extends Component {
   constructor(props) {
     super(props);
-    console.log('NavAndLogin', this.props.history);
   }
   render() {
     return (
