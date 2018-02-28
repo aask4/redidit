@@ -1,7 +1,6 @@
 const Content = require('../models/contentModel');
 
 module.exports.postContent = (contentObj, callback) => {
-  console.log(contentObj);
   Content.create({
     title: contentObj.title,
     owner: contentObj.owner,
@@ -12,15 +11,13 @@ module.exports.postContent = (contentObj, callback) => {
     subredidit: contentObj.subredidit,
   })
     .then((result) => {
-      console.log('Saved to database: ', result.dataValues);
       callback(result);
     })
     .catch(err => console.log('Error in postContent: ', err));
 };
 
 module.exports.getContent = (queryObj, callback) => {
-  console.log(JSON.parse(queryObj.where));
-  const limit = queryObj.limit;
+  const limit = queryObj.limit || 25;
   Content.findAll({
     where: JSON.parse(queryObj.where),
     order: [['createdAt', 'DESC']],

@@ -8,10 +8,8 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 class Nav extends Component {
   constructor(props) {
     super(props);
-    console.log('Nav component', this.props);
   }
   best() {
-    console.log('run', this.props);
     // this.props.history.push('/signup')
   }
   render() {

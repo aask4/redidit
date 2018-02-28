@@ -9,7 +9,6 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 class NavAndLogin extends Component {
   constructor(props) {
     super(props);
-    console.log('NavAndLogin', this.props.history);
   }
   render() {
     return (
@@ -19,7 +18,7 @@ class NavAndLogin extends Component {
         {this.props.active_user ? (
           <div />
         ) : (
-          <div>
+          <div className="login">
             <Login />
           </div>
         )}

@@ -75,7 +75,6 @@ module.exports.authentication = (req, res) => {
     ]
   })
     .then(user => {
-      console.log("find a user", user);
       res.json(user);
     })
     .catch(err => console.log("problem fetching users info", err));

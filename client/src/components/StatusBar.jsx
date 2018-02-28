@@ -14,17 +14,15 @@ class StatusBar extends Component {
   }
 
   signupClick() {
-    console.log('button clicked', this.props.history.push('/signup'));
+    this.props.history.push("/signup");
   }
 
   logout() {
-    const self = this;
-    console.log('log out button been clicked');
+    let self = this;
     firebase
       .auth()
       .signOut()
-      .then(() => {
-        console.log('user signOut');
+      .then(function() {
         // Sign-out successful.
         self.props.addActiveUser(null);
       })
@@ -49,8 +47,8 @@ class StatusBar extends Component {
               src="https://i.imgur.com/OX3vXmU.png"
             />
           </a>
-        </div>
-        <div style={{ float: 'right' }}>
+          <h1>REDIDIT</h1>
+        <div style={{ float: "right" }}>
           {this.props.active_user ? (
             <div>
               <Link to="/userprofile" onClick={this.selectUserHandler}>
@@ -67,6 +65,7 @@ class StatusBar extends Component {
               in seconds
             </div>
           )}
+        </div>
         </div>
       </div>
     );

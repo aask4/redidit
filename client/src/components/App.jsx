@@ -9,7 +9,7 @@ import Login from "./Login.jsx";
 import Search from "./Search.jsx";
 import NavAndLogin from "./NavAndLogin";
 import Signup from "./SignUp.jsx";
-import UserProfile from "./UserProfile/Profile.jsx";
+import UserProfile from "./Profile.jsx";
 import firebase from "../firebase";
 import axios from "axios";
 
@@ -23,7 +23,6 @@ class App extends React.Component {
     axios
       .get("/subredidit")
       .then(({ data }) => {
-        console.log("App data is ", data);
         this.props.loadAllSubredidit(data);
       })
       .catch(err => console.log(err));

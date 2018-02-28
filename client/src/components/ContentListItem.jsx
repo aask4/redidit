@@ -2,7 +2,7 @@ import React from 'react';
 import Axios from 'axios';
 import Moment from 'moment';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { selectUser, addPosts, addActiveSubredidit } from '../actions';
 import Voter from './Voter.jsx';
@@ -15,6 +15,7 @@ class ListItem extends React.Component {
       comments: [],
       showComments: false,
       post: this.props.post,
+      showCommentInput: this.props.post.type === 'post',
     };
     this.showCommentsHandler = this.showCommentsHandler.bind(this);
     this.postComment = this.postComment.bind(this);
@@ -24,13 +25,13 @@ class ListItem extends React.Component {
     this.upvote = this.upvote.bind(this);
     this.downvote = this.downvote.bind(this);
     this.voteHandler = this.voteHandler.bind(this);
+    this.toggleCommentInput = this.toggleCommentInput.bind(this);
+    this.commentInputManager = this.commentInputManager.bind(this);
   }
 
   componentDidMount() {
-    console.log('POST ID: ', this.props.post.id);
     Axios.get('/content', { params: { where: { parent: this.props.post.id } } })
       .then((result) => {
-        console.log('RESULT>DATA: ', result.data);
         this.setState({ comments: result.data });
       })
       .catch(err => console.log('Error in ComponentListItem: ', err));
@@ -60,6 +61,9 @@ class ListItem extends React.Component {
         console.log('Error in ContentListItem postComment: ', err);
         alert('Please Log In To Comment');
       });
+    if (this.props.post.type === 'comment') {
+      this.setState({ showCommentInput: !this.state.showCommentInput });
+    }
     this.setState({ comment: '' });
   }
 
@@ -89,6 +93,27 @@ class ListItem extends React.Component {
       }
     });
     this.props.addActiveSubredidit(subredidit);
+  }
+
+  toggleCommentInput() {
+    this.setState({ showCommentInput: !this.state.showCommentInput });
+  }
+
+  commentInputManager() {
+    return (this.props.post.type === 'post' || this.state.showCommentInput) ?
+      (
+        <div className="comment-input">
+          <button onClick={this.postComment}>Comment</button>
+          <input
+            type="text"
+            onChange={this.onChangeHandler}
+            value={this.state.comment}
+             maxLength="255"
+          />
+        </div>
+      ) : (
+        <span className="reply" onClick={this.toggleCommentInput}>reply</span>
+      );
   }
 
   voteHandler(change) {
@@ -132,7 +157,7 @@ class ListItem extends React.Component {
         {this.props.post.title ? <h3 className="post-title">{this.props.post.title}</h3> : null}
         <div className="info">
           <h4 className="owner-name" onClick={this.selectUserHandler}>
-            <Link to="/userprofile">{this.props.post.owner}</Link>
+            <Link to={`/userprofile/${this.props.selectedUser}`}>{this.props.post.owner}</Link>
           </h4>
           {this.props.post.type === 'post' ? (
             <h5 className="sublink" onClick={e => this.subrediditHandler(e)}>
@@ -146,13 +171,7 @@ class ListItem extends React.Component {
         <div className="message">
           {this.contentManager()}
           <div className="comment-section">
-            <button onClick={this.postComment}>Comment</button>
-            <input
-              type="text"
-              onChange={this.onChangeHandler}
-              value={this.state.comment}
-              maxLength="255"
-            />
+           {this.commentInputManager()}
             <span onClick={this.state.comments.length > 0 ? this.showCommentsHandler : () => {}}>
               {this.state.comments.length} Comments
             </span>
