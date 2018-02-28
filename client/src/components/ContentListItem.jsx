@@ -81,6 +81,7 @@ class ListItem extends React.Component {
 
   selectUserHandler(event) {
     this.props.selectUser(this.props.post.owner);
+    this.props.fetchUserContent && this.props.fetchUserContent(this.props.post.owner);
   }
 
   subrediditHandler() {
@@ -100,20 +101,21 @@ class ListItem extends React.Component {
   }
 
   commentInputManager() {
-    return (this.props.post.type === 'post' || this.state.showCommentInput) ?
-      (
-        <div className="comment-input">
-          <button onClick={this.postComment}>Comment</button>
-          <input
-            type="text"
-            onChange={this.onChangeHandler}
-            value={this.state.comment}
-             maxLength="255"
-          />
-        </div>
-      ) : (
-        <span className="reply" onClick={this.toggleCommentInput}>reply</span>
-      );
+    return this.props.post.type === 'post' || this.state.showCommentInput ? (
+      <div className="comment-input">
+        <button onClick={this.postComment}>Comment</button>
+        <input
+          type="text"
+          onChange={this.onChangeHandler}
+          value={this.state.comment}
+          maxLength="255"
+        />
+      </div>
+    ) : (
+      <span className="reply" onClick={this.toggleCommentInput}>
+        reply
+      </span>
+    );
   }
 
   voteHandler(change) {
@@ -157,7 +159,7 @@ class ListItem extends React.Component {
         {this.props.post.title ? <h3 className="post-title">{this.props.post.title}</h3> : null}
         <div className="info">
           <h4 className="owner-name" onClick={this.selectUserHandler}>
-            <Link to={`/userprofile/${this.props.selectedUser}`}>{this.props.post.owner}</Link>
+            <Link to={`/userprofile/${this.props.post.owner}`}>{this.props.post.owner}</Link>
           </h4>
           {this.props.post.type === 'post' ? (
             <h5 className="sublink" onClick={e => this.subrediditHandler(e)}>
@@ -171,7 +173,7 @@ class ListItem extends React.Component {
         <div className="message">
           {this.contentManager()}
           <div className="comment-section">
-           {this.commentInputManager()}
+            {this.commentInputManager()}
             <span onClick={this.state.comments.length > 0 ? this.showCommentsHandler : () => {}}>
               {this.state.comments.length} Comments
             </span>
@@ -184,7 +186,11 @@ class ListItem extends React.Component {
               <div className="comment-list">
                 {this.state.comments.map(comm => (
                   <div className="comment-item" key={comm.id}>
-                    <ContentListItem post={comm} user={this.props.user} />
+                    <ContentListItem
+                      post={comm}
+                      user={this.props.user}
+                      fetchUserContent={this.props.fetchUserContent}
+                    />
                   </div>
                 ))}
               </div>
