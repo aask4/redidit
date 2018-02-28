@@ -28,7 +28,7 @@ class ContentListItem extends React.Component {
 
   componentDidMount() {
     console.log('POST ID: ', this.props.post.id);
-    Axios.get('/content', { params: { parent: this.props.post.id } })
+    Axios.get('/content', { params: { where: { parent: this.props.post.id } } })
       .then((result) => {
         console.log('RESULT>DATA: ', result.data);
         this.setState({ comments: result.data });
