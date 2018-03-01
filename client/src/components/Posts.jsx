@@ -34,7 +34,7 @@ class PostEntry extends Component {
   submitPost(e) {
     e.preventDefault();
     if (this.state.title && this.state.content && this.state.subredidit) {
-      Axios.post('http://localhost:3000/content', this.state)
+      Axios.post('/content', this.state)
         .then(() => this.setState({ toggleRedirect: true }))
         .catch(err => console.error(`${err}`));
     } else if (!this.props.user) {
