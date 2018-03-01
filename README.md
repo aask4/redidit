@@ -1,1 +1,13 @@
-# redidit
+# redidit app navigation instructions
+
+Step 1: open the link to our app and have fun
+Step 2: close this README
+Step 3: you did not close this README or else you would not be reading Step 3
+Step 4: you're just really bad at instructions aren't you?
+Step 5: well you didnt listen so now this app is going to explode
+Step 4....
+Step 3....
+2...
+1...
+
+Step...go use our app already!
