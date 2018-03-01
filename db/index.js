@@ -2,9 +2,12 @@ const Sequelize = require('sequelize');
 
 let db;
 if (process.env.DATABASE_URL) {
-  db = new Sequelize(process.env.DATABASE_URL, {
-    host: 'localhost',
+  const match = process.env.DATABASE_URL.match(/postgres:\/\/([^:]+):([^@]+)@([^:]+):(\d+)\/(.+)/);
+  db = new Sequelize(match[5], match[1], match[2], {
+    host: match[3],
+    port: match[4],
     dialect: 'postgres',
+    protocol: 'postgres',
     logging: false,
 
     pool: {
