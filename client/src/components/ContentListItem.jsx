@@ -163,7 +163,7 @@ class ListItem extends React.Component {
           </h4>
           {this.props.post.type === 'post' ? (
             <h5 className="sublink" onClick={e => this.subrediditHandler(e)}>
-              /rd/<Link to="/subredidit">{this.props.post.subredidit}</Link>
+              /rd/<Link to="">{this.props.post.subredidit}</Link>
             </h5>
           ) : (
             ''
