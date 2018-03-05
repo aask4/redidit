@@ -24,8 +24,12 @@ class Subscriptions extends React.Component {
   }
 
   showTopPosts() {
+    const where = {type: 'post'};
+    if (this.props.active_subredidit) {
+      where.subredidit = this.props.active_subredidit.name;
+    }
     axios
-      .get('/content', { params: { where: { type: 'post', subredidit: this.props.active_subredidit.name }, limit: 25, order: [['score', 'DESC']] } })
+      .get('/content', { params: { where, limit: 25, order: [['score', 'DESC']] } })
       .then((result) => {
         this.props.addPosts([]);
         this.props.addPosts(result.data);

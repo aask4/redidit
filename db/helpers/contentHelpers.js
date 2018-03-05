@@ -17,8 +17,10 @@ module.exports.postContent = (contentObj, callback) => {
 };
 
 module.exports.getContent = (queryObj, callback) => {
+  // set limit and sort order if none specified
   const limit = queryObj.limit || 25;
   const order = (queryObj.order) ? [JSON.parse(queryObj.order)] : [['createdAt', 'DESC']];
+
   Content.findAll({
     where: JSON.parse(queryObj.where),
     order,
@@ -29,6 +31,7 @@ module.exports.getContent = (queryObj, callback) => {
 };
 
 module.exports.updateContent = (contentObj, callback) => {
+  // only a content item's score can change
   Content.update({ score: contentObj.score }, { where: { id: contentObj.id }, returning: true })
     .then((result) => {
       callback({ score: result[1][0].dataValues.score });
