@@ -23,6 +23,17 @@ class Subscriptions extends React.Component {
       .catch(err => console.log('Error in ContentList component: ', err));
   }
 
+  showTopPosts() {
+    axios
+      .get('/content', { params: { where: { type: 'post', subredidit: this.props.active_subredidit.name }, limit: 25, order: [['score', 'DESC']] } })
+      .then((result) => {
+        this.props.addPosts([]);
+        this.props.addPosts(result.data);
+      })
+      .catch(err => console.log('Error in ContentList component: ', err));
+  }
+
+
   selectSubredidit(event) {
     const subName = event.target.value;
     let subredidit;
@@ -45,8 +56,11 @@ class Subscriptions extends React.Component {
     return (
       <div>
         <button type="button" onClick={() => this.showInitialPosts()}>
-          See All Posts
+          Fresh
         </button>
+        <button type="button" onClick={() => this.showTopPosts()}>
+          Top Rated
+          </button>
         <select name="subredidit" onChange={e => this.selectSubredidit(e)} value={someOptions}>
           <option value="some">Some1Redidits</option>
           {this.props.subredidits &&
@@ -90,6 +104,7 @@ function mapStateToProps(state) {
     active_user: state.active_user,
     active_user_subredidit: state.active_user_subredidit,
     subredidits: state.all_subredidit,
+    active_subredidit: state.active_subredidit,
   };
 }
 
