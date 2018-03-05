@@ -17,8 +17,8 @@ module.exports.createUser = (req, res) => {
           };
           Users.create(userInfo)
             .then(user => {
-              console.log("just added a user to db", user);
-              res.send(user);
+              // res.send(user);
+              res.json(200, user);
             })
             .catch(err => {
               console.log("having error creating user", err);
@@ -46,13 +46,13 @@ module.exports.login = (req, res) => {
       if (user) {
         bcrypt.compare(req.query.password, user.password, (err, match) => {
           if (match) {
-            res.send(user);
+            res.json(200, user);
           } else {
-            res.send({ error: "password does not match" });
+            res.json(403, { error: "password does not match" });
           }
         });
       } else {
-        res.send({ error: "username not found" });
+        res.json(403, { error: "username not found" });
       }
     })
     .catch(err => {
@@ -75,7 +75,11 @@ module.exports.authentication = (req, res) => {
     ]
   })
     .then(user => {
-      res.json(user);
+      if (user) {
+        res.json(200, user);
+      } else {
+        res.json(403, { success: false, message: "email not found" });
+      }
     })
     .catch(err => console.log("problem fetching users info", err));
 };
