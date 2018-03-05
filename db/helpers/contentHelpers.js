@@ -20,11 +20,9 @@ module.exports.getContent = (queryObj, callback) => {
   // set limit and sort order if none specified
   const limit = queryObj.limit || 25;
   const order = (queryObj.order) ? [JSON.parse(queryObj.order)] : [['createdAt', 'DESC']];
-  const where = JSON.parse(queryObj.where);
-  queryObj.where.subredidit = queryObj.where.subredidit || undefined;
 
   Content.findAll({
-    where,
+    where: JSON.parse(queryObj.where),
     order,
     limit,
   })
