@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import {
   addActiveSubredidit,
   addPosts,
   loadAllSubredidit,
-  loadUserSubredidit,
-} from '../actions/index';
-import axios from 'axios';
+  loadUserSubredidit
+} from "../actions/index";
+import axios from "axios";
 
 class Search extends Component {
   constructor(props) {
@@ -15,7 +15,7 @@ class Search extends Component {
     this.state = {
       toggleCreate404: false,
       toggleSearch404: false,
-      search: '',
+      search: ""
     };
 
     this.refreshSubredidit = this.refreshSubredidit.bind(this);
@@ -23,36 +23,37 @@ class Search extends Component {
 
   componentWillReceiveProps() {
     setTimeout(() => {
-      this.props.active_user && this.props.loadUserSubredidit(this.props.active_user.subredidit);
+      this.props.active_user &&
+        this.props.loadUserSubredidit(this.props.active_user.subredidit);
       if (this.props.active_subredidit) {
         axios
-          .get('/content', {
+          .get("/content", {
             params: {
               where: {
-                subredidit: this.props.active_subredidit.name,
+                subredidit: this.props.active_subredidit.name
               },
-              limit: 25,
-            },
+              limit: 25
+            }
           })
           .then(({ data }) => {
             this.props.addPosts(data);
             this.refreshSubredidit();
           })
-          .catch(err => console.log('Search comp Props err: ', err));
+          .catch(err => console.log("Search comp Props err: ", err));
       }
     }, 0);
   }
 
   onChangeHandler(e) {
     this.setState({
-      [e.target.type]: e.target.value,
+      [e.target.type]: e.target.value
     });
   }
 
   handleCreateButton() {
     if (this.props.active_user) {
       axios
-        .post('/subredidit', { subrediditName: this.state.search })
+        .post("/subredidit", { subrediditName: this.state.search })
         .then(({ data }) => {
           if (data === 404) {
             this.setState({ toggleCreate404: true });
@@ -60,17 +61,17 @@ class Search extends Component {
             this.props.addActiveSubredidit(data);
             this.setState({ toggleCreate404: false, toggleSearch404: false });
           }
-          document.getElementById('search').value = '';
+          document.getElementById("search").value = "";
         })
-        .catch(err => console.log('Search error: ', err));
+        .catch(err => console.log("Search error: ", err));
     } else {
-      alert('Please Log In');
+      alert("Please Log In");
     }
   }
 
   handleSearchButton() {
     axios
-      .get('/subredidit', { params: { name: this.state.search } })
+      .get("/subredidit", { params: { name: this.state.search } })
       .then(({ data }) => {
         if (data === 404) {
           this.setState({ toggleSearch404: true });
@@ -78,15 +79,22 @@ class Search extends Component {
           this.props.addActiveSubredidit(data);
           this.setState({ toggleSearch404: false, toggleCreate404: false });
         }
-        document.getElementById('search').value = '';
+        document.getElementById("search").value = "";
       })
-      .catch(err => console.log('Search error: ', err));
+      .catch(err => console.log("Search error: ", err));
   }
 
   refreshSubredidit() {
     axios
-      .get('/subredidit')
+      .get("/subredidit")
       .then(({ data }) => {
+        data.forEach((sub, index) => {
+          let randomIndex = Math.floor(Math.random() * data.length);
+          let temp = sub;
+          data[index] = data[randomIndex];
+          data[randomIndex] = temp;
+        });
+
         this.props.loadAllSubredidit(data);
       })
       .catch(err => console.log(err));
@@ -96,13 +104,27 @@ class Search extends Component {
     return (
       <div className="search">
         {this.state.toggleCreate404 && <div>Subredidit Exists. Try Search</div>}
-        {this.state.toggleSearch404 && <div>Subredidit Not Found. Try Create</div>}
-        <input id="search" type="search" onChange={e => this.onChangeHandler(e)} />
+        {this.state.toggleSearch404 && (
+          <div>Subredidit Not Found. Try Create</div>
+        )}
+        <input
+          id="search"
+          type="search"
+          onChange={e => this.onChangeHandler(e)}
+        />
         <br />
-        <button type="button" name="search" onClick={() => this.handleSearchButton()}>
+        <button
+          type="button"
+          name="search"
+          onClick={() => this.handleSearchButton()}
+        >
           search
         </button>
-        <button type="button" name="create" onClick={() => this.handleCreateButton()}>
+        <button
+          type="button"
+          name="create"
+          onClick={() => this.handleCreateButton()}
+        >
           create
         </button>
       </div>
@@ -113,7 +135,7 @@ class Search extends Component {
 function mapStateToProps(state) {
   return {
     active_subredidit: state.active_subredidit,
-    active_user: state.active_user,
+    active_user: state.active_user
   };
 }
 
@@ -123,9 +145,9 @@ function matchDispatchToProps(dispatch) {
       addActiveSubredidit,
       addPosts,
       loadAllSubredidit,
-      loadUserSubredidit,
+      loadUserSubredidit
     },
-    dispatch,
+    dispatch
   );
 }
 
