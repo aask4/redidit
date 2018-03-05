@@ -50,7 +50,9 @@ class SubscribeButton extends Component {
                 updateSubscription.splice(index, 1);
               }
             });
-            this.props.loadUserSubredidit(updateSubscription);
+
+            let updateCopy = updateSubscription.slice();
+            this.props.loadUserSubredidit(updateCopy);
           })
           .catch(err => {
             console.log(err);

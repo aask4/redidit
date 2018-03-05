@@ -23,11 +23,7 @@
     "url": "https://github.com/aask4/redidit/issues"
   },
   "homepage": "https://github.com/aask4/redidit#readme",
-  "engines": {
-    "node": "*"
-  },
   "dependencies": {
-    "ejs": "*",
     "axios": "^0.18.0",
     "bcrypt": "^1.0.3",
     "body-parser": "^1.18.2",
