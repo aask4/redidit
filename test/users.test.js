@@ -1,50 +1,51 @@
-const request = require('supertest');
-const app = require('../server/server.js');
-const Users = require('../db/models/usersModel');
-const Subredidit = require('../db/models/subrediditModel');
-const UsersSubredidits = require('../db/models/usersSubrediditModel');
+const request = require("supertest");
+const app = require("../server/server.js");
+const Users = require("../db/models/usersModel");
 
-describe('Test the userprofile path', () => {
-  beforeAll(() =>
-    Promise.all([Users.drop(), UsersSubredidits.drop(), Users.sync(), UsersSubredidits.sync()]));
-
-  test('It should respond with a user', (done) => {
-    Users.create({
-      email: 'test@gmail.com',
-      username: 'jestTest',
-      password: '1234',
-    }).then(() =>
-      request(app)
-        .get('/userprofile')
-        .query({ username: 'jestTest' })
-        .then((response) => {
-          expect(response.body[0].username).toBe('jestTest');
-          done();
-        }));
-  });
-
-  test('It should subscribe a user to a subredidit', (done) => {
+describe("Test the userprofile path", () => {
+  // beforeAll(() => Promise.all([Users.drop(), Users.sync()]));
+  test("it should add user to database", done => {
     request(app)
-      .post('/userprofile/subscription')
-      .send({ users_id: 1, subredidits_id: 1 })
-      .then((response) => {
-        expect(response.body.users_id).toBe(1);
+      .post("/signup")
+      .send({
+        username: "supertestuser01",
+        password: "123456",
+        email: "supertestemail@gmail.com"
+      })
+      .then(response => {
+        expect(response.statusCode).toBe(200);
+        expect(response.body.username).toBe("supertestuser01");
         done();
       });
   });
 
-  test('It should fetch a user subredidit subscription', (done) => {
+  test("it should log in registered user", done => {
     request(app)
-      .get('/userprofile/subscription')
-      .query({ users_id: 1, subredidits_id: 1 })
-      .then((response) => {
-        expect(response.body[0].users_id).toBe(1);
+      .get("/login")
+      .query({
+        email: "supertestemail@gmail.com",
+        password: "123456"
+      })
+      .expect(200)
+      .then(response => {
+        expect(response.body.username).toBe("supertestuser01");
         done();
       });
   });
 
+  test("should not anthenticate the user if email not found", done => {
+    console.log("running 3rd test");
+    request(app)
+      .get("/authentication")
+      .query({ email: "nonexsisted@test.com" })
+      .expect(403)
+      .then(res => {
+        expect(res.body.success).toBeFalsy();
+        expect(res.body.message).toBe("email not found");
+        done();
+      });
+  });
   afterAll(() => {
-    Users.destroy({ where: { username: 'jestTest' } });
-    UsersSubredidits.destroy({ where: { users_id: 1 } });
+    Users.destroy({ where: { username: "supertestuser01" } });
   });
 });
