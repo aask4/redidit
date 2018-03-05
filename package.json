@@ -8,6 +8,7 @@
   },
   "main": "index.js",
   "scripts": {
+    "postinstall": "webpack -p",
     "start": "node server/index.js",
     "test": "jest",
     "dev-react": "webpack -w",
@@ -43,9 +44,7 @@
     "redux-promise-middleware": "^5.0.0",
     "redux-thunk": "^2.2.0",
     "sequelize": "^4.33.4",
-    "supertest": "^3.0.0"
-  },
-  "devDependencies": {
+    "supertest": "^3.0.0",
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.2.2",
     "babel-jest": "^22.4.1",
@@ -62,5 +61,6 @@
     "prettier-eslint": "^8.8.1",
     "regenerator-runtime": "^0.11.1",
     "webpack": "^3.11.0"
-  }
+  },
+  "devDependencies": {}
 }
