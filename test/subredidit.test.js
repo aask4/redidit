@@ -1,14 +1,25 @@
-const request = require('supertest');
-const app = require('../server/server.js');
+const request = require("supertest");
+const app = require("../server/server.js");
+const Subredidit = require("../db/models/subrediditModel");
+const Users = require("../db/models/usersModel");
 
-describe('Test Subredidit Controller', () => {
-  test('It should response the GET method with queried name if exists', (done) => {
-    request(app)
-      .get('/subredidit')
-      .query({ subrediditName: 'Travel' })
-      .then((response) => {
-        expect(response.body[0].name).toBe('Travel');
-        done();
-      });
+describe("Test the subredidit path", () => {
+  test("It should respond with newly created Subredidit", done => {
+    Subredidit.create({
+      name: "JestTest",
+      visits: 0
+    }).then(() =>
+      request(app)
+        .get("/subredidit")
+        .query({})
+        .then(response => {
+          expect(response.body[response.body.length - 1].name).toBe("JestTest");
+          done();
+        })
+        .catch(err => {
+          console.log(err);
+          done();
+        })
+    );
   });
 });
